@@ -24,8 +24,8 @@
             <ul class="text-white font-montsMedium flex md:flex-row flex-col md:items-center md:py-0 md:gap-10 gap-6 py-3">
                 <li><a class="hover:text-orangePastel" href="/pencarian_pintar_lontar/index.php">Beranda</a></li>
                 <li><a class="hover:text-orangePastel" href="/pencarian_pintar_lontar/pages/user/SejarahLontar.php">Sejarah Lontar</a></li>
-                <li><a class="hover:text-orangePastel" href="/KoleksiLontar">Koleksi Lontar</a></li>
-                <li><a class="hover:text-orangePastel" href="/TentangKami">Tentang Kami</a></li>
+                <li><a class="hover:text-orangePastel" href="/pencarian_pintar_lontar/pages/user/KoleksiLontar.php">Koleksi Lontar</a></li>
+                <li><a class="hover:text-orangePastel" href="/pencarian_pintar_lontar/pages/user/TentangKami.php">Tentang Kami</a></li>
             </ul>
         </div>
         <div id="add" class="md:hidden">
