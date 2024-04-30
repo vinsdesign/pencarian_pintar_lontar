@@ -1,0 +1,33 @@
+# File atau folder build Tailwind CSS
+
+/dist
+/build
+
+# File konfigurasi Tailwind CSS
+
+tailwind.config.js
+
+# File cache Tailwind CSS
+
+.cache
+
+# Node modules
+
+node_modules
+
+# File lock
+
+package-lock.json
+yarn.lock
+
+# File log
+
+\*.log
+
+# File sementara
+
+\*.tmp
+
+# File cache dari browser, jika ada
+
+.cache-loader
