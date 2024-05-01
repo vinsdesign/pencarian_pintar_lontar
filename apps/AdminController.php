@@ -1,5 +1,5 @@
 <?php
-require '../../model/AdminModel.php';
+require_once 'AdminModel.php';
 // query memunculkan table 
 $admins = query("SELECT * FROM `admin`");
 
@@ -17,5 +17,3 @@ if (isset($_POST['TambahData'])) {
     </script>";
     }
 }
-
-// query Edit Data 
