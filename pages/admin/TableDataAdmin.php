@@ -1,12 +1,10 @@
 <?php
 session_start();
-require '../../model/AdminModel.php';
+require '../../apps/AdminController.php';
 if (!isset($_SESSION['login'])) {
     header("location : /pencarian_pintar_lontar/pages/admin/Login.php");
     exit;
 }
-$admins = query("SELECT * FROM `admin`");
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,6 +18,7 @@ $admins = query("SELECT * FROM `admin`");
 </head>
 
 <body class="font-montserrat">
+
     <!-- navigation Top -->
     <nav class="fixed top-0 z-50 w-full border-b border-gray-200 bg-darkBlue dark:bg-gray-800 dark:border-gray-700">
         <div class="px-3 py-3 lg:px-5 lg:pl-3">
@@ -228,80 +227,31 @@ $admins = query("SELECT * FROM `admin`");
                     </div>
                     <!-- Modal body -->
                     <div class="p-4 md:p-5 space-y-4">
-                        <form class="max-w-xl mx-auto">
+                        <form class="max-w-xl mx-auto" action="" method="post">
                             <div class="grid md:grid-cols-2 md:gap-6">
+                                <div class="relative z-0 w-full mb-5 group">
+                                    <input type="text" name="nama" id="nama" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-mediumBlue peer" placeholder="" required />
+                                    <label for="nama" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-mediumBlue peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Nama Lengkap</label>
+                                </div>
                                 <div class="relative z-0 w-full group">
-                                    <input type="text" name="title" id="title" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-mediumBlue peer" placeholder=" " required />
-                                    <label for="title" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-mediumBlue peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Title </label>
+                                    <input type="text" name="username" id="username" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-mediumBlue peer" placeholder=" " required />
+                                    <label for="username" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-mediumBlue peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Username </label>
                                 </div>
-                                <div class="relative z-0 w-full mb-5 group">
-                                    <input type="text" name="type" id="type" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-mediumBlue peer" placeholder=" " required />
-                                    <label for="type" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-mediumBlue peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Title </label>
-                                </div>
+
                             </div>
                             <div class="grid md:grid-cols-2 md:gap-6">
                                 <div class="relative z-0 w-full mb-5 group">
-                                    <input type="text" name="subject" id="subject" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-mediumBlue peer" placeholder=" " required />
-                                    <label for="subject" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-mediumBlue peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Subject </label>
+                                    <input type="text" name="password" id="password" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-mediumBlue peer" placeholder=" " required />
+                                    <label for="password" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-mediumBlue peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Password </label>
                                 </div>
                                 <div class="relative z-0 w-full mb-5 group">
-                                    <input type="text" name="penulis" id="penulis" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-mediumBlue peer" placeholder=" " required />
-                                    <label for="penulis" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-mediumBlue peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Penulis</label>
-                                </div>
-                            </div>
-                            <div class="grid md:grid-cols-2 md:gap-6">
-                                <div class="relative z-0 w-full mb-5 group">
-                                    <input type="text" name="klasifikasi" id="klasifikasi" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-mediumBlue peer" placeholder=" " required />
-                                    <label for="klasifikasi" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-mediumBlue peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Klasifikasi</label>
-                                </div>
-                                <div class="relative z-0 w-full mb-5 group">
-                                    <input type="text" name="bahasa" id="bahasa" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-mediumBlue peer" placeholder=" " required />
-                                    <label for="bahasa" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-mediumBlue peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Bahasa</label>
-                                </div>
-                            </div>
-                            <div class="grid md:grid-cols-2 md:gap-6">
-                                <div class="relative z-0 w-full mb-5 group">
-                                    <input type="text" name="collaction" id="collaction" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-mediumBlue peer" placeholder=" " required />
-                                    <label for="collaction" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-mediumBlue peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Collaction</label>
-                                </div>
-                                <div class="relative z-0 w-full mb-5 group">
-                                    <input type="text" name="tahun-lontar" id="tahun-lontar" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-mediumBlue peer" placeholder=" " required />
-                                    <label for="tahun-lontar" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-mediumBlue peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Tahun Lontar</label>
-                                </div>
-                            </div>
-                            <div class="grid md:grid-cols-2 md:gap-6">
-                                <div class="relative z-0 w-full mb-5 group">
-                                    <input type="text" name="panjang-lontar" id="panjang-lontar" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-mediumBlue peer" placeholder=" " required />
-                                    <label for="panjang-lontar" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-mediumBlue peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Panjang Lontar</label>
-                                </div>
-                                <div class="relative z-0 w-full mb-5 group">
-                                    <input type="text" name="lebar-lontar" id="lebar-lontar" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-mediumBlue peer" placeholder=" " required />
-                                    <label for="lebar-lontar" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-mediumBlue peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Tahun Lontar</label>
-                                </div>
-                            </div>
-                            <div class="grid md:grid-cols-2 md:gap-6">
-                                <div class="relative z-0 w-full mb-5 group">
-                                    <input type="text" name="nama_tempat" id="nama_tempat" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-mediumBlue peer" placeholder=" " required />
-                                    <label for="nama_tempat" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-mediumBlue peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Nama Tempat</label>
-                                </div>
-                                <div class="relative z-0 w-full mb-5 group">
-                                    <input type="text" name="lokasi" id="lokasi " class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-mediumBlue peer" placeholder=" " required />
-                                    <label for="lebar-lontar" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-mediumBlue peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Lokasi Penyimpanan</label>
-                                </div>
-                            </div>
-                            <div class="grid md:grid-cols-2 md:gap-6">
-                                <div class="relative z-0 w-full mb-5 group">
-                                    <input type="text" name="asal" id="asal" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-mediumBlue peer" placeholder=" " required />
-                                    <label for="asal" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-mediumBlue peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Asal</label>
-                                </div>
-                                <div class="relative z-0 w-full mb-5 group">
-                                    <input class="block w-full text-sm text-mediumBlue border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="upload_image_lontar" id="upload_image_lontar" type="file">
-                                    <div class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="upload_image_lontar">Upload Gambar format <span class="text-danger">.jpg .png .webp</span></div>
+                                    <input class="block w-full text-sm text-mediumBlue border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="upload_image_lontar" id="upload_image_lontar" type="file" name="image_upload">
+                                    <div class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="upload_image_lontar">Upload Gambar format <span class="text-danger">.jpg .jpeg .png .webp</span></div>
                                 </div>
                             </div>
                             <!-- Modal footer -->
                             <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-                                <button data-modal-hide="static-modal-tambah" type="button" class="text-white bg-mediumBlue hover:bg-darkBlue focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 font-montsMedium">Submit</button>
+                                <button data-modal-hide="static-modal-tambah" type="submit" name="TambahData" class="text-white bg-mediumBlue hover:bg-darkBlue focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 font-montsMedium">Submit</button>
                                 <button type="reset" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-darkBlue focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 font-montsMedium">Reset</button>
                             </div>
                         </form>
@@ -310,7 +260,6 @@ $admins = query("SELECT * FROM `admin`");
                 </div>
             </div>
         </div>
-
         <!-- Main modal edit -->
         <div id="static-modal-edit" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
             <div class="relative p-4 w-full max-w-2xl max-h-full">
