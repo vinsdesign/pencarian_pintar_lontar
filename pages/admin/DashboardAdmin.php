@@ -74,29 +74,29 @@ if (!isset($_SESSION['login'])) {
             </div>
         </div>
     </nav>
-    <!-- end top navigation
+    <!-- end top navigation -->
 
-<!-- sidebar -->
+    <!-- sidebar -->
     <aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-darkBlue border-r border-gray-200 md:translate-x-0 dark:bg-gray-800 dark:border-gray-700" aria-label="Sidebar">
         <div class="h-full flex flex-col gap-[550px] px-3 pb-4 overflow-y-auto bg-darkBlue dark:bg-gray-800">
             <ul class="space-y-2 font-medium" id="default-tab" data-tabs-toggle="#default-tab-content" role="tablist">
                 <!-- dashboard -->
                 <li role="presentation">
-                    <a href="/DashboardAdmin" class="flex items-center p-2 text-gray-900 hover:text-mediumBlue rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                    <a href="http://localhost/pencarian_pintar_lontar/pages/admin/DashboardAdmin.php" class="flex items-center p-2 text-gray-900 hover:text-mediumBlue rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                         <i class="flex-shrink-0 w-5 h-5 text-orangePastel transition duration-75 dark:text-gray-400 group-hover:text-mediumBlue dark:group-hover:text-white fa-solid fa-home"></i>
                         <span class="ms-3 text-white font-montsMedium group-hover:text-mediumBlue ">Dashboard</span>
                     </a>
                 </li>
                 <!-- data lontar -->
                 <li role="presentation">
-                    <a href="/DataLontar" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                    <a href="http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                         <i class="flex-shrink-0 w-5 h-5 text-orangePastel transition duration-75 dark:text-gray-400 group-hover:text-mediumBlue dark:group-hover:text-white fa-solid fa-book"></i>
                         <span class="ms-3 text-lightSecondary font-montsMedium group-hover:text-mediumBlue ">Data Lontar</span>
                     </a>
                 </li>
                 <!-- Data Users -->
                 <li role="presentation">
-                    <a href="/DataAdmin" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                    <a href="http://localhost/pencarian_pintar_lontar/pages/admin/TableDataAdmin.php" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                         <i class="flex-shrink-0 w-5 h-5 text-orangePastel transition duration-75 dark:text-gray-400 group-hover:text-mediumBlue dark:group-hover:text-white fa-solid fa-users"></i>
                         <span class="ms-3 text-lightSecondary font-montsMedium group-hover:text-mediumBlue ">Data Admin</span>
                     </a>
@@ -134,10 +134,7 @@ if (!isset($_SESSION['login'])) {
                 <?php endif; ?>
             </div>
             <div class="p-4 border-2 border-gray-200 border-dashed rounded-2xl dark:border-gray-700 mt-20">
-
-
                 <div class="grid grid-rows-2 grid-flow-col gap-3">
-
                     <!-- data profile -->
                     <div class="col-span-2 bg-lightSecondary flex items-center justify-between gap-3 px-10 rounded-2xl">
                         <div class="flex flex-col justify-between gap-2 ">
@@ -157,7 +154,6 @@ if (!isset($_SESSION['login'])) {
                         </div>
                         <img src="../../public/assets/mypicture.svg" class="w-48 rounded-full" alt="mypicture" />
                     </div>
-
                     <!-- data koleksi -->
                     <div class="col-span-2 bg-lightSecondary h-80 rounded-2xl flex justify-center gap-3 items-center flex-col">
                         <div class="text-center">
@@ -192,7 +188,6 @@ if (!isset($_SESSION['login'])) {
                             </div>
                         </div>
                     </div>
-
                     <!-- data asal lontar -->
                     <div class="row-span-2 flex flex-col items-center gap-5 px-24 py-2 justify-center rounded-2xl bg-lightSecondary h-[650px] dark:bg-gray-800">
                         <div class="text-center">
