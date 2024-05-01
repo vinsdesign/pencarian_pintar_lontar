@@ -39,7 +39,7 @@ if (isset($_POST["login"])) {
             // set remember me
             if (isset($_POST['remember'])) {
                 // set_cookie
-                setcookie('key', hash('sha224', $row['username']), time() + 240);
+                setcookie('key', hash('sha256', $row['username']), time() + 240);
             }
             // Password cocok, redirect ke halaman DashboardAdmin
             header("location: http://localhost/pencarian_pintar_lontar/pages/admin/DashboardAdmin.php");
