@@ -37,3 +37,10 @@ function hapus($id)
 
     return mysqli_affected_rows($koneksi);
 }
+function edit($id)
+{
+    global $koneksi;
+    mysqli_query($koneksi, "DELETE FROM `admin` WHERE `admin`.`id` = '$id'");
+
+    return mysqli_affected_rows($koneksi);
+}

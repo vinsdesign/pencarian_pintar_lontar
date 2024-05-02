@@ -17,3 +17,4 @@ if (isset($_POST['TambahData'])) {
     </script>";
     }
 }
+// query edit Data
