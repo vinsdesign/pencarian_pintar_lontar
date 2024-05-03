@@ -1,10 +1,11 @@
 <?php
 session_start();
-require '../../apps/AdminController.php';
+require_once '../../apps/AdminController.php';
 if (!isset($_SESSION['login'])) {
-    header("location : /pencarian_pintar_lontar/pages/admin/Login.php");
+    header("location: /pencarian_pintar_lontar/pages/admin/Login.php");
     exit;
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -166,6 +167,7 @@ if (!isset($_SESSION['login'])) {
                                         <div class="flex gap-2 text-lg text-darkBlue items-center">
                                             <button data-modal-target="popup-modal" data-modal-toggle="popup-modal" type="button" class="hover:text-danger"><i class="fa-solid fa-trash"></i> </button> |
                                             <button data-modal-target="static-modal-edit" data-modal-toggle="static-modal-edit" type="button" class="hover:text-orangePastel"><i class="fa-solid fa-pen-to-square"></i> </button> |
+
                                             <a href="/DataAdmin/detail"><button type="button" class="hover:text-success"><i class="fa-solid fa-circle-info"></i> </button> </a>
                                         </div>
                                     </td>
@@ -279,9 +281,10 @@ if (!isset($_SESSION['login'])) {
                     </div>
                     <!-- Modal body -->
                     <div class="p-4 md:p-5 space-y-4">
-                        <form id="edit_lontar" class="max-w-xl mx-auto">
+                        <form id="edit_lontar" class="max-w-xl mx-auto" action="../../apps/AdminController.php">
                             <div class="grid md:grid-cols-2 md:gap-6">
                                 <div class="relative z-0 w-full mb-5 group">
+                                    <input type="text" value="<?= $row['id']; ?>" hidden>
                                     <input type="text" name="nama" id="nama" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-mediumBlue peer" value="<?= $row['nama']; ?>" placeholder="" required />
                                     <label for="nama" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-mediumBlue peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Nama Lengkap</label>
                                 </div>
@@ -302,7 +305,7 @@ if (!isset($_SESSION['login'])) {
                             </div>
                             <!-- Modal footer -->
                             <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-                                <button data-modal-hide="static-modal-edit" type="button" class="text-white bg-mediumBlue hover:bg-darkBlue focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 font-montsMedium">Submit</button>
+                                <button data-modal-hide="static-modal-edit" type="button" name="EditData" class="text-white bg-mediumBlue hover:bg-darkBlue focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 font-montsMedium">Submit</button>
                                 <button data-modal-hide="static-modal-edit" type="reset" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-darkBlue focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 font-montsMedium">Cancel</button>
                             </div>
                         </form>
@@ -326,7 +329,7 @@ if (!isset($_SESSION['login'])) {
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                         </svg>
                         <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Apakah Anda Yakin Menghapus Data Admin ini?</h3>
-                        <a href="http://localhost/pencarian_pintar_lontar/apps/hapus.php?id=<?= $row['id'] ?>">
+                        <a href="http://localhost/pencarian_pintar_lontar/apps/HapusAdmin.php?id=<?= $row['id'] ?>">
                             <button data-modal-hide="popup-modal" type="button" name="HapusData" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
                                 Iya, Saya Yakin!
                             </button>

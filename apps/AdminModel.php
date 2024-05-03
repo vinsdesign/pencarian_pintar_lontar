@@ -1,11 +1,11 @@
 <?php
-
 // koneksi ke database
 $koneksi = mysqli_connect('localhost', 'root', '', 'lontar_bali');
 // Memeriksa koneksi
 if (!$koneksi) {
     die("Koneksi database gagal: " . mysqli_connect_error());
 }
+
 function query($query)
 {
     global $koneksi;
@@ -14,7 +14,6 @@ function query($query)
     while ($row = mysqli_fetch_assoc($result)) {
         $rows[] = $row;
     }
-
     return $rows;
 }
 function tambah($data)
@@ -37,10 +36,23 @@ function hapus($id)
 
     return mysqli_affected_rows($koneksi);
 }
-function edit($id)
+function edit($data)
 {
     global $koneksi;
-    mysqli_query($koneksi, "DELETE FROM `admin` WHERE `admin`.`id` = '$id'");
+    $id = $data['id'];
+    $nama = htmlspecialchars($data['nama']);
+    $username = htmlspecialchars($data['username']);
+    $password = htmlspecialchars($data['password']);
+    $gambar = htmlspecialchars($data['image_upload']);
+
+    $update = "UPDATE `admin` SET
+                nama = '$nama',
+                username = '$username',
+                password = '$password',
+                gambar = '$gambar'
+                WHERE id = '$id'
+                 ";
+    mysqli_query($koneksi, $update);
 
     return mysqli_affected_rows($koneksi);
 }
