@@ -163,8 +163,6 @@ if (!isset($_SESSION['login'])) {
                             <!-- menampilkan data -->
                             <?php
                             $i = 1;
-                            // pagination
-                            $jmlhDataPerHalaman = 5;
 
                             // query pencarian
                             if (isset($_POST['cari'])) {
@@ -176,9 +174,15 @@ if (!isset($_SESSION['login'])) {
                             } else {
                                 $query = "SELECT * FROM `admin`";
                             }
+                            // pagination
+                            $jmlhDataPerHalaman = 2;
                             $result = mysqli_query($koneksi, $query);
                             $jumlahData = mysqli_num_rows($result);
-                            var_dump($jumlahData);
+                            $jumlahHalaman = ceil($jumlahData / $jmlhDataPerHalaman); //round-> Pembulatan ke atas
+                            $halamanAktif = (isset($_GET['halaman'])) ? $_GET['halaman'] : 1;
+                            //halaman aktif
+                            $awalData = ($jmlhDataPerHalaman * $halamanAktif) - $jmlhDataPerHalaman;
+                            $result = mysqli_query($koneksi, "SELECT * FROM admin LIMIT $awalData, $jmlhDataPerHalaman");
                             while ($row = mysqli_fetch_assoc($result)) :
                             ?>
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600">
@@ -286,26 +290,35 @@ if (!isset($_SESSION['login'])) {
                         </tbody>
                     </table>
                 </div>
+
                 <!-- pagination -->
                 <nav aria-label="Page navigation example" class="flex justify-end items-center mt-5">
                     <ul class="inline-flex -space-x-px text-base h-10 text-darkBlue">
-                        <li>
-                            <a href="#" class="flex items-center justify-center px-4 h-10 ms-0 leading-tight  bg-mediumBlue border border-e-0 border-lightBlue rounded-s-lg hover:bg-mediumBlue text-white hover:text-orangePastel dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><i class="fa-solid fa-angle-left"></i></a>
-                        </li>
-                        <li>
-                            <a href="#" class="flex items-center justify-center px-4 h-10 ms-0 leading-tight  bg-mediumBlue border border-e-0 border-lightBlue hover:bg-mediumBlue text-white hover:text-orangePastel dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">1</a>
-                        </li>
-                        <li>
-                            <a href="#" class="flex items-center justify-center px-4 h-10 ms-0 leading-tight  bg-mediumBlue border border-e-0 border-lightBlue hover:bg-mediumBlue text-white hover:text-orangePastel dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">2</a>
-                        </li>
-                        <li>
-                            <a href="#" aria-current="page" class="flex items-center justify-center px-4 h-10 ms-0 leading-tight  bg-mediumBlue border border-e-0 border-lightBlue hover:bg-mediumBlue text-white hover:text-orangePastel dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">3</a>
-                        </li>
-                        <li>
-                            <a href="#" class="flex items-center justify-center px-4 h-10 ms-0 leading-tight  bg-mediumBlue border border-e-0 border-lightBlue rounded-r-lg hover:bg-mediumBlue text-white hover:text-orangePastel dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><i class="fa-solid fa-angle-right"></i></a>
-                        </li>
+                        <?php if ($halamanAktif > 1) : ?>
+                            <li>
+                                <a href="?halaman=<?= $halamanAktif - 1; ?>" class="flex items-center justify-center px-4 h-10 ms-0 leading-tight  bg-mediumBlue border border-e-0 border-lightBlue rounded-s-lg hover:bg-mediumBlue text-white hover:text-orangePastel dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><i class="fa-solid fa-angle-left"></i></a>
+                            </li>
+                        <?php endif; ?>
+                        <?php for ($i = 1; $i <= $jumlahHalaman; $i++) : ?>
+                            <?php if ($i == $halamanAktif) : ?>
+                                <li>
+                                    <a href="#" class="flex items-center justify-center px-4 h-10 ms-0 leading-tight  bg-mediumBlue border border-e-0 border-lightBlue hover:bg-mediumBlue text-orangePastel font-montsSemiBold  dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><?= $i; ?></a>
+                                </li>
+                            <?php else : ?>
+                                <li>
+                                    <a href="?halaman=<?= $i; ?>" class="flex items-center justify-center px-4 h-10 ms-0 leading-tight  bg-mediumBlue border border-e-0 border-lightBlue hover:bg-mediumBlue text-white hover:text-orangePastel dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><?= $i; ?></a>
+                                </li>
+                            <?php endif; ?>
+                        <?php endfor; ?>
+                        <?php if ($halamanAktif < $jumlahHalaman) : ?>
+                            <li>
+                                <a href="?halaman=<?= $halamanAktif + 1; ?>" class="flex items-center justify-center px-4 h-10 ms-0 leading-tight  bg-mediumBlue border border-e-0 border-lightBlue rounded-r-lg hover:bg-mediumBlue text-white hover:text-orangePastel dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><i class="fa-solid fa-angle-right"></i></a>
+                            </li>
+                        <?php endif; ?>
+
                     </ul>
                 </nav>
+
             </div>
         </div>
 
