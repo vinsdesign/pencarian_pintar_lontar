@@ -251,11 +251,8 @@ if (!isset($_SESSION['login'])) {
                                                     </div>
                                                 </div>
                                             </div>
-
                                             <!-- Main modal edit -->
-
-
-                                            <a href="/DataAdmin/detail"><button type="button" class="hover:text-success"><i class="fa-solid fa-circle-info"></i> </button> </a>
+                                            <a href="http://localhost/pencarian_pintar_lontar/pages/admin/DetailDataAdmin.php?id=<?= $row['id']; ?>"><button type="button" class="hover:text-success"><i class="fa-solid fa-circle-info"></i> </button> </a>
                                         </div>
                                     </td>
                                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
