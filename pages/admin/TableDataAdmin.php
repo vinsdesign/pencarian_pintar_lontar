@@ -127,12 +127,12 @@ if (!isset($_SESSION['login'])) {
                     </div>
                     <!-- Search -->
                     <div class="flex items-center gap-2">
-                        <form class="flex items-center max-w-sm mx-auto">
+                        <form class="flex items-center max-w-sm mx-auto" method="post" action="">
                             <label for="simple-search" class="sr-only">Search</label>
                             <div class="relative w-full">
-                                <input type="search" id="simple-search" class="block p-2.5 pl-5 w-80 z-20 text-sm text-gray-900 border border-mediumBlue rounded-2xl focus:ring-orangePastel focus:border-darkBlue dark:bg-gray-700 dark:border-s-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500" placeholder="Cari Data Lontar" required />
+                                <input type="search" name="keyword" id="simple-search" class="block p-2.5 pl-5 w-80 z-20 text-sm text-gray-900 border border-mediumBlue rounded-2xl focus:ring-orangePastel focus:border-darkBlue dark:bg-gray-700 dark:border-s-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500" placeholder="Cari Data Admin" required />
                                 <!-- button submit -->
-                                <button type="submit" class="absolute rounded-r-2xl top-0 end-0 h-full px-5 p-2.5 text-sm font-medium text-white bg-mediumBlue rounded-e-lg border border-mediumBlue hover:bg-darkBlue focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                <button type="submit" name="cari" class="absolute rounded-r-2xl top-0 end-0 h-full px-5 p-2.5 text-sm font-medium text-white bg-mediumBlue rounded-e-lg border border-mediumBlue hover:bg-darkBlue focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                     <i class="fa-solid fa-magnifying-glass"></i>
                                 </button>
                             </div>
@@ -163,7 +163,17 @@ if (!isset($_SESSION['login'])) {
                             <!-- menampilkan data -->
                             <?php
                             $i = 1;
-                            $result = mysqli_query($koneksi, "SELECT * FROM `admin`");
+                            // query pencarian
+                            if (isset($_POST['cari'])) {
+                                $keyword = $_POST['keyword'];
+                                $query = "SELECT * FROM `admin`
+                                         WHERE nama LIKE '%$keyword%' OR
+                                         username LIKE '%$keyword%'
+                                         ";
+                            } else {
+                                $query = "SELECT * FROM `admin`";
+                            }
+                            $result = mysqli_query($koneksi, $query);
                             while ($row = mysqli_fetch_assoc($result)) :
                             ?>
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600">
