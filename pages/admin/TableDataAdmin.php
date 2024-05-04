@@ -163,6 +163,9 @@ if (!isset($_SESSION['login'])) {
                             <!-- menampilkan data -->
                             <?php
                             $i = 1;
+                            // pagination
+                            $jmlhDataPerHalaman = 5;
+
                             // query pencarian
                             if (isset($_POST['cari'])) {
                                 $keyword = $_POST['keyword'];
@@ -174,6 +177,8 @@ if (!isset($_SESSION['login'])) {
                                 $query = "SELECT * FROM `admin`";
                             }
                             $result = mysqli_query($koneksi, $query);
+                            $jumlahData = mysqli_num_rows($result);
+                            var_dump($jumlahData);
                             while ($row = mysqli_fetch_assoc($result)) :
                             ?>
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600">
