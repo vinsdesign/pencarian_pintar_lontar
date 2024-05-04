@@ -50,6 +50,4 @@ if (isset($_POST["login"])) {
             $error = true;
         }
     }
-    $error = true;
-    $success = true;
 }
