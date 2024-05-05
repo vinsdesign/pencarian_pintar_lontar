@@ -168,18 +168,43 @@ if (!isset($_SESSION['login'])) {
                             </tr>
                         </thead>
                         <tbody class="font-montsMedium text-mediumBlue">
-                            <!-- menampilkan data -->
                             <?php
-                            include '../../apps/ViewLontar.php';
+                            include "../../apps/ViewLontar.php";
                             $i = 1;
-
-                            foreach ($sparql as $row) {
-                                echo "<tr>";
-                                echo "<td>{$row['instance']}</td>";
-                                echo "<td>{$row['property']}</td>";
-                                echo "<td>{$row['value']}</td>";
-                                echo "</tr>";
-                            }
+                            foreach ($sparql as $row) :
+                            ?>
+                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600">
+                                    <td class="w-4 px-5 py-3">
+                                        <div class="flex gap-2 text-lg text-darkBlue items-center">
+                                            <button data-modal-target="popup-modal" data-modal-toggle="popup-modal" type="button" class="hover:text-danger"><i class="fa-solid fa-trash"></i> </button> |
+                                            <button data-modal-target="static-modal-edit" data-modal-toggle="static-modal-edit" type="button" class="hover:text-orangePastel"><i class="fa-solid fa-pen-to-square"></i> </button> |
+                                            <a href="/DataLontar/detail"><button type="button" class="hover:text-success"><i class="fa-solid fa-circle-info"></i> </button> </a>
+                                        </div>
+                                    </td>
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        <?= $i; ?>
+                                    </th>
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        <?= $row['title']; ?>
+                                    </th>
+                                    <td class="px-6 py-4"><?= $row['type']; ?></td>
+                                    <td class="px-6 py-4">Pedanda Anyar</td>
+                                    <td class="px-6 py-4">Mantra</td>
+                                    <td class="px-6 py-4"><?= $row['classification']; ?></td>
+                                    <td class="px-6 py-4">Bahasa Kawi</td>
+                                    <td class="px-6 py-4">25</td>
+                                    <td class="px-6 py-4">1962</td>
+                                    <td class="px-6 py-4">50 cm</td>
+                                    <td class="px-6 py-4">3.5 cm</td>
+                                    <td class="px-6 py-4">Gedong Kirtya</td>
+                                    <td class="px-6 py-4">Jalan Veteran No 20, Singaraja</td>
+                                    <td class="px-6 py-4">Belah Batuh, Gianyar</td>
+                                    <td class="px-6 py-4">
+                                        <img src="../../public/assets/bg-header(1).jpg" alt="" />
+                                    </td>
+                                </tr>
+                            <?php $i++;
+                            endforeach;
                             ?>
                         </tbody>
                     </table>
