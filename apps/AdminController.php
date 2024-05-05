@@ -49,7 +49,7 @@ if (isset($_POST['HapusData'])) {
 
 // query mengecek fungsi tombol EditData berhasil atau tidak
 if (isset($_POST['EditData'])) {
-    // mengambil data dengan method post
+    // mengambil data dengan method postc:\Users\kelvin\OneDrive\Documents\kamus.oss.web.id\public_html\easyrdf
     $id = $_POST['id_admin'];
     $nama = htmlspecialchars($_POST['nama']);
     $username = htmlspecialchars($_POST['username']);
