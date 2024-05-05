@@ -123,7 +123,7 @@ if (!isset($_SESSION['login'])) {
                 <div class="flex justify-between items-center">
                     <!-- brands header -->
                     <div>
-                        <h1 class="text-2xl font-montsBold text-darkBlue">Data Users</h1>
+                        <h1 class="text-2xl font-montsBold text-darkBlue">Data Admin</h1>
                     </div>
                     <!-- Search -->
                     <div class="flex items-center gap-2">
@@ -237,8 +237,9 @@ if (!isset($_SESSION['login'])) {
                                                         </div>
                                                         <!-- Modal body -->
                                                         <div class="p-4 md:p-5 space-y-4">
-                                                            <form class="max-w-xl mx-auto" action="../../apps/AdminController.php" method="post">
+                                                            <form class="max-w-xl mx-auto" action="../../apps/AdminController.php" method="post" enctype="multipart/form-data">
                                                                 <input type="hidden" name="id_admin" value="<?= $row['id']; ?>">
+                                                                <input type="hidden" name="gambar_lama" value="<?= $row['gambar']; ?>">
                                                                 <div class="grid md:grid-cols-2 md:gap-6">
                                                                     <div class="relative z-0 w-full mb-5 group">
                                                                         <input type="text" name="nama" id="nama" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-mediumBlue peer" placeholder="" value="<?= $row['nama'] ?>" required />
@@ -256,6 +257,7 @@ if (!isset($_SESSION['login'])) {
                                                                         <label for="password" class="peer-focus:font-medium absolute text-sm text-gray-500 left-0 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-mediumBlue peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Password </label>
                                                                     </div>
                                                                     <div class="relative z-0 w-full mb-5 group">
+                                                                        <img class="w-10 h-10 mb-2" src="../../image_base/<?= $row['gambar'] ?>" alt="gambar">
                                                                         <input class="block w-full text-sm text-mediumBlue border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="upload_image_lontar " value="<?= $row['nama'] ?>" id="upload_image_lontar" type="file" name="image_upload">
                                                                         <div class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="upload_image_lontar">Gambar Format <span class="text-danger">.jpg .jpeg .png .webp</span></div>
                                                                     </div>
@@ -282,7 +284,8 @@ if (!isset($_SESSION['login'])) {
                                     </th>
                                     <td class="px-6 py-4"><?= $row['username'] ?></td>
                                     <td class="px-6 py-4"><?= $row['password'] ?></td>
-                                    <td class="px-6 py-4 flex items-center justify-center"><img src="../../public/assets/<?= $row['gambar']; ?>" class="w-8 " alt="mypicture" />
+                                    <td class="px-6 py-4 flex items-center justify-center">
+                                        <img src="../../image_base/<?= $row['gambar']; ?>" class="w-8 " alt="mypicture" />
                                     </td>
                                 </tr>
                                 <?php $i++; ?>
@@ -341,7 +344,7 @@ if (!isset($_SESSION['login'])) {
                     </div>
                     <!-- Modal body -->
                     <div class="p-4 md:p-5 space-y-4">
-                        <form class="max-w-xl mx-auto" action="../../apps/AdminController.php" method="post">
+                        <form class="max-w-xl mx-auto" action="../../apps/AdminController.php" method="post" enctype="multipart/form-data">
                             <div class="grid md:grid-cols-2 md:gap-6">
                                 <div class="relative z-0 w-full mb-5 group">
                                     <input type="text" name="nama" id="nama" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-mediumBlue peer" placeholder="" required />
