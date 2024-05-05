@@ -173,7 +173,7 @@ if (!isset($_SESSION['login'])) {
                             include '../../apps/ViewLontar.php';
                             $i = 1;
 
-                            foreach ($data as $row) {
+                            foreach ($sparql as $row) {
                                 echo "<tr>";
                                 echo "<td>{$row['instance']}</td>";
                                 echo "<td>{$row['property']}</td>";
