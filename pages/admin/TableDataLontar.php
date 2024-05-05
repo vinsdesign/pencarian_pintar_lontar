@@ -168,36 +168,20 @@ if (!isset($_SESSION['login'])) {
                             </tr>
                         </thead>
                         <tbody class="font-montsMedium text-mediumBlue">
-                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600">
-                                <td class="w-4 px-5 py-3">
-                                    <div class="flex gap-2 text-lg text-darkBlue items-center">
-                                        <button data-modal-target="popup-modal" data-modal-toggle="popup-modal" type="button" class="hover:text-danger"><i class="fa-solid fa-trash"></i> </button> |
-                                        <button data-modal-target="static-modal-edit" data-modal-toggle="static-modal-edit" type="button" class="hover:text-orangePastel"><i class="fa-solid fa-pen-to-square"></i> </button> |
-                                        <a href="/DataLontar/detail"><button type="button" class="hover:text-success"><i class="fa-solid fa-circle-info"></i> </button> </a>
-                                    </div>
-                                </td>
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    1
-                                </th>
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    Bhasma
-                                </th>
-                                <td class="px-6 py-4">Daun Ronta</td>
-                                <td class="px-6 py-4">Pedanda Anyar</td>
-                                <td class="px-6 py-4">Mantra</td>
-                                <td class="px-6 py-4">Weda</td>
-                                <td class="px-6 py-4">Bahasa Kawi</td>
-                                <td class="px-6 py-4">25</td>
-                                <td class="px-6 py-4">1962</td>
-                                <td class="px-6 py-4">50 cm</td>
-                                <td class="px-6 py-4">3.5 cm</td>
-                                <td class="px-6 py-4">Gedong Kirtya</td>
-                                <td class="px-6 py-4">Jalan Veteran No 20, Singaraja</td>
-                                <td class="px-6 py-4">Belah Batuh, Gianyar</td>
-                                <td class="px-6 py-4">
-                                    <img src="../../public/assets/bg-header(1).jpg" alt="" />
-                                </td>
-                            </tr>
+                            <!-- menampilkan data -->
+                            <?php
+                            include '../../apps/ViewLontar.php';
+                            $i = 1;
+
+                            foreach ($data as $row) {
+                                echo "<tr>";
+                                echo "<td>{$row['instance']}</td>";
+                                echo "<td>{$row['property']}</td>";
+                                echo "<td>{$row['value']}</td>";
+                                echo "</tr>";
+                            }
+                            ?>
+                        </tbody>
                     </table>
                 </div>
                 <!-- pagination -->
