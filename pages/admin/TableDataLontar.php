@@ -163,7 +163,8 @@ if (!isset($_SESSION['login'])) {
                                 <th scope="col" class="px-6 py-3">Lebar Lontar</th>
                                 <th scope="col" class="px-6 py-3">Nama Tempat</th>
                                 <th scope="col" class="px-6 py-3">Lokasi Penyimpanan</th>
-                                <th scope="col" class="px-6 py-3">Asal</th>
+                                <th scope="col" class="px-6 py-3">Daerah</th>
+                                <th scope="col" class="px-6 py-3">Kabupaten</th>
                                 <th scope="col" class="px-6 py-3">Resource</th>
                             </tr>
                         </thead>
@@ -188,19 +189,20 @@ if (!isset($_SESSION['login'])) {
                                         <?= $row['title']; ?>
                                     </th>
                                     <td class="px-6 py-4"><?= $row['type']; ?></td>
-                                    <td class="px-6 py-4">Pedanda Anyar</td>
-                                    <td class="px-6 py-4">Mantra</td>
+                                    <td class="px-6 py-4"><?= $row['author']; ?></td>
+                                    <td class="px-6 py-4"><?= $row['subject']; ?></td>
                                     <td class="px-6 py-4"><?= $row['classification']; ?></td>
-                                    <td class="px-6 py-4">Bahasa Kawi</td>
-                                    <td class="px-6 py-4">25</td>
-                                    <td class="px-6 py-4">1962</td>
-                                    <td class="px-6 py-4">50 cm</td>
-                                    <td class="px-6 py-4">3.5 cm</td>
-                                    <td class="px-6 py-4">Gedong Kirtya</td>
-                                    <td class="px-6 py-4">Jalan Veteran No 20, Singaraja</td>
-                                    <td class="px-6 py-4">Belah Batuh, Gianyar</td>
+                                    <td class="px-6 py-4"><?= $row['language']; ?></td>
+                                    <td class="px-6 py-4"><?= $row['collation']; ?></td>
+                                    <td class="px-6 py-4"><?= $row['year']; ?></td>
+                                    <td class="px-6 py-4"><?= $row['length']; ?></td>
+                                    <td class="px-6 py-4"><?= $row['width']; ?></td>
+                                    <td class="px-6 py-4"><?= $row['placename']; ?></td>
+                                    <td class="px-6 py-4"><?= $row['location']; ?></td>
+                                    <td class="px-6 py-4"><?= $row['area']; ?></td>
+                                    <td class="px-6 py-4"><?= $row['regency']; ?></td>
                                     <td class="px-6 py-4">
-                                        <img src="../../public/assets/bg-header(1).jpg" alt="" />
+                                        <img src="../../public/assets/<?= $row['resource']; ?>" alt="gambar" />
                                     </td>
                                 </tr>
                             <?php $i++;
