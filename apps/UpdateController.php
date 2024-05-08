@@ -75,7 +75,7 @@ if (isset($_POST['TambahData'])) {
     </script>";
     } else {
         echo "<script>
-        alert('Data gagal ditambahkan')
+        alert('lontar:$title_lontar rdf:type lontar:Lontar ;')
         document.location.href='http://localhost/pencarian_pintar_lontar/apps/UpdateController.php'
     </script>";
     }

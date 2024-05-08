@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['login'])) {
-    header("location: /pencarian_pintar_lontar/pages/admin/Login.php");
+    header("location: http://localhost/pencarian_pintar_lontar/pages/admin/login.php");
     exit;
 }
 ?>
