@@ -2,17 +2,17 @@
 session_start();
 require '../../config/config.php';
 
-if (isset($_COOKIE['key'])) {
-    $key = $_COOKIE['key'];
+// if (isset($_COOKIE['key'])) {
+//     $key = $_COOKIE['key'];
 
-    // ambil key -> username berdasarkan username didatabase
-    $result = mysqli_query($koneksi, "SELECT username FROM admin WHERE username = '$key'");
-    $row = mysqli_fetch_assoc($result);
-    // cek username
-    if ($key === hash('sha256', $row['username'])) {
-        $_SESSION['login'] = true;
-    }
-}
+//     // ambil key -> username berdasarkan username didatabase
+//     $result = mysqli_query($koneksi, "SELECT username FROM admin WHERE username = '$key'");
+//     $row = mysqli_fetch_assoc($result);
+//     // cek username
+//     if ($key === hash('sha256', $row['username'])) {
+//         $_SESSION['login'] = true;
+//     }
+// }
 
 // cek session jika sudah ada session langsung arahin ke   --
 if (isset($_SESSION['login'])) {
@@ -36,11 +36,11 @@ if (isset($_POST["login"])) {
             // set session
             $_SESSION["login"] = true;
 
-            // set remember me
-            if (isset($_POST['remember'])) {
-                // set_cookie
-                setcookie('key', hash('sha256', $row['username']), time() + 30);
-            }
+            // // set remember me
+            // if (isset($_POST['remember'])) {
+            //     // set_cookie
+            //     setcookie('key', hash('sha256', $row['username']), time() + 30);
+            // }
             // Password cocok, redirect ke halaman DashboardAdmin
             header("location: http://localhost/pencarian_pintar_lontar/pages/admin/DashboardAdmin.php");
             $success = true;
