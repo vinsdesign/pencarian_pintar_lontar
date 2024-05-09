@@ -119,149 +119,204 @@
                 <div class="relative overflow-x-auto px-5">
                     <table class="w-full text-sm text-left pb-5 rtl:text-right text-mediumBlue dark:text-gray-400">
                         <tbody>
-                            <tr class="border-b border-gray-200 bg-lightSecondary">
-                                <th scope="row" class="pl-5 w-36 font-montsMedium">
-                                    Title
-                                </th>
-                                <td class="w-5 ">
-                                    :
-                                </td>n
-                                <td class="px-0 py-4">
-                                    Bhasma
-                                </td>
-                            </tr>
-                            <tr class="border-b border-gray-200">
-                                <th scope="row" class="pl-5 w-36 font-montsMedium">
-                                    Type
-                                </th>
-                                <td class="w-5 ">
-                                    :
-                                </td>
-                                <td class="px-0 py-4">
-                                    Daun Ronta
-                                </td>
-                            </tr>
-                            <tr class="border-b border-gray-200 bg-lightSecondary">
-                                <th scope="row" class="pl-5 w-36 font-montsMedium">
-                                    Penulis
-                                </th>
-                                <td class="w-5 ">
-                                    :
-                                </td>
-                                <td class="px-0 py-4">
-                                    Pedanda Anyar
-                                </td>
-                            </tr>
-                            <tr class="border-b border-gray-200">
-                                <th scope="row" class="pl-5 w-36 font-montsMedium">
-                                    Subject
-                                </th>
-                                <td class="w-5 ">
-                                    :
-                                </td>
-                                <td class="px-0 py-4">
-                                    Mantra
-                                </td>
-                            </tr>
-                            <tr class="border-b border-gray-200 bg-lightSecondary">
-                                <th scope="row" class="pl-5 w-36 font-montsMedium">
-                                    Klasifikasi
-                                </th>
-                                <td class="w-5 ">
-                                    :
-                                </td>
-                                <td class="px-0 py-4">
-                                    Weda
-                                </td>
-                            </tr>
-                            <tr class="border-b border-gray-200">
-                                <th scope="row" class="pl-5 w-36 font-montsMedium">
-                                    Bahasa
-                                </th>
-                                <td class="w-5 ">
-                                    :
-                                </td>
-                                <td class="px-0 py-4">
-                                    Bahasa Kawi
-                                </td>
-                            </tr>
-                            <tr class="border-b border-gray-200 bg-lightSecondary">
-                                <th scope="row" class="pl-5 w-36 font-montsMedium">
-                                    Tahun Lontar
-                                </th>
-                                <td class="w-5 ">
-                                    :
-                                </td>
-                                <td class="px-0 py-4">
-                                    1962
-                                </td>
-                            </tr>
-                            <tr class="border-b border-gray-200">
-                                <th scope="row" class="pl-5 w-36 font-montsMedium">
-                                    Collaction
-                                </th>
-                                <td class="w-5 ">
-                                    :
-                                </td>
-                                <td class="px-0 py-4">
-                                    15
-                                </td>
-                            </tr>
-                            <tr class="border-b border-gray-200 bg-lightSecondary">
-                                <th scope="row" class="pl-5 w-36 font-montsMedium">
-                                    Panjang Lontar
-                                </th>
-                                <td class="w-5 ">
-                                    :
-                                </td>
-                                <td class="px-0 py-4">
-                                    50 cm
-                                </td>
-                            </tr>
-                            <tr class="border-b border-gray-200">
-                                <th scope="row" class="pl-5 w-36 font-montsMedium">
-                                    Lebar Lontar
-                                </th>
-                                <td class="w-5 ">
-                                    :
-                                </td>
-                                <td class="px-0 py-4">
-                                    3.5 cm
-                                </td>
-                            </tr>
-                            <tr class="border-b border-gray-200 bg-lightSecondary">
-                                <th scope="row" class="pl-5 w-36 font-montsMedium">
-                                    Nama Tempat
-                                </th>
-                                <td class="w-5 ">
-                                    :
-                                </td>
-                                <td class="px-0 py-4">
-                                    Gedong Kirtya
-                                </td>
-                            </tr>
-                            <tr class="border-b border-gray-200">
-                                <th scope="row" class="pl-5 w-36 font-montsMedium">
-                                    Lokasi Penyimpanan
-                                </th>
-                                <td class="w-5 ">
-                                    :
-                                </td>
-                                <td class="px-0 py-4">
-                                    Jalan Veteran No 20, Singaraja
-                                </td>
-                            </tr>
-                            <tr class="border-b border-gray-200 bg-lightSecondary">
-                                <th scope="row" class="pl-5 w-36 font-montsMedium">
-                                    Asal
-                                </th>
-                                <td class="w-5 ">
-                                    :
-                                </td>
-                                <td class="px-0 py-4">
-                                    Belah Batuh, Gianyar
-                                </td>
-                            </tr>
+                            <?php
+                            // arahkan ke folder file sparql-lib
+                            require_once("../../sparql-lib/sparqllib.php");
+                            $koneksi_query = "http://localhost:3030/lontar/query"; // untuk mengelola query seperti menampilkan data  
+                            $id = $_GET['id'];
+
+                            // query menampilkan data
+                            $sparql = sparql_get(
+                                $koneksi_query,
+                                "
+                                PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                                PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#>
+                                PREFIX owl:<http://www.w3.org/2002/07/owl#>
+                                PREFIX xml:<http://www.w3.org/XML/1998/namespace#>
+                                PREFIX xsd:<http://www.w3.org/2001/XMLSchema#>
+                                PREFIX lontar:<http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#>
+                                
+                                SELECT *
+                                WHERE {
+                                    ?lontar lontar:title '$id';
+                                            lontar:title ?title;
+                                            lontar:type ?type;
+                                            lontar:subject ?subject;
+                                            lontar:classification ?classification;
+                                            lontar:language ?language;
+                                            lontar:collation ?collation;
+                                            lontar:year ?year;
+                                            lontar:length ?length;
+                                            lontar:width ?width;
+                                            lontar:resource ?resource;
+                                            lontar:createBy ?person;
+                                            lontar:comeFrom ?origin;
+                                            lontar:saveIn ?place.
+                                    ?person lontar:author ?author.
+                                    ?origin lontar:area ?area;
+                                            lontar:regency ?regency.
+                                    ?place  lontar:placename ?placename;
+                                            lontar:location ?location;
+                                            lontar:hasSave ?lontar. 
+                                }"
+                            );
+                            foreach ($sparql as $row) :
+                            ?>
+                                <tr class="border-b border-gray-200 bg-lightSecondary">
+                                    <th scope="row" class="pl-5 w-36 font-montsMedium">
+                                        Title
+                                    </th>
+                                    <td class="w-5 ">
+                                        :
+                                    </td>n
+                                    <td class="px-0 py-4">
+                                        <?= $row['title']; ?>
+                                    </td>
+                                </tr>
+                                <tr class="border-b border-gray-200">
+                                    <th scope="row" class="pl-5 w-36 font-montsMedium">
+                                        Type
+                                    </th>
+                                    <td class="w-5 ">
+                                        :
+                                    </td>
+                                    <td class="px-0 py-4">
+                                        <?= $row['type']; ?>
+                                    </td>
+                                </tr>
+                                <tr class="border-b border-gray-200 bg-lightSecondary">
+                                    <th scope="row" class="pl-5 w-36 font-montsMedium">
+                                        Penulis
+                                    </th>
+                                    <td class="w-5 ">
+                                        :
+                                    </td>
+                                    <td class="px-0 py-4">
+                                        <?= $row['author']; ?>
+                                    </td>
+                                </tr>
+                                <tr class="border-b border-gray-200">
+                                    <th scope="row" class="pl-5 w-36 font-montsMedium">
+                                        Subject
+                                    </th>
+                                    <td class="w-5 ">
+                                        :
+                                    </td>
+                                    <td class="px-0 py-4">
+                                        <?= $row['subject']; ?>
+                                    </td>
+                                </tr>
+                                <tr class="border-b border-gray-200 bg-lightSecondary">
+                                    <th scope="row" class="pl-5 w-36 font-montsMedium">
+                                        Klasifikasi
+                                    </th>
+                                    <td class="w-5 ">
+                                        :
+                                    </td>
+                                    <td class="px-0 py-4">
+                                        <?= $row['classification']; ?>
+                                    </td>
+                                </tr>
+                                <tr class="border-b border-gray-200">
+                                    <th scope="row" class="pl-5 w-36 font-montsMedium">
+                                        Bahasa
+                                    </th>
+                                    <td class="w-5 ">
+                                        :
+                                    </td>
+                                    <td class="px-0 py-4">
+                                        <?= $row['language']; ?>
+                                    </td>
+                                </tr>
+                                <tr class="border-b border-gray-200 bg-lightSecondary">
+                                    <th scope="row" class="pl-5 w-36 font-montsMedium">
+                                        Tahun Lontar
+                                    </th>
+                                    <td class="w-5 ">
+                                        :
+                                    </td>
+                                    <td class="px-0 py-4">
+                                        <?= $row['year']; ?>
+                                    </td>
+                                </tr>
+                                <tr class="border-b border-gray-200">
+                                    <th scope="row" class="pl-5 w-36 font-montsMedium">
+                                        Collaction
+                                    </th>
+                                    <td class="w-5 ">
+                                        :
+                                    </td>
+                                    <td class="px-0 py-4">
+                                        <?= $row['collation']; ?>
+                                    </td>
+                                </tr>
+                                <tr class="border-b border-gray-200 bg-lightSecondary">
+                                    <th scope="row" class="pl-5 w-36 font-montsMedium">
+                                        Panjang Lontar
+                                    </th>
+                                    <td class="w-5 ">
+                                        :
+                                    </td>
+                                    <td class="px-0 py-4">
+                                        <?= $row['length']; ?>
+                                    </td>
+                                </tr>
+                                <tr class="border-b border-gray-200">
+                                    <th scope="row" class="pl-5 w-36 font-montsMedium">
+                                        Lebar Lontar
+                                    </th>
+                                    <td class="w-5 ">
+                                        :
+                                    </td>
+                                    <td class="px-0 py-4">
+                                        <?= $row['width']; ?>
+                                    </td>
+                                </tr>
+                                <tr class="border-b border-gray-200 bg-lightSecondary">
+                                    <th scope="row" class="pl-5 w-36 font-montsMedium">
+                                        Nama Tempat
+                                    </th>
+                                    <td class="w-5 ">
+                                        :
+                                    </td>
+                                    <td class="px-0 py-4">
+                                        <?= $row['placename']; ?>
+                                    </td>
+                                </tr>
+                                <tr class="border-b border-gray-200">
+                                    <th scope="row" class="pl-5 w-36 font-montsMedium">
+                                        Lokasi Penyimpanan
+                                    </th>
+                                    <td class="w-5 ">
+                                        :
+                                    </td>
+                                    <td class="px-0 py-4">
+                                        <?= $row['location']; ?>
+                                    </td>
+                                </tr>
+                                <tr class="border-b border-gray-200 bg-lightSecondary">
+                                    <th scope="row" class="pl-5 w-36 font-montsMedium">
+                                        Daerah
+                                    </th>
+                                    <td class="w-5 ">
+                                        :
+                                    </td>
+                                    <td class="px-0 py-4">
+                                        <?= $row['area']; ?>
+                                    </td>
+                                </tr>
+                                <tr class="border-b border-gray-200 bg-lightSecondary">
+                                    <th scope="row" class="pl-5 w-36 font-montsMedium">
+                                        Kabupaten
+                                    </th>
+                                    <td class="w-5 ">
+                                        :
+                                    </td>
+                                    <td class="px-0 py-4">
+                                        <?= $row['regency']; ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
 
                         </tbody>
                     </table>
