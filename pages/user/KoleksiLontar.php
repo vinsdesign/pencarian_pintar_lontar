@@ -106,8 +106,7 @@
 
         include "../../sparql-lib/sparqllib.php";
         // include "../../apps/ViewLontar.php";
-
-        $endpoint = 'http://localhost:3030/lontar/query'; // Sesuaikan dengan endpoint SPARQL Anda
+        $endpoint = "http://localhost:3030/lontar/query"; // Sesuaikan dengan endpoint SPARQL Anda
 
         $query = "
                 PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -141,29 +140,17 @@
                 }
             ";
 
-        $result = sparql_get($query, $endpoint);
-
-        // if (!$result) {
-        //     die(sparql_errno() . ": " . sparql_error());
-        // }
-
+        $result = sparql_get($endpoint, $query);
         // pagination
-        $jmlhDataPerHalaman = 5;
-        $jumlahData = sparql_num_rows($result);
-        $jumlahHalaman = ceil($jumlahData / $jmlhDataPerHalaman);
-        $halamanAktif = isset($_GET['halaman']) ? $_GET['halaman'] : 1;
+        $jmlhDataPerHalaman = 2;
+        $jumlahData = count($result);
+        $jumlahHalaman = ceil($jumlahData / $jmlhDataPerHalaman); //round-> Pembulatan ke atas
+        $halamanAktif = (isset($_GET['halaman'])) ? $_GET['halaman'] : 1;
+
+        //halaman aktif
         $awalData = ($jmlhDataPerHalaman * $halamanAktif) - $jmlhDataPerHalaman;
-
-        $queryPagination = $query . " LIMIT $awalData, $jmlhDataPerHalaman";
-        $resultPagination = sparql_query($queryPagination, $endpoint);
-
-        if (!$resultPagination) {
-            die(sparql_errno() . ": " . sparql_error());
-        }
-
-        $rows = sparql_fetch_all($resultPagination);
-
-        foreach ($rows as $row) :
+        $hasil = sparql_get($endpoint,  $query . " LIMIT $awalData, $jmlhDataPerHalaman");
+        while ($row = sparql_fetch_all($hasil)) :
         ?>
             <!-- Koleksi Lontar -->
             <div class="flex justify-center items-center mt-5 ">
@@ -188,9 +175,7 @@
                     </figure>
                 </div>
             </div>
-            <?php $num_rows++; ?>
-            <?php $id++; ?>
-        <?php endforeach; ?>
+        <?php endwhile; ?>
         <!-- end KoleksiLontar -->
 
         <!-- pagination -->
