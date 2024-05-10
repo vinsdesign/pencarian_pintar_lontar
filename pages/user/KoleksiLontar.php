@@ -103,26 +103,59 @@
 
     <main class="flex flex-col gap-5">
         <?php
-        require '../../apps/ViewDataLontar.php';
 
+        require "../../vendor/autoload.php";
+        \EasyRdf\RdfNamespace::set('rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#');
+        \EasyRdf\RdfNamespace::set('rdfs', 'http://www.w3.org/2000/01/rdf-schema#');
+        \EasyRdf\RdfNamespace::set('owl', 'http://www.w3.org/2002/07/owl#');
+        \EasyRdf\RdfNamespace::set('xml', 'http://www.w3.org/XML/1998/namespace#');
+        \EasyRdf\RdfNamespace::set('xsd', 'http://www.w3.org/XML/1998/namespace#');
+        \EasyRdf\RdfNamespace::set('lontar', 'http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#');
 
-        foreach ($data as $row) :
+        $sparql = new \EasyRdf\Sparql\Client('http://localhost:3030/lontar/query');
+        $query = $sparql->query(
+            'SELECT *' .
+                'WHERE {' .
+                '?lontar lontar:title "Bhasma";' .
+                'lontar:title ?title;' .
+                'lontar:type ?type;' .
+                'lontar:subject ?subject;' .
+                'lontar:classification ?classification;' .
+                'lontar:language ?language;' .
+                'lontar:collation ?collation;' .
+                'lontar:year ?year;' .
+                'lontar:length ?length;' .
+                'lontar:width ?width;' .
+                'lontar:resource ?resource;' .
+                'lontar:createBy ?person;' .
+                'lontar:comeFrom ?origin;' .
+                'lontar:saveIn ?place.' .
+                '?person lontar:author ?author.' .
+                '?origin lontar:area ?area;' .
+                'lontar:regency ?regency.' .
+                '?place  lontar:placename ?placename;' .
+                'lontar:location ?location;' .
+                'lontar:hasSave ?lontar.' .
+                '}',
+        );
+
+        foreach ($query as $data) :
         ?>
             <!-- Koleksi Lontar -->
             <div class="flex justify-center items-center mt-5 ">
                 <div class="flex xxsm:flex-col md:flex-row items-center rounded-lg xxsm:w-[250px] xsm:w-[280px] base:w-[360px] sm:w-[560px] md:w-[650px] lg:w-[800px] xl:w-[900px] 2xl:w-[1000px] max-h-full shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] xxsm:flex">
                     <div class="flex flex-col justify-between p-4 leading-normal xxsm:order-2 md:order-none md:text-sm lg:text-base">
-                        <input type="hidden" name="title" value="<?= $row['title'] ?>">
+                        <input type="hidden" name="title" value="<?= $data->title ?>">
                         <h2 class="xl:card-title text-darkBlue font-montsBold xxsm:text-center xxsm:text-lg base:text-xl xl:text-2xl">
-                            <?= $row['title']; ?>
+                            <?= $data->title ?>
                         </h2>
                         <h2 class="font-montsMedium text-mediumBlue xl:text-lg">
-                            <?= $row['author']; ?> | <?= $row['year']; ?> | <?= $row['area']; ?>, <?= $row['regency']; ?>
+                            <?= $data->title ?> | <?= $data->title ?> | <?= $data->title ?>,<?= $data->title ?>
                         </h2>
                         <p class="font-montserrat text-justify xl:text-md">
-                            Detail Deskripsi Lengkap Lontar, judul lontar : <?= $row['title']; ?>, tipe bahan:
-                            <?= $row['type']; ?>, subjek: <?= $row['subject']; ?>, klasifikasi: <?= $row['classification']; ?>,
-                            bahasa: <?= $row['language']; ?>, <a href="/pencarian_pintar_lontar/pages/user/DetailLontar.php?id=<?= $row['title']; ?>" class="text-orangePastel">Selengkapnya</a>
+                            Detail Deskripsi Lengkap Lontar, judul lontar : <?= $data->title ?>, tipe bahan:
+                            <?= $data->title ?>, subjek: <?= $data->title ?>, klasifikasi: <?= $data->title ?>,
+                            bahasa: <?= $data->title ?>, <a href="/pencarian_pintar_lontar/pages/user/DetailLontar.php?id=<?= $data->title ?>" class="text-orangePastel">Selengkapnya</a>
                         </p>
 
                     </div>
@@ -131,8 +164,6 @@
                     </figure>
                 </div>
             </div>
-
-            <?php $id++; ?>
         <?php endforeach; ?>
 
         <!-- end KoleksiLontar -->
