@@ -103,67 +103,10 @@
 
     <main class="flex flex-col gap-5">
         <?php
+        require '../../apps/ViewDataLontar.php';
 
-        include "../../sparql-lib/sparqllib.php";
-        // include "../../apps/ViewLontar.php";
 
-        $endpoint = 'http://localhost:3030/lontar/query'; // Sesuaikan dengan endpoint SPARQL Anda
-
-        $query = "
-                PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-                PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#>
-                PREFIX owl:<http://www.w3.org/2002/07/owl#>
-                PREFIX xml:<http://www.w3.org/XML/1998/namespace#>
-                PREFIX xsd:<http://www.w3.org/2001/XMLSchema#>
-                PREFIX lontar:<http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#>
-            
-                SELECT *
-                WHERE {
-                    ?lontar lontar:title ?title;
-                            lontar:type ?type;
-                            lontar:subject ?subject;
-                            lontar:classification ?classification;
-                            lontar:language ?language;
-                            lontar:collation ?collation;
-                            lontar:year ?year;
-                            lontar:length ?length;
-                            lontar:width ?width;
-                            lontar:resource ?resource;
-                            lontar:createBy ?person;
-                            lontar:comeFrom ?origin;
-                            lontar:saveIn ?place.
-                    ?person lontar:author ?author.
-                    ?origin lontar:area ?area;
-                            lontar:regency ?regency.
-                    ?place  lontar:placename ?placename;
-                            lontar:location ?location;
-                            lontar:hasSave ?lontar.   
-                }
-            ";
-
-        $result = sparql_get($query, $endpoint);
-
-        // if (!$result) {
-        //     die(sparql_errno() . ": " . sparql_error());
-        // }
-
-        // pagination
-        $jmlhDataPerHalaman = 5;
-        $jumlahData = sparql_num_rows($result);
-        $jumlahHalaman = ceil($jumlahData / $jmlhDataPerHalaman);
-        $halamanAktif = isset($_GET['halaman']) ? $_GET['halaman'] : 1;
-        $awalData = ($jmlhDataPerHalaman * $halamanAktif) - $jmlhDataPerHalaman;
-
-        $queryPagination = $query . " LIMIT $awalData, $jmlhDataPerHalaman";
-        $resultPagination = sparql_query($queryPagination, $endpoint);
-
-        if (!$resultPagination) {
-            die(sparql_errno() . ": " . sparql_error());
-        }
-
-        $rows = sparql_fetch_all($resultPagination);
-
-        foreach ($rows as $row) :
+        foreach ($data as $row) :
         ?>
             <!-- Koleksi Lontar -->
             <div class="flex justify-center items-center mt-5 ">
@@ -188,9 +131,10 @@
                     </figure>
                 </div>
             </div>
-            <?php $num_rows++; ?>
+
             <?php $id++; ?>
         <?php endforeach; ?>
+
         <!-- end KoleksiLontar -->
 
         <!-- pagination -->
