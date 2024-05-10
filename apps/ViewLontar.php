@@ -2,6 +2,7 @@
 
 // arahkan ke folder file sparql-lib
 require_once("../../sparql-lib/sparqllib.php");
+
 $koneksi_query = "http://localhost:3030/lontar/query"; // untuk mengelola query seperti menampilkan data   
 $koneksi_update = "http://localhost:3030/lontar/update"; // untuk memanipulasi data seperti INSERT, UPDATE, DELETE
 

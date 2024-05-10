@@ -101,11 +101,69 @@
         <!-- end carousel image -->
     </header>
 
-    <main>
+    <main class="flex flex-col gap-5">
         <?php
-        include "../../apps/ViewLontar.php";
-        $id = 1;
-        foreach ($sparql as $row) :
+
+        include "../../sparql-lib/sparqllib.php";
+        // include "../../apps/ViewLontar.php";
+
+        $endpoint = 'http://localhost:3030/lontar/query'; // Sesuaikan dengan endpoint SPARQL Anda
+
+        $query = "
+                PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#>
+                PREFIX owl:<http://www.w3.org/2002/07/owl#>
+                PREFIX xml:<http://www.w3.org/XML/1998/namespace#>
+                PREFIX xsd:<http://www.w3.org/2001/XMLSchema#>
+                PREFIX lontar:<http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#>
+            
+                SELECT *
+                WHERE {
+                    ?lontar lontar:title ?title;
+                            lontar:type ?type;
+                            lontar:subject ?subject;
+                            lontar:classification ?classification;
+                            lontar:language ?language;
+                            lontar:collation ?collation;
+                            lontar:year ?year;
+                            lontar:length ?length;
+                            lontar:width ?width;
+                            lontar:resource ?resource;
+                            lontar:createBy ?person;
+                            lontar:comeFrom ?origin;
+                            lontar:saveIn ?place.
+                    ?person lontar:author ?author.
+                    ?origin lontar:area ?area;
+                            lontar:regency ?regency.
+                    ?place  lontar:placename ?placename;
+                            lontar:location ?location;
+                            lontar:hasSave ?lontar.   
+                }
+            ";
+
+        $result = sparql_get($query, $endpoint);
+
+        // if (!$result) {
+        //     die(sparql_errno() . ": " . sparql_error());
+        // }
+
+        // pagination
+        $jmlhDataPerHalaman = 5;
+        $jumlahData = sparql_num_rows($result);
+        $jumlahHalaman = ceil($jumlahData / $jmlhDataPerHalaman);
+        $halamanAktif = isset($_GET['halaman']) ? $_GET['halaman'] : 1;
+        $awalData = ($jmlhDataPerHalaman * $halamanAktif) - $jmlhDataPerHalaman;
+
+        $queryPagination = $query . " LIMIT $awalData, $jmlhDataPerHalaman";
+        $resultPagination = sparql_query($queryPagination, $endpoint);
+
+        if (!$resultPagination) {
+            die(sparql_errno() . ": " . sparql_error());
+        }
+
+        $rows = sparql_fetch_all($resultPagination);
+
+        foreach ($rows as $row) :
         ?>
             <!-- Koleksi Lontar -->
             <div class="flex justify-center items-center mt-5 ">
@@ -130,9 +188,38 @@
                     </figure>
                 </div>
             </div>
+            <?php $num_rows++; ?>
             <?php $id++; ?>
         <?php endforeach; ?>
-        <!-- KoleksiLontar -->
+        <!-- end KoleksiLontar -->
+
+        <!-- pagination -->
+        <nav aria-label="Page navigation example" class="flex justify-end items-center mt-5">
+            <ul class="inline-flex -space-x-px text-base h-10 text-darkBlue">
+                <?php if ($halamanAktif > 1) : ?>
+                    <li>
+                        <a href="?halaman=<?= $halamanAktif - 1; ?>" class="flex items-center justify-center px-4 h-10 ms-0 leading-tight  bg-mediumBlue border border-e-0 border-lightBlue rounded-s-lg hover:bg-mediumBlue text-white hover:text-orangePastel dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><i class="fa-solid fa-angle-left"></i></a>
+                    </li>
+                <?php endif; ?>
+                <?php for ($i = 1; $i <= $jumlahHalaman; $i++) : ?>
+                    <?php if ($i == $halamanAktif) : ?>
+                        <li>
+                            <a href="#" class="flex items-center justify-center px-4 h-10 ms-0 leading-tight  bg-mediumBlue border border-e-0 border-lightBlue hover:bg-mediumBlue text-orangePastel font-montsSemiBold  dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><?= $i; ?></a>
+                        </li>
+                    <?php else : ?>
+                        <li>
+                            <a href="?halaman=<?= $i; ?>" class="flex items-center justify-center px-4 h-10 ms-0 leading-tight  bg-mediumBlue border border-e-0 border-lightBlue hover:bg-mediumBlue text-white hover:text-orangePastel dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><?= $i; ?></a>
+                        </li>
+                    <?php endif; ?>
+                <?php endfor; ?>
+                <?php if ($halamanAktif < $jumlahHalaman) : ?>
+                    <li>
+                        <a href="?halaman=<?= $halamanAktif + 1; ?>" class="flex items-center justify-center px-4 h-10 ms-0 leading-tight  bg-mediumBlue border border-e-0 border-lightBlue rounded-r-lg hover:bg-mediumBlue text-white hover:text-orangePastel dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><i class="fa-solid fa-angle-right"></i></a>
+                    </li>
+                <?php endif; ?>
+
+            </ul>
+        </nav>
     </main>
 
     <!-- Footer -->
