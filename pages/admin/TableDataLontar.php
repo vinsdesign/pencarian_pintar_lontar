@@ -203,7 +203,7 @@ if (!isset($_SESSION['login'])) {
                                     <td class="px-6 py-4"><?= $row->area; ?></td>
                                     <td class="px-6 py-4"><?= $row->regency; ?></td>
                                     <td class="px-6 py-4">
-                                        <img src="../../public/assets/<?= $row->resource; ?>" alt="gambar" />
+                                        <img src="../../image_base/<?= $row->resource; ?>" alt="gambar" />
                                     </td>
                                 </tr>
                             <?php $i++;
@@ -254,7 +254,7 @@ if (!isset($_SESSION['login'])) {
                     </div>
                     <!-- Modal body -->
                     <div class="p-4 md:p-5 space-y-4">
-                        <form class="max-w-xl mx-auto" action="../../apps/UpdateController.php" method="post">
+                        <form class="max-w-xl mx-auto" action="../../apps/UpdateController.php" method="post" enctype="multipart/form-data">
                             <div class="grid md:grid-cols-2 md:gap-6">
                                 <div class="relative z-0 w-full group">
                                     <input type="text" name="title" id="title" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-mediumBlue peer" placeholder=" " required />

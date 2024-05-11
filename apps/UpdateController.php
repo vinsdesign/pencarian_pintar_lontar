@@ -21,11 +21,16 @@ if (isset($_POST['TambahData'])) {
     $location = htmlspecialchars($_POST['lokasi']);
     $area = htmlspecialchars($_POST['area']);
     $regency = htmlspecialchars($_POST['regency']);
-    $resource = htmlspecialchars($_POST['upload_image']);
+    // $resource = htmlspecialchars($_POST['upload_image']);
 
     // Membuat judul lontar dengan format yang sesuai
     $title_lontar = str_replace(' ', '_', $title);
 
+    // mengecek gambar
+    $resource = upload();
+    if (!$resource) {
+        return false;
+    }
     // Menyiapkan kueri INSERT data
     $query = "
         PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -39,7 +44,7 @@ if (isset($_POST['TambahData'])) {
                      lontar:classification '$classification' ;
                      lontar:language '$bahasa' ;
                      lontar:collation '$collation' ;
-                     lontar:year $tahun ;
+                     lontar:year '$tahun' ;
                      lontar:length $panjang_lontar ;
                      lontar:width $lebar_lontar ;
                      lontar:resource '$resource';
@@ -84,6 +89,66 @@ if (isset($_POST['TambahData'])) {
         </script>";
     }
 }
+
+function upload()
+{
+    $namaFile = $_FILES['upload_image']['name'];
+    $ukuranFile = $_FILES['upload_image']['size'];
+    $errorFIle = $_FILES['upload_image']['error'];
+    $tmpName = $_FILES['upload_image']['tmp_name'];
+
+    // adakah gambar yang di upload
+    if ($errorFIle === 4) {
+        echo "<script>
+        alert('Masukan Gambar Lontar!')
+             document.location.href='http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php'
+        </script>";
+        return false;
+    }
+    // mengecek ekstensi gambar 
+    $ekstensiGambarValid = ['jpg', 'jpeg', 'png', 'webp', 'svg'];
+    $ekstensiGambar = explode('.', $namaFile); // memecah antara ekstensi dan nama file dalam array
+    $ekstensiGambar = strtolower(end($ekstensiGambar)); // mengambil array paling akhir
+    if (!in_array($ekstensiGambar, $ekstensiGambarValid)) {
+        echo "<script>
+        alert('Ekstensi Gambar Salah!')
+             
+        </script>";
+        return false;
+    }
+    // cek ukuran gambar jika lebih dari 5MB
+    if ($ukuranFile > 1000000) {
+        echo "<script>
+        alert('Gambar melebihi ukuran 1MB!')
+             document.location.href='http://localhost/pencarian_pintar_lontar/pages/admin/TableDataAdmin.php'
+        </script>";
+        return false;
+    }
+    $namaFileNew = uniqid();
+    $namaFileNew .= '.';
+    $namaFileNew .= $ekstensiGambar;
+
+    move_uploaded_file($tmpName, '../image_base/' . $namaFileNew);
+    return $namaFileNew;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // // var_dump($title_place);
 // $queryTambah = sparql_get(
