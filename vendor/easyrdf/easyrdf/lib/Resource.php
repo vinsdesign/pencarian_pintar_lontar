@@ -1,4 +1,5 @@
 <?php
+
 namespace EasyRdf;
 
 /**
@@ -199,10 +200,10 @@ class Resource implements \ArrayAccess
                 );
             }
 
-            $html .= " ".htmlspecialchars($key)."=\"".
-                         htmlspecialchars($value)."\"";
+            $html .= " " . htmlspecialchars($key) . "=\"" .
+                htmlspecialchars($value) . "\"";
         }
-        $html .= ">".htmlspecialchars($text)."</a>";
+        $html .= ">" . htmlspecialchars($text) . "</a>";
 
         return $html;
     }
@@ -769,9 +770,12 @@ class Resource implements \ArrayAccess
      *
      * @return boolean true on success or false on failure.
      */
-    public function offsetExists($offset)
+    /**
+     * @return bool
+     */
+    public function offsetExists($offset): bool
     {
-        return $this->__isset($offset);
+        return array_key_exists($offset, $this->data);
     }
 
     /**
@@ -786,7 +790,7 @@ class Resource implements \ArrayAccess
      *
      * @return mixed Can return all value types.
      */
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
         return $this->__get($offset);
     }
@@ -804,11 +808,10 @@ class Resource implements \ArrayAccess
      *
      * @return void
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         $this->__set($offset, $value);
     }
-
     /**
      * Offset to unset
      *
@@ -821,7 +824,7 @@ class Resource implements \ArrayAccess
      *
      * @return void
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         $this->__unset($offset);
     }
