@@ -103,59 +103,38 @@
 
     <main class="flex flex-col gap-5">
         <?php
+        require_once '../../apps/ViewLontar.php';
 
-        require "../../vendor/autoload.php";
-        \EasyRdf\RdfNamespace::set('rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#');
-        \EasyRdf\RdfNamespace::set('rdfs', 'http://www.w3.org/2000/01/rdf-schema#');
-        \EasyRdf\RdfNamespace::set('owl', 'http://www.w3.org/2002/07/owl#');
-        \EasyRdf\RdfNamespace::set('xml', 'http://www.w3.org/XML/1998/namespace#');
-        \EasyRdf\RdfNamespace::set('xsd', 'http://www.w3.org/XML/1998/namespace#');
-        \EasyRdf\RdfNamespace::set('lontar', 'http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#');
+        // pagination
+        $jmlhDataPerHalaman = 4;
+        $result = $sparql->query($query);
+        $jumlahData = 0;
+        foreach ($result as $row) {
+            $jumlahData++;
+        }
+        $jumlahHalaman = ceil($jumlahData / $jmlhDataPerHalaman); //round-> Pembulatan ke atas
+        $halamanAktif = (isset($_GET['halaman'])) ? $_GET['halaman'] : 1;
+        //halaman aktif
+        $awalData = ($jmlhDataPerHalaman * $halamanAktif) - $jmlhDataPerHalaman;
+        $hasil = $sparql->query($query . "LIMIT $jmlhDataPerHalaman OFFSET $awalData");
 
-        $sparql = new \EasyRdf\Sparql\Client('http://localhost:3030/lontar/query');
-        $query = $sparql->query(
-            'SELECT *' .
-                'WHERE {' .
-                '?lontar lontar:title "Bhasma";' .
-                'lontar:title ?title;' .
-                'lontar:type ?type;' .
-                'lontar:subject ?subject;' .
-                'lontar:classification ?classification;' .
-                'lontar:language ?language;' .
-                'lontar:collation ?collation;' .
-                'lontar:year ?year;' .
-                'lontar:length ?length;' .
-                'lontar:width ?width;' .
-                'lontar:resource ?resource;' .
-                'lontar:createBy ?person;' .
-                'lontar:comeFrom ?origin;' .
-                'lontar:saveIn ?place.' .
-                '?person lontar:author ?author.' .
-                '?origin lontar:area ?area;' .
-                'lontar:regency ?regency.' .
-                '?place  lontar:placename ?placename;' .
-                'lontar:location ?location;' .
-                'lontar:hasSave ?lontar.' .
-                '}',
-        );
-
-        foreach ($query as $data) :
+        foreach ($hasil as $data) :
         ?>
             <!-- Koleksi Lontar -->
             <div class="flex justify-center items-center mt-5 ">
                 <div class="flex xxsm:flex-col md:flex-row items-center rounded-lg xxsm:w-[250px] xsm:w-[280px] base:w-[360px] sm:w-[560px] md:w-[650px] lg:w-[800px] xl:w-[900px] 2xl:w-[1000px] max-h-full shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] xxsm:flex">
                     <div class="flex flex-col justify-between p-4 leading-normal xxsm:order-2 md:order-none md:text-sm lg:text-base">
                         <input type="hidden" name="title" value="<?= $data->title ?>">
-                        <h2 class="xl:card-title text-darkBlue font-montsBold xxsm:text-center xxsm:text-lg base:text-xl xl:text-2xl">
+                        <h2 class="xl:card-title text-darkBlue font-montsBold xxsm:text-lg base:text-xl xl:text-2xl">
                             <?= $data->title ?>
                         </h2>
                         <h2 class="font-montsMedium text-mediumBlue xl:text-lg">
-                            <?= $data->title ?> | <?= $data->title ?> | <?= $data->title ?>,<?= $data->title ?>
+                            <?= $data->title ?> | <?= $data->year ?> | <?= $data->area ?>, <?= $data->regency ?>
                         </h2>
                         <p class="font-montserrat text-justify xl:text-md">
                             Detail Deskripsi Lengkap Lontar, judul lontar : <?= $data->title ?>, tipe bahan:
-                            <?= $data->title ?>, subjek: <?= $data->title ?>, klasifikasi: <?= $data->title ?>,
-                            bahasa: <?= $data->title ?>, <a href="/pencarian_pintar_lontar/pages/user/DetailLontar.php?id=<?= $data->title ?>" class="text-orangePastel">Selengkapnya</a>
+                            <?= $data->type ?>, subjek: <?= $data->subject ?>, klasifikasi: <?= $data->classification ?>,
+                            bahasa: <?= $data->language ?>, <a href="/pencarian_pintar_lontar/pages/user/DetailLontar.php?id=<?= $data->resource ?>" class="text-orangePastel">Selengkapnya</a>
                         </p>
 
                     </div>
@@ -167,34 +146,36 @@
         <?php endforeach; ?>
 
         <!-- end KoleksiLontar -->
-
-        <!-- pagination -->
-        <nav aria-label="Page navigation example" class="flex justify-end items-center mt-5">
-            <ul class="inline-flex -space-x-px text-base h-10 text-darkBlue">
-                <?php if ($halamanAktif > 1) : ?>
-                    <li>
-                        <a href="?halaman=<?= $halamanAktif - 1; ?>" class="flex items-center justify-center px-4 h-10 ms-0 leading-tight  bg-mediumBlue border border-e-0 border-lightBlue rounded-s-lg hover:bg-mediumBlue text-white hover:text-orangePastel dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><i class="fa-solid fa-angle-left"></i></a>
-                    </li>
-                <?php endif; ?>
-                <?php for ($i = 1; $i <= $jumlahHalaman; $i++) : ?>
-                    <?php if ($i == $halamanAktif) : ?>
+        <div class="flex justify-center">
+            <!-- pagination -->
+            <nav aria-label="Page navigation example" class="flex justify-end items-center mt-5">
+                <ul class="inline-flex -space-x-px text-base h-10 text-darkBlue">
+                    <?php if ($halamanAktif > 1) : ?>
                         <li>
-                            <a href="#" class="flex items-center justify-center px-4 h-10 ms-0 leading-tight  bg-mediumBlue border border-e-0 border-lightBlue hover:bg-mediumBlue text-orangePastel font-montsSemiBold  dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><?= $i; ?></a>
-                        </li>
-                    <?php else : ?>
-                        <li>
-                            <a href="?halaman=<?= $i; ?>" class="flex items-center justify-center px-4 h-10 ms-0 leading-tight  bg-mediumBlue border border-e-0 border-lightBlue hover:bg-mediumBlue text-white hover:text-orangePastel dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><?= $i; ?></a>
+                            <a href="?halaman=<?= $halamanAktif - 1; ?>" class="flex items-center justify-center px-4 h-10 ms-0 leading-tight  bg-mediumBlue border border-e-0 border-lightBlue rounded-s-lg hover:bg-mediumBlue text-white hover:text-orangePastel dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><i class="fa-solid fa-angle-left"></i></a>
                         </li>
                     <?php endif; ?>
-                <?php endfor; ?>
-                <?php if ($halamanAktif < $jumlahHalaman) : ?>
-                    <li>
-                        <a href="?halaman=<?= $halamanAktif + 1; ?>" class="flex items-center justify-center px-4 h-10 ms-0 leading-tight  bg-mediumBlue border border-e-0 border-lightBlue rounded-r-lg hover:bg-mediumBlue text-white hover:text-orangePastel dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><i class="fa-solid fa-angle-right"></i></a>
-                    </li>
-                <?php endif; ?>
+                    <?php for ($i = 1; $i <= $jumlahHalaman; $i++) : ?>
+                        <?php if ($i == $halamanAktif) : ?>
+                            <li>
+                                <a href="#" class="flex items-center justify-center px-4 h-10 ms-0 leading-tight  bg-mediumBlue border border-e-0 border-lightBlue hover:bg-mediumBlue text-orangePastel font-montsSemiBold  dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><?= $i; ?></a>
+                            </li>
+                        <?php else : ?>
+                            <li>
+                                <a href="?halaman=<?= $i; ?>" class="flex items-center justify-center px-4 h-10 ms-0 leading-tight  bg-mediumBlue border border-e-0 border-lightBlue hover:bg-mediumBlue text-white hover:text-orangePastel dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><?= $i; ?></a>
+                            </li>
+                        <?php endif; ?>
+                    <?php endfor; ?>
+                    <?php if ($halamanAktif < $jumlahHalaman) : ?>
+                        <li>
+                            <a href="?halaman=<?= $halamanAktif + 1; ?>" class="flex items-center justify-center px-4 h-10 ms-0 leading-tight  bg-mediumBlue border border-e-0 border-lightBlue rounded-r-lg hover:bg-mediumBlue text-white hover:text-orangePastel dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><i class="fa-solid fa-angle-right"></i></a>
+                        </li>
+                    <?php endif; ?>
 
-            </ul>
-        </nav>
+                </ul>
+            </nav>
+        </div>
+
     </main>
 
     <!-- Footer -->
