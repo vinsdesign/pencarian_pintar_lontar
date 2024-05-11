@@ -172,7 +172,8 @@ if (!isset($_SESSION['login'])) {
                             <?php
                             include "../../apps/ViewLontar.php";
                             $i = 1;
-                            foreach ($sparql as $row) :
+                            $result = $sparql->query($query);
+                            foreach ($result as $row) :
                             ?>
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600">
                                     <td class="w-4 px-5 py-3">
@@ -186,23 +187,23 @@ if (!isset($_SESSION['login'])) {
                                         <?= $i; ?>
                                     </th>
                                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        <?= $row['title']; ?>
+                                        <?= $row->title ?>
                                     </th>
-                                    <td class="px-6 py-4"><?= $row['type']; ?></td>
-                                    <td class="px-6 py-4"><?= $row['author']; ?></td>
-                                    <td class="px-6 py-4"><?= $row['subject']; ?></td>
-                                    <td class="px-6 py-4"><?= $row['classification']; ?></td>
-                                    <td class="px-6 py-4"><?= $row['language']; ?></td>
-                                    <td class="px-6 py-4"><?= $row['collation']; ?></td>
-                                    <td class="px-6 py-4"><?= $row['year']; ?></td>
-                                    <td class="px-6 py-4"><?= $row['length']; ?></td>
-                                    <td class="px-6 py-4"><?= $row['width']; ?></td>
-                                    <td class="px-6 py-4"><?= $row['placename']; ?></td>
-                                    <td class="px-6 py-4"><?= $row['location']; ?></td>
-                                    <td class="px-6 py-4"><?= $row['area']; ?></td>
-                                    <td class="px-6 py-4"><?= $row['regency']; ?></td>
+                                    <td class="px-6 py-4"><?= $row->type; ?></td>
+                                    <td class="px-6 py-4"><?= $row->author; ?></td>
+                                    <td class="px-6 py-4"><?= $row->subject; ?></td>
+                                    <td class="px-6 py-4"><?= $row->classification; ?></td>
+                                    <td class="px-6 py-4"><?= $row->language; ?></td>
+                                    <td class="px-6 py-4"><?= $row->collation; ?></td>
+                                    <td class="px-6 py-4"><?= $row->year; ?></td>
+                                    <td class="px-6 py-4"><?= $row->length; ?></td>
+                                    <td class="px-6 py-4"><?= $row->width; ?></td>
+                                    <td class="px-6 py-4"><?= $row->placename; ?></td>
+                                    <td class="px-6 py-4"><?= $row->location; ?></td>
+                                    <td class="px-6 py-4"><?= $row->area; ?></td>
+                                    <td class="px-6 py-4"><?= $row->regency; ?></td>
                                     <td class="px-6 py-4">
-                                        <img src="../../public/assets/<?= $row['resource']; ?>" alt="gambar" />
+                                        <img src="../../public/assets/<?= $row->resource; ?>" alt="gambar" />
                                     </td>
                                 </tr>
                             <?php $i++;
