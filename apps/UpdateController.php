@@ -71,7 +71,7 @@ if (isset($_POST['TambahData'])) {
     ";
 
     // Membuat objek client SPARQL
-    $sparql = new \EasyRdf\Sparql\Client('http://localhost:3030/lontar/update');
+    $sparql = new \EasyRdf\Sparql\Client('http://localhost:3030/pencarian_lontar/update');
 
     // Melakukan permintaan update dengan kueri yang telah disiapkan
     $result = $sparql->update($query);
@@ -85,7 +85,7 @@ if (isset($_POST['TambahData'])) {
     } else {
         echo "<script>
             alert('Gagal menambahkan data. Silakan coba lagi.')
-            document.location.href='http://localhost/pencarian_pintar_lontar/apps/UpdateController.php'
+            document.location.href='http://localhost/pencarian_pintar_lontar/apps/TableDataLontar.php'
         </script>";
     }
 }
@@ -117,7 +117,7 @@ function upload()
         return false;
     }
     // cek ukuran gambar jika lebih dari 5MB
-    if ($ukuranFile > 1000000) {
+    if ($ukuranFile > 2000000) {
         echo "<script>
         alert('Gambar melebihi ukuran 1MB!')
              document.location.href='http://localhost/pencarian_pintar_lontar/pages/admin/TableDataAdmin.php'

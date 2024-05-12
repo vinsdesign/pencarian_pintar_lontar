@@ -8,7 +8,7 @@ require "../../vendor/autoload.php";
 \EasyRdf\RdfNamespace::set('xsd', 'http://www.w3.org/XML/1998/namespace#');
 \EasyRdf\RdfNamespace::set('lontar', 'http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#');
 
-$sparql = new \EasyRdf\Sparql\Client('http://localhost:3030/lontar/query');
+$sparql = new \EasyRdf\Sparql\Client('http://localhost:3030/pencarian_lontar/query');
 $query = "SELECT *
 WHERE {
     ?lontar lontar:title ?title;
