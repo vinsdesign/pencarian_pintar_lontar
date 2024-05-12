@@ -105,12 +105,19 @@
         <div class="flex justify-start items-center w-[1200px] mx-auto">
             <a href="/pencarian_pintar_lontar/pages/user/KoleksiLontar.php"><button class="mt-4 px-5 py-2 text-white rounded-full bg-lightBlue hover:transition-all hover:delay-150"><i class="fa-solid fa-angle-left"></i> Kembali</button></a>
         </div>
+        <?php
+        // arahkan ke view lontar
+        require_once "../../apps/DetailController.php";
+        $result = $sparql->query($query);
+        foreach ($result as $row) :
+        ?>
+            <section class="flex justify-center items-center  flex-col mt-4">
+                <div class="w-[1200px] bg-base-100 bg-cover rounded-2xl pb-4 shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)]">
 
-        <section class="flex justify-center items-center  flex-col mt-4">
-            <div class="w-[1200px] bg-base-100 bg-cover rounded-2xl pb-4 shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)]">
-                <figure>
-                    <img class="w-[1200px] h-[600px] xxsm:rounded-t-2xl" src="../../public/assets/Tulis_Lontar.jpg" alt="Lontar" />
-                </figure>
+                    <figure>
+                        <img class="w-[1200px] h-[600px] xxsm:rounded-t-2xl" src="../../image_base/<?= $row->resource; ?>" alt="Lontar" />
+                    </figure>
+                <?php endforeach; ?>
                 <div class="mt-5 ml-5">
                     <h2 class="card-title bg-orangePastel w-fit p-2 rounded-t-lg font-montsMedium text-base border-b-4 border-solid border-b-mediumBlue">
                         Detail Deskripsi Lengkap Lontar
@@ -121,7 +128,7 @@
                         <tbody>
                             <?php
                             // arahkan ke view lontar
-                            require_once "../../apps/ViewLontar.php";
+                            require_once "../../apps/DetailController.php";
                             $result = $sparql->query($query);
                             foreach ($result as $row) :
                             ?>
@@ -210,7 +217,7 @@
                                         :
                                     </td>
                                     <td class="px-0 py-4">
-                                        <?= $row->collaction; ?>
+                                        <?= $row->collation; ?>
                                     </td>
                                 </tr>
                                 <tr class="border-b border-gray-200 bg-lightSecondary">
@@ -268,7 +275,7 @@
                                         <?= $row->area; ?>
                                     </td>
                                 </tr>
-                                <tr class="border-b border-gray-200 bg-lightSecondary">
+                                <tr class="border-b border-gray-200 ">
                                     <th scope="row" class="pl-5 w-36 font-montsMedium">
                                         Kabupaten
                                     </th>
@@ -285,8 +292,8 @@
                     </table>
                 </div>
 
-            </div>
-        </section>
+                </div>
+            </section>
     </main>
 
 

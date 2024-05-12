@@ -12,7 +12,8 @@ $title = $_GET['id'];
 $sparql = new \EasyRdf\Sparql\Client('http://localhost:3030/pencarian_lontar/query');
 $query = "SELECT *
 WHERE {
-    ?lontar lontar:title ?title;
+    ?lontar lontar:title '$title';
+            lontar:title ?title;
             lontar:type ?type;
             lontar:subject ?subject;
             lontar:classification ?classification;
