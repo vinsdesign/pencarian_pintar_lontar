@@ -138,7 +138,7 @@
                                     </th>
                                     <td class="w-5 ">
                                         :
-                                    </td>n
+                                    </td>
                                     <td class="px-0 py-4">
                                         <?= $row->title; ?>
                                     </td>
@@ -275,7 +275,7 @@
                                         <?= $row->area; ?>
                                     </td>
                                 </tr>
-                                <tr class="border-b border-gray-200 ">
+                                <tr class="">
                                     <th scope="row" class="pl-5 w-36 font-montsMedium">
                                         Kabupaten
                                     </th>
