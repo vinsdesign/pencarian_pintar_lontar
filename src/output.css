@@ -1497,14 +1497,6 @@ input:checked + .toggle-bg {
   margin-top: 2rem;
 }
 
-.-mb-10 {
-  margin-bottom: -2.5rem;
-}
-
-.-mb-5 {
-  margin-bottom: -1.25rem;
-}
-
 .box-border {
   box-sizing: border-box;
 }
@@ -1624,6 +1616,10 @@ input:checked + .toggle-bg {
   height: 4rem;
 }
 
+.h-20 {
+  height: 5rem;
+}
+
 .h-24 {
   height: 6rem;
 }
@@ -1690,6 +1686,34 @@ input:checked + .toggle-bg {
 
 .h-screen {
   height: 100vh;
+}
+
+.h-28 {
+  height: 7rem;
+}
+
+.h-32 {
+  height: 8rem;
+}
+
+.h-\[100px\] {
+  height: 100px;
+}
+
+.h-\[10px\] {
+  height: 10px;
+}
+
+.h-40 {
+  height: 10rem;
+}
+
+.h-64 {
+  height: 16rem;
+}
+
+.h-72 {
+  height: 18rem;
 }
 
 .max-h-full {
@@ -1819,6 +1843,14 @@ input:checked + .toggle-bg {
 
 .w-full {
   width: 100%;
+}
+
+.w-\[200px\] {
+  width: 200px;
+}
+
+.w-40 {
+  width: 10rem;
 }
 
 .max-w-2xl {
@@ -4867,10 +4899,6 @@ input:checked + .toggle-bg {
     width: 280px;
   }
 
-  .xxsm\:max-w-full {
-    max-width: 100%;
-  }
-
   .xxsm\:-translate-x-1\/2 {
     --tw-translate-x: -50%;
     transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
@@ -5173,10 +5201,6 @@ input:checked + .toggle-bg {
     display: none;
   }
 
-  .md\:h-\[200px\] {
-    height: 200px;
-  }
-
   .md\:h-\[25rem\] {
     height: 25rem;
   }
@@ -5187,6 +5211,10 @@ input:checked + .toggle-bg {
 
   .md\:h-\[50px\] {
     height: 50px;
+  }
+
+  .md\:h-\[200px\] {
+    height: 200px;
   }
 
   .md\:min-h-fit {
@@ -5214,12 +5242,12 @@ input:checked + .toggle-bg {
     width: 650px;
   }
 
-  .md\:w-\[800px\] {
-    width: 800px;
-  }
-
   .md\:w-auto {
     width: auto;
+  }
+
+  .md\:w-\[800px\] {
+    width: 800px;
   }
 
   .md\:-translate-y-36 {
@@ -5376,10 +5404,6 @@ input:checked + .toggle-bg {
     width: 800px;
   }
 
-  .lg\:max-w-full {
-    max-width: 100%;
-  }
-
   .lg\:-translate-x-1\/2 {
     --tw-translate-x: -50%;
     transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
@@ -5515,9 +5539,19 @@ input:checked + .toggle-bg {
     line-height: 1.75rem;
   }
 
+  .xl\:text-sm {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+
   .xl\:text-xl {
     font-size: 1.25rem;
     line-height: 1.75rem;
+  }
+
+  .xl\:text-xs {
+    font-size: 0.75rem;
+    line-height: 1rem;
   }
 }
 
@@ -5536,10 +5570,6 @@ input:checked + .toggle-bg {
 
   .\32xl\:h-\[800px\] {
     height: 800px;
-  }
-
-  .\32xl\:w-\[1000px\] {
-    width: 1000px;
   }
 
   .\32xl\:w-\[120px\] {

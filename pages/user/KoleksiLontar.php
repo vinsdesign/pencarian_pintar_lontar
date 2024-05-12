@@ -100,51 +100,54 @@
         </div>
         <!-- end carousel image -->
     </header>
+    <main>
+        <div class="flex justify-center flex-wrap flex-row gap-5">
+            <?php
+            require_once '../../apps/ViewLontar.php';
 
-    <main class="flex flex-col gap-5">
-        <?php
-        require_once '../../apps/ViewLontar.php';
+            // pagination
+            $jmlhDataPerHalaman = 10;
+            $result = $sparql->query($query);
+            $jumlahData = 0;
+            foreach ($result as $row) {
+                $jumlahData++;
+            }
+            $jumlahHalaman = ceil($jumlahData / $jmlhDataPerHalaman); //round-> Pembulatan ke atas
+            $halamanAktif = (isset($_GET['halaman'])) ? $_GET['halaman'] : 1;
+            //halaman aktif
+            $awalData = ($jmlhDataPerHalaman * $halamanAktif) - $jmlhDataPerHalaman;
+            $hasil = $sparql->query($query . "LIMIT $jmlhDataPerHalaman OFFSET $awalData");
 
-        // pagination
-        $jmlhDataPerHalaman = 10;
-        $result = $sparql->query($query);
-        $jumlahData = 0;
-        foreach ($result as $row) {
-            $jumlahData++;
-        }
-        $jumlahHalaman = ceil($jumlahData / $jmlhDataPerHalaman); //round-> Pembulatan ke atas
-        $halamanAktif = (isset($_GET['halaman'])) ? $_GET['halaman'] : 1;
-        //halaman aktif
-        $awalData = ($jmlhDataPerHalaman * $halamanAktif) - $jmlhDataPerHalaman;
-        $hasil = $sparql->query($query . "LIMIT $jmlhDataPerHalaman OFFSET $awalData");
-
-        foreach ($hasil as $data) :
-        ?>
-            <!-- Koleksi Lontar -->
-            <div class="flex justify-center items-center mt-5 ">
-                <div class="flex xxsm:flex-col md:flex-row items-center rounded-lg xxsm:w-[250px] xsm:w-[280px] base:w-[360px] sm:w-[560px] md:w-[650px] lg:w-[800px] xl:w-[900px] 2xl:w-[1000px] max-h-full shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] xxsm:flex">
-                    <div class="flex flex-col justify-between p-4 leading-normal xxsm:order-2 md:order-none md:text-sm lg:text-base">
-                        <input type="hidden" name="title" value="<?= $data->title ?>">
-                        <h2 class="xl:card-title text-darkBlue font-montsBold xxsm:text-lg base:text-xl xl:text-2xl">
-                            <?= $data->title ?>
-                        </h2>
-                        <h2 class="font-montsMedium text-mediumBlue xl:text-lg">
-                            <?= $data->title ?> | <?= $data->year ?> | <?= $data->area ?>, <?= $data->regency ?>
-                        </h2>
-                        <p class="font-montserrat text-justify xl:text-md">
-                            Detail Deskripsi Lengkap Lontar, judul lontar : <?= $data->title ?>, tipe bahan:
-                            <?= $data->type ?>, subjek: <?= $data->subject ?>, klasifikasi: <?= $data->classification ?>,
-                            bahasa: <?= $data->language ?>, <a href="/pencarian_pintar_lontar/pages/user/DetailLontar.php?id=<?= $data->title ?>" class="text-orangePastel">Selengkapnya</a>
-                        </p>
-
+            foreach ($hasil as $data) :
+            ?>
+                <!-- Koleksi Lontar -->
+                <div class="flex justify-center  items-center mt-5 ">
+                    <div class="flex xxsm:flex-col  md:flex-row items-center rounded-lg xxsm:w-[250px] xsm:w-[280px] base:w-[360px] sm:w-[560px] md:w-[650px] lg:w-[800px] xl:w-[900px] 2xl:w-[700px] max-h-full shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] xxsm:flex">
+                        <div class="flex flex-col justify-between p-4 leading-normal xxsm:order-2 md:order-none md:text-sm lg:text-base">
+                            <input type="hidden" name="title" value="<?= $data->title ?>">
+                            <h2 class="xl:card-title text-darkBlue font-montsBold xxsm:text-lg base:text-xl xl:text-lg">
+                                <?= $data->title ?>
+                            </h2>
+                            <h2 class="font-montsMedium text-mediumBlue xl:text-sm">
+                                <?= $data->title ?> | <?= $data->year ?> | <?= $data->area ?>, <?= $data->regency ?>
+                            </h2>
+                            <p class="font-montserrat text-justify xl:text-sm">
+                                Detail Deskripsi Lengkap Lontar, judul lontar : <?= $data->title ?>, tipe bahan:
+                                <?= $data->type ?>, subjek: <?= $data->subject ?>, klasifikasi: <?= $data->classification ?>,
+                                bahasa: <?= $data->language ?>, <a href="/pencarian_pintar_lontar/pages/user/DetailLontar.php?id=<?= $data->title ?>" class="text-orangePastel">Selengkapnya</a>
+                            </p>
+                        </div>
+                        <figure class="xxsm:order-1 md:order-none ">
+                            <img class="w-80 h-72 xxsm:rounded-t-lg md:rounded-t-none md:rounded-tr-lg object-cover md:rounded-br-lg lg:rounded-r-lg" src="../../image_base/<?= $data->resource; ?>" alt="image">
+                        </figure>
                     </div>
-                    <figure class="xxsm:order-1 md:order-none object-cover">
-                        <img class="bg-cover xxsm:max-w-full lg:max-w-full md:w-[800px] md:h-[200px] lg:h-full  xxsm:rounded-t-lg md:rounded-t-none md:rounded-tr-lg md:rounded-br-lg lg:rounded-r-lg" src="../../image_base/<?= $data->resource; ?>" alt="image">
-                    </figure>
                 </div>
-            </div>
-        <?php endforeach; ?>
 
+
+            <?php endforeach; ?>
+
+
+        </div>
         <!-- end KoleksiLontar -->
         <div class="flex justify-center">
             <!-- pagination -->
@@ -176,7 +179,6 @@
             </nav>
         </div>
     </main>
-
     <!-- Footer -->
     <footer class="w-full bg-darkBlue xxsm:px-4 xsm:px-8 sm:px-12 px-16 py-8 mt-16 text-white">
         <a href="#beranda">
