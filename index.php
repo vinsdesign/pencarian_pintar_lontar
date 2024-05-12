@@ -153,7 +153,7 @@
                 berkurang
                 <a href="https://instiki.ac.id/2021/11/19/sejarah-aksara-bali-yang-ditulis-di-daun-lontar/" class="text-orangePastel">Selengkapnya</a>.
             </p>
-            <img src="../../../../public/assets/Tulis_Lontar.jpg" class="xxsm:w-[280px] xsm:w-[450px] sm:w-[500px] lg:w-[500px] md:w-[600px] xl:w-[400px] 2xl:w-[450px] xsm:order-1 xxsm:order-1 sm:order-1 md:order-1 lg:order-2" alt="Tulis-lontar" />
+            <img src="public/assets/Tulis_Lontar.jpg" class="xxsm:w-[280px] xsm:w-[450px] sm:w-[500px] lg:w-[500px] md:w-[600px] xl:w-[400px] 2xl:w-[450px] xsm:order-1 xxsm:order-1 sm:order-1 md:order-1 lg:order-2" alt="Tulis-lontar" />
         </div>
     </section>
     <!-- end sejarah lontar -->

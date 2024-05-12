@@ -120,47 +120,10 @@
                     <table class="w-full text-sm text-left pb-5 rtl:text-right text-mediumBlue dark:text-gray-400">
                         <tbody>
                             <?php
-                            // arahkan ke folder file sparql-lib
-                            require_once("../../sparql-lib/sparqllib.php");
-                            $koneksi_query = "http://localhost:3030/lontar/query"; // untuk mengelola query seperti menampilkan data  
-                            $id = $_GET['id'];
-
-                            // query menampilkan data
-                            $sparql = sparql_get(
-                                $koneksi_query,
-                                "
-                                PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-                                PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#>
-                                PREFIX owl:<http://www.w3.org/2002/07/owl#>
-                                PREFIX xml:<http://www.w3.org/XML/1998/namespace#>
-                                PREFIX xsd:<http://www.w3.org/2001/XMLSchema#>
-                                PREFIX lontar:<http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#>
-                                
-                                SELECT *
-                                WHERE {
-                                    ?lontar lontar:title '$id';
-                                            lontar:title ?title;
-                                            lontar:type ?type;
-                                            lontar:subject ?subject;
-                                            lontar:classification ?classification;
-                                            lontar:language ?language;
-                                            lontar:collation ?collation;
-                                            lontar:year ?year;
-                                            lontar:length ?length;
-                                            lontar:width ?width;
-                                            lontar:resource ?resource;
-                                            lontar:createBy ?person;
-                                            lontar:comeFrom ?origin;
-                                            lontar:saveIn ?place.
-                                    ?person lontar:author ?author.
-                                    ?origin lontar:area ?area;
-                                            lontar:regency ?regency.
-                                    ?place  lontar:placename ?placename;
-                                            lontar:location ?location;
-                                            lontar:hasSave ?lontar. 
-                                }"
-                            );
-                            foreach ($sparql as $row) :
+                            // arahkan ke view lontar
+                            require_once "../../apps/ViewLontar.php";
+                            $result = $sparql->query($query);
+                            foreach ($result as $row) :
                             ?>
                                 <tr class="border-b border-gray-200 bg-lightSecondary">
                                     <th scope="row" class="pl-5 w-36 font-montsMedium">
@@ -170,7 +133,7 @@
                                         :
                                     </td>n
                                     <td class="px-0 py-4">
-                                        <?= $row['title']; ?>
+                                        <?= $row->title; ?>
                                     </td>
                                 </tr>
                                 <tr class="border-b border-gray-200">
@@ -181,7 +144,7 @@
                                         :
                                     </td>
                                     <td class="px-0 py-4">
-                                        <?= $row['type']; ?>
+                                        <?= $row->type; ?>
                                     </td>
                                 </tr>
                                 <tr class="border-b border-gray-200 bg-lightSecondary">
@@ -192,7 +155,7 @@
                                         :
                                     </td>
                                     <td class="px-0 py-4">
-                                        <?= $row['author']; ?>
+                                        <?= $row->author; ?>
                                     </td>
                                 </tr>
                                 <tr class="border-b border-gray-200">
@@ -203,7 +166,7 @@
                                         :
                                     </td>
                                     <td class="px-0 py-4">
-                                        <?= $row['subject']; ?>
+                                        <?= $row->subject; ?>
                                     </td>
                                 </tr>
                                 <tr class="border-b border-gray-200 bg-lightSecondary">
@@ -214,7 +177,7 @@
                                         :
                                     </td>
                                     <td class="px-0 py-4">
-                                        <?= $row['classification']; ?>
+                                        <?= $row->classification; ?>
                                     </td>
                                 </tr>
                                 <tr class="border-b border-gray-200">
@@ -225,7 +188,7 @@
                                         :
                                     </td>
                                     <td class="px-0 py-4">
-                                        <?= $row['language']; ?>
+                                        <?= $row->language; ?>
                                     </td>
                                 </tr>
                                 <tr class="border-b border-gray-200 bg-lightSecondary">
@@ -236,7 +199,7 @@
                                         :
                                     </td>
                                     <td class="px-0 py-4">
-                                        <?= $row['year']; ?>
+                                        <?= $row->year; ?>
                                     </td>
                                 </tr>
                                 <tr class="border-b border-gray-200">
@@ -247,7 +210,7 @@
                                         :
                                     </td>
                                     <td class="px-0 py-4">
-                                        <?= $row['collation']; ?>
+                                        <?= $row->collaction; ?>
                                     </td>
                                 </tr>
                                 <tr class="border-b border-gray-200 bg-lightSecondary">
@@ -258,7 +221,7 @@
                                         :
                                     </td>
                                     <td class="px-0 py-4">
-                                        <?= $row['length']; ?>
+                                        <?= $row->length; ?>
                                     </td>
                                 </tr>
                                 <tr class="border-b border-gray-200">
@@ -269,7 +232,7 @@
                                         :
                                     </td>
                                     <td class="px-0 py-4">
-                                        <?= $row['width']; ?>
+                                        <?= $row->width; ?>
                                     </td>
                                 </tr>
                                 <tr class="border-b border-gray-200 bg-lightSecondary">
@@ -280,7 +243,7 @@
                                         :
                                     </td>
                                     <td class="px-0 py-4">
-                                        <?= $row['placename']; ?>
+                                        <?= $row->placename; ?>
                                     </td>
                                 </tr>
                                 <tr class="border-b border-gray-200">
@@ -291,7 +254,7 @@
                                         :
                                     </td>
                                     <td class="px-0 py-4">
-                                        <?= $row['location']; ?>
+                                        <?= $row->location; ?>
                                     </td>
                                 </tr>
                                 <tr class="border-b border-gray-200 bg-lightSecondary">
@@ -302,7 +265,7 @@
                                         :
                                     </td>
                                     <td class="px-0 py-4">
-                                        <?= $row['area']; ?>
+                                        <?= $row->area; ?>
                                     </td>
                                 </tr>
                                 <tr class="border-b border-gray-200 bg-lightSecondary">
@@ -313,7 +276,7 @@
                                         :
                                     </td>
                                     <td class="px-0 py-4">
-                                        <?= $row['regency']; ?>
+                                        <?= $row->regency; ?>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

@@ -106,7 +106,7 @@
         require_once '../../apps/ViewLontar.php';
 
         // pagination
-        $jmlhDataPerHalaman = 4;
+        $jmlhDataPerHalaman = 10;
         $result = $sparql->query($query);
         $jumlahData = 0;
         foreach ($result as $row) {
@@ -134,12 +134,12 @@
                         <p class="font-montserrat text-justify xl:text-md">
                             Detail Deskripsi Lengkap Lontar, judul lontar : <?= $data->title ?>, tipe bahan:
                             <?= $data->type ?>, subjek: <?= $data->subject ?>, klasifikasi: <?= $data->classification ?>,
-                            bahasa: <?= $data->language ?>, <a href="/pencarian_pintar_lontar/pages/user/DetailLontar.php?id=<?= $data->resource ?>" class="text-orangePastel">Selengkapnya</a>
+                            bahasa: <?= $data->language ?>, <a href="/pencarian_pintar_lontar/pages/user/DetailLontar.php?id=<?= $data->title ?>" class="text-orangePastel">Selengkapnya</a>
                         </p>
 
                     </div>
                     <figure class="xxsm:order-1 md:order-none object-cover">
-                        <img class="bg-cover xxsm:max-w-full lg:max-w-full md:w-[800px] md:h-[200px] lg:h-full  xxsm:rounded-t-lg md:rounded-t-none md:rounded-tr-lg md:rounded-br-lg lg:rounded-r-lg" src="../../public/assets/Tulis_Lontar.jpg" alt="image">
+                        <img class="bg-cover xxsm:max-w-full lg:max-w-full md:w-[800px] md:h-[200px] lg:h-full  xxsm:rounded-t-lg md:rounded-t-none md:rounded-tr-lg md:rounded-br-lg lg:rounded-r-lg" src="../../image_base/<?= $data->resource; ?>" alt="image">
                     </figure>
                 </div>
             </div>
@@ -175,7 +175,6 @@
                 </ul>
             </nav>
         </div>
-
     </main>
 
     <!-- Footer -->
