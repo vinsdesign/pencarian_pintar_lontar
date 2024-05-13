@@ -58,7 +58,7 @@
         </section>
         <!-- end search component -->
         <!-- carousel image -->
-        <div id="default-carousel" class="relative w-full" data-carousel="slide">
+        <div id="default-carousel" class="relative w-full mb-5" data-carousel="slide">
             <!-- Carousel wrapper -->
             <div class="relative xxsm:h-56 base:h-60 sm:h-72 md:h-[25rem] lg:h-96 overflow-hidden xl:h-[30rem] 2xl:h-[35rem]">
                 <!-- Item 1 -->
@@ -121,7 +121,7 @@
             foreach ($hasil as $data) :
             ?>
                 <!-- Koleksi Lontar -->
-                <div class="flex justify-center  items-center mt-5 ">
+                <div class="flex justify-center  items-center mt-4 ">
                     <div class="flex xxsm:flex-col  md:flex-row items-center rounded-lg xxsm:w-[250px] xsm:w-[280px] base:w-[360px] sm:w-[560px] md:w-[650px] lg:w-[800px] xl:w-[900px] 2xl:w-[700px] max-h-full shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] xxsm:flex">
                         <div class="flex flex-col justify-between p-4 leading-normal xxsm:order-2 md:order-none md:text-sm lg:text-base">
                             <input type="hidden" name="title" value="<?= $data->title ?>">
