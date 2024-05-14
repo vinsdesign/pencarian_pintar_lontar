@@ -44,13 +44,13 @@
                 Mulai Eksplorasi
                 <span class="font-montsBold text-orangePastel">Pencarian Lontar</span>
             </h1>
-            <form action="" class="">
+            <form action="" method="post" class="">
                 <div class="flex m-0 drop-shadow-[1px_4px_43.4px_rgba(0,0,0,0.50)]">
                     <div class="relative flex items-center text-lightSecondary focus-within:text-mediumBlue">
                         <i class="fa-solid fa-magnifying-glass absolute xxsm:text-base lg:text-xl 2xl:text-2xl xxsm:mt-2 xxsm:ml-3 mt-5 ml-5 text-mediumBlue" name="search"></i>
-                        <input type="text" placeholder="Cari Lontar" name="cari" autocomplete="off" aria-label="Cari Lontar" class="mt-5 xxsm:mt-2 xxsm:pl-12 px-16 placeholder-darkSecondary focus:placeholder-lightBlue xxsm:w-[200px] xxsm:h-9 sm:text-xl xsm:w-[250px] xsm:h-9 sm:w-[350px] sm:h-10 md:text-xl lg:text-2xl md:w-[300px] md:h-[50px] lg:w-[400px] lg:h-[55px] xl:w-[500px] xl:h-[60px] 2xl:w-[700px] 2xl:h-[70px] rounded-s-[15px] border-none ring-2 ring-mediumBlue focus:ring-orangePastel focus:ring-2" />
+                        <input type="text" placeholder="Cari Lontar" name="keyword" autocomplete="off" aria-label="Cari Lontar" class="mt-5 xxsm:mt-2 xxsm:pl-12 px-16 placeholder-darkSecondary focus:placeholder-lightBlue xxsm:w-[200px] xxsm:h-9 sm:text-xl xsm:w-[250px] xsm:h-9 sm:w-[350px] sm:h-10 md:text-xl lg:text-2xl md:w-[300px] md:h-[50px] lg:w-[400px] lg:h-[55px] xl:w-[500px] xl:h-[60px] 2xl:w-[700px] 2xl:h-[70px] rounded-s-[15px] border-none ring-2 ring-mediumBlue focus:ring-orangePastel focus:ring-2" />
                     </div>
-                    <button type="submit" class="bg-mediumBlue xxsm:mt-2 xxsm:text-base sm:px-3 xsm:text-lg xxsm:px-3 xsm:px-3 sm:text-xl md:text-2xl xl:text-3xl md:w-[100px] md:h-[50px] lg:w-[110px] lg:h-[55px] xl:w-[120px] xl:h-[60px] 2xl:w-[120px] 2xl:h-[70px] mt-5 text-orangePastel text-[24px] rounded-r-[15px] ring-2 ring-mediumBlue">
+                    <button type="submit" name="btn_keyword" class="bg-mediumBlue xxsm:mt-2 xxsm:text-base sm:px-3 xsm:text-lg xxsm:px-3 xsm:px-3 sm:text-xl md:text-2xl xl:text-3xl md:w-[100px] md:h-[50px] lg:w-[110px] lg:h-[55px] xl:w-[120px] xl:h-[60px] 2xl:w-[120px] 2xl:h-[70px] mt-5 text-orangePastel text-[24px] rounded-r-[15px] ring-2 ring-mediumBlue">
                         Cari
                     </button>
                 </div>
@@ -105,48 +105,118 @@
             <?php
             require_once '../../apps/ViewLontar.php';
 
+            if (isset($_POST['btn_keyword'])) {
+                $key = $_POST['keyword'];
+                $sparql = new \EasyRdf\Sparql\Client('http://localhost:3030/pencarian_lontar/query');
+                $query = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                PREFIX lontar: <http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#>
+                
+                SELECT *
+                WHERE {
+                    BIND('$key' AS ?keyword)
+                    
+                    ?lontar lontar:title ?title;
+                            lontar:type ?type;
+                            lontar:subject ?subject;
+                            lontar:classification ?classification;
+                            lontar:language ?language;
+                            lontar:collation ?collation;
+                            lontar:year ?year;
+                            lontar:length ?length;
+                            lontar:width ?width;
+                            lontar:resource ?resource;
+                            lontar:createBy ?person;
+                            lontar:comeFrom ?origin;
+                            lontar:saveIn ?place.
+                    ?person lontar:author ?author.
+                    ?origin lontar:area ?area;
+                            lontar:regency ?regency.
+                    ?place  lontar:placename ?placename;
+                            lontar:location ?location;
+                            lontar:hasSave ?lontar.
+                    
+                    FILTER(
+                        CONTAINS(LCASE(?title), LCASE(?keyword)) ||
+                        CONTAINS(LCASE(?author), LCASE(?keyword)) ||
+                        CONTAINS(LCASE(?year), LCASE(?keyword)) ||
+                        CONTAINS(LCASE(?type), LCASE(?keyword)) ||
+                        CONTAINS(LCASE(?subject), LCASE(?keyword)) ||
+                        CONTAINS(LCASE(?classification), LCASE(?keyword)) ||
+                        CONTAINS(LCASE(?language), LCASE(?keyword)) ||
+                        CONTAINS(LCASE(?placename), LCASE(?keyword))
+                    )
+                }";
+            } else {
+                $query = "SELECT *
+                WHERE {
+                    ?lontar lontar:title ?title;
+                            lontar:type ?type;
+                            lontar:subject ?subject;
+                            lontar:classification ?classification;
+                            lontar:language ?language;
+                            lontar:collation ?collation;
+                            lontar:year ?year;
+                            lontar:length ?length;
+                            lontar:width ?width;
+                            lontar:resource ?resource;
+                            lontar:createBy ?person;
+                            lontar:comeFrom ?origin;
+                            lontar:saveIn ?place.
+                    ?person lontar:author ?author.
+                    ?origin lontar:area	?area;
+                            lontar:regency ?regency.
+                    ?place  lontar:placename ?placename;
+                            lontar:location ?location;
+                            lontar:hasSave ?lontar.	
+                }";
+            }
+
             // pagination
             $jmlhDataPerHalaman = 10;
             $result = $sparql->query($query);
-            $jumlahData = 0;
-            foreach ($result as $row) {
-                $jumlahData++;
-            }
+            $jumlahData = count($result);
             $jumlahHalaman = ceil($jumlahData / $jmlhDataPerHalaman); //round-> Pembulatan ke atas
             $halamanAktif = (isset($_GET['halaman'])) ? $_GET['halaman'] : 1;
             //halaman aktif
             $awalData = ($jmlhDataPerHalaman * $halamanAktif) - $jmlhDataPerHalaman;
+
             $hasil = $sparql->query($query . "LIMIT $jmlhDataPerHalaman OFFSET $awalData");
-
-            foreach ($hasil as $data) :
+            // Memeriksa apakah ada hasil dari pencarian
+            if (isset($hasil) && count($hasil) > 0) {
+                foreach ($hasil as $data) :
             ?>
-                <!-- Koleksi Lontar -->
-                <div class="flex justify-center  items-center mt-4 ">
-                    <div class="flex xxsm:flex-col  md:flex-row items-center rounded-lg xxsm:w-[250px] xsm:w-[280px] base:w-[360px] sm:w-[560px] md:w-[650px] lg:w-[800px] xl:w-[900px] 2xl:w-[700px] max-h-full shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] xxsm:flex">
-                        <div class="flex flex-col justify-between p-4 leading-normal xxsm:order-2 md:order-none md:text-sm lg:text-base">
-                            <input type="hidden" name="title" value="<?= $data->title ?>">
-                            <h2 class="xl:card-title text-darkBlue font-montsBold xxsm:text-lg base:text-xl xl:text-lg">
-                                <?= $data->title ?>
-                            </h2>
-                            <h2 class="font-montsMedium text-mediumBlue xl:text-sm">
-                                <?= $data->title ?> | <?= $data->year ?> | <?= $data->area ?>, <?= $data->regency ?>
-                            </h2>
-                            <p class="font-montserrat text-justify xl:text-sm">
-                                Detail Deskripsi Lengkap Lontar, judul lontar : <?= $data->title ?>, tipe bahan:
-                                <?= $data->type ?>, subjek: <?= $data->subject ?>, klasifikasi: <?= $data->classification ?>,
-                                bahasa: <?= $data->language ?>, <a href="/pencarian_pintar_lontar/pages/user/DetailLontar.php?id=<?= $data->title ?>" class="text-orangePastel">Selengkapnya</a>
-                            </p>
+                    <!-- Koleksi Lontar -->
+                    <div class="flex justify-center  items-center mt-4 ">
+                        <div class="flex xxsm:flex-col  md:flex-row items-center rounded-lg xxsm:w-[250px] xsm:w-[280px] base:w-[360px] sm:w-[560px] md:w-[650px] lg:w-[800px] xl:w-[900px] 2xl:w-[700px] max-h-full shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] xxsm:flex">
+                            <div class="flex flex-col justify-between p-4 leading-normal xxsm:order-2 md:order-none md:text-sm lg:text-base">
+                                <input type="hidden" name="title" value="<?= $data->title ?>">
+                                <h2 class="xl:card-title text-darkBlue font-montsBold xxsm:text-lg base:text-xl xl:text-lg">
+                                    <?= $data->title ?>
+                                </h2>
+                                <h2 class="font-montsMedium text-mediumBlue xl:text-sm">
+                                    <?= $data->title ?> | <?= $data->year ?> | <?= $data->area ?>, <?= $data->regency ?>
+                                </h2>
+                                <p class="font-montserrat text-justify xl:text-sm">
+                                    Detail Deskripsi Lengkap Lontar, judul lontar : <?= $data->title ?>, tipe bahan:
+                                    <?= $data->type ?>, subjek: <?= $data->subject ?>, klasifikasi: <?= $data->classification ?>,
+                                    bahasa: <?= $data->language ?>, <a href="/pencarian_pintar_lontar/pages/user/DetailLontar.php?id=<?= $data->title ?>" class="text-orangePastel">Selengkapnya</a>
+                                </p>
+                            </div>
+                            <figure class="xxsm:order-1 md:order-none ">
+                                <img class=" xxsm:rounded-t-lg md:rounded-t-none md:rounded-tr-lg object-cover md:rounded-br-lg lg:rounded-r-lg" src="../../image_base/<?= $data->resource; ?>" width="800px" height="288px" alt="image">
+                            </figure>
                         </div>
-                        <figure class="xxsm:order-1 md:order-none ">
-                            <img class="w-80 h-72 xxsm:rounded-t-lg md:rounded-t-none md:rounded-tr-lg object-cover md:rounded-br-lg lg:rounded-r-lg" src="../../image_base/<?= $data->resource; ?>" alt="image">
-                        </figure>
                     </div>
+                <?php endforeach;
+            } else {
+                // Jika tidak ada hasil dari pencarian, tampilkan pesan
+                ?>
+                <!-- Pesan "Maaf, data yang Anda cari tidak ditemukan" -->
+                <div class="flex justify-center flex-col items-center mt-20">
+                    <p class="text-red-500">Maaf, data yang Anda cari tidak ditemukan.</p>
+                    <p class="text-red-500">Silahkan Coba Lagi!</p>
                 </div>
-
-
-            <?php endforeach; ?>
-
-
+            <?php }; ?>
         </div>
         <!-- end KoleksiLontar -->
         <div class="flex justify-center">
