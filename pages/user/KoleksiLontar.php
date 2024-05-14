@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../../node_modules/@fortawesome/fontawesome-free/css/all.min.css">
 </head>
 
-<body class="font-montserrat">
+<body class="font-montserrat overflow-x-hidden">
     <header>
         <!-- navbar -->
         <nav class="bg-darkBlue flex justify-between items-center px-7 py-5">
@@ -58,7 +58,7 @@
         </section>
         <!-- end search component -->
         <!-- carousel image -->
-        <div id="default-carousel" class="relative w-full mb-5" data-carousel="slide">
+        <div id="default-carousel" class="relative w-full mb-5 " data-carousel="slide">
             <!-- Carousel wrapper -->
             <div class="relative xxsm:h-56 base:h-60 sm:h-72 md:h-[25rem] lg:h-96 overflow-hidden xl:h-[30rem] 2xl:h-[35rem]">
                 <!-- Item 1 -->
@@ -142,7 +142,13 @@
                         CONTAINS(LCASE(?type), LCASE(?keyword)) ||
                         CONTAINS(LCASE(?subject), LCASE(?keyword)) ||
                         CONTAINS(LCASE(?classification), LCASE(?keyword)) ||
+                        CONTAINS(LCASE(?collation), LCASE(?keyword)) ||
                         CONTAINS(LCASE(?language), LCASE(?keyword)) ||
+                        CONTAINS(STR(?length), LCASE(?keyword)) ||
+                        CONTAINS(STR(?width), LCASE(?keyword)) ||
+                        CONTAINS(LCASE(?area), LCASE(?keyword)) ||
+                        CONTAINS(LCASE(?regency), LCASE(?keyword)) ||
+                        CONTAINS(LCASE(?location), LCASE(?keyword)) ||
                         CONTAINS(LCASE(?placename), LCASE(?keyword))
                     )
                 }";
@@ -199,7 +205,7 @@
                                 <p class="font-montserrat text-justify xl:text-sm">
                                     Detail Deskripsi Lengkap Lontar, judul lontar : <?= $data->title ?>, tipe bahan:
                                     <?= $data->type ?>, subjek: <?= $data->subject ?>, klasifikasi: <?= $data->classification ?>,
-                                    bahasa: <?= $data->language ?>, <a href="/pencarian_pintar_lontar/pages/user/DetailLontar.php?id=<?= $data->title ?>" class="text-orangePastel">Selengkapnya</a>
+                                    bahasa: <?= $data->language ?> <a href="/pencarian_pintar_lontar/pages/user/DetailLontar.php?id=<?= $data->title ?>" class="text-orangePastel">Selengkapnya</a>
                                 </p>
                             </div>
                             <figure class="xxsm:order-1 md:order-none ">
@@ -213,8 +219,8 @@
                 ?>
                 <!-- Pesan "Maaf, data yang Anda cari tidak ditemukan" -->
                 <div class="flex justify-center flex-col items-center mt-20">
-                    <p class="text-red-500">Maaf, data yang Anda cari tidak ditemukan.</p>
-                    <p class="text-red-500">Silahkan Coba Lagi!</p>
+                    <p class="font-montsMedium">Maaf, data yang Anda cari tidak ditemukan.</p>
+                    <p class="font-montsMedium">Silahkan Coba Lagi!</p>
                 </div>
             <?php }; ?>
         </div>
