@@ -107,51 +107,76 @@
 
             if (isset($_POST['btn_keyword'])) {
                 $key = $_POST['keyword'];
-                $sparql = new \EasyRdf\Sparql\Client('http://localhost:3030/pencarian_lontar/query');
-                $query = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-                PREFIX lontar: <http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#>
-                
-                SELECT *
-                WHERE {
-                    BIND('$key' AS ?keyword)
-                    
-                    ?lontar lontar:title ?title;
-                            lontar:type ?type;
-                            lontar:subject ?subject;
-                            lontar:classification ?classification;
-                            lontar:language ?language;
-                            lontar:collation ?collation;
-                            lontar:year ?year;
-                            lontar:length ?length;
-                            lontar:width ?width;
-                            lontar:resource ?resource;
-                            lontar:createBy ?person;
-                            lontar:comeFrom ?origin;
-                            lontar:saveIn ?place.
-                    ?person lontar:author ?author.
-                    ?origin lontar:area ?area;
-                            lontar:regency ?regency.
-                    ?place  lontar:placename ?placename;
-                            lontar:location ?location;
-                            lontar:hasSave ?lontar.
-                    
-                    FILTER(
-                        CONTAINS(LCASE(?title), LCASE(?keyword)) ||
-                        CONTAINS(LCASE(?author), LCASE(?keyword)) ||
-                        CONTAINS(LCASE(?year), LCASE(?keyword)) ||
-                        CONTAINS(LCASE(?type), LCASE(?keyword)) ||
-                        CONTAINS(LCASE(?subject), LCASE(?keyword)) ||
-                        CONTAINS(LCASE(?classification), LCASE(?keyword)) ||
-                        CONTAINS(LCASE(?collation), LCASE(?keyword)) ||
-                        CONTAINS(LCASE(?language), LCASE(?keyword)) ||
-                        CONTAINS(STR(?length), LCASE(?keyword)) ||
-                        CONTAINS(STR(?width), LCASE(?keyword)) ||
-                        CONTAINS(LCASE(?area), LCASE(?keyword)) ||
-                        CONTAINS(LCASE(?regency), LCASE(?keyword)) ||
-                        CONTAINS(LCASE(?location), LCASE(?keyword)) ||
-                        CONTAINS(LCASE(?placename), LCASE(?keyword))
-                    )
-                }";
+                // memanggil code python
+                $command = escapeshellcmd("python nlp_processing.py " . escapeshellarg($key));
+                $output = shell_exec("$command 2>&1");
+
+                if (isset($_POST['btn_keyword'])) {
+                    $key = $_POST['keyword'];
+                    // Memanggil code python
+                    $command = escapeshellcmd("python nlp_processing.py " . escapeshellarg($key));
+                    $output = shell_exec("$command 2>&1");
+
+                    $keyword_baru = strtolower(trim($output));
+                    $keywords = explode(" ", $keyword_baru); // Memisahkan kata kunci yang dipisahkan oleh spasi
+
+                    if (!empty($keywords)) {
+                        $sparql = new \EasyRdf\Sparql\Client('http://localhost:3030/pencarian_lontar/query');
+
+                        // Buat filter untuk setiap kata kunci
+                        $filters = [];
+                        foreach ($keywords as $keyword) {
+                            $filters[] = "CONTAINS(LCASE(?title), '$keyword') ||
+                                          CONTAINS(LCASE(?author), '$keyword') ||
+                                          CONTAINS(LCASE(?year), '$keyword') ||
+                                          CONTAINS(LCASE(?type), '$keyword') ||
+                                          CONTAINS(LCASE(?subject), '$keyword') ||
+                                          CONTAINS(LCASE(?classification), '$keyword') ||
+                                          CONTAINS(LCASE(?collation), '$keyword') ||
+                                          CONTAINS(LCASE(?language), '$keyword') ||
+                                          CONTAINS(STR(?length), '$keyword') ||
+                                          CONTAINS(STR(?width), '$keyword') ||
+                                          CONTAINS(LCASE(?area), '$keyword') ||
+                                          CONTAINS(LCASE(?regency), '$keyword') ||
+                                          CONTAINS(LCASE(?location), '$keyword') ||
+                                          CONTAINS(LCASE(?placename), '$keyword')";
+                        }
+
+                        $filter_query = implode(" || ", $filters);
+
+                        $query = "
+                            PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                            PREFIX lontar: <http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#>
+                            
+                            SELECT *
+                            WHERE {
+                                ?lontar lontar:title ?title;
+                                        lontar:type ?type;
+                                        lontar:subject ?subject;
+                                        lontar:classification ?classification;
+                                        lontar:language ?language;
+                                        lontar:collation ?collation;
+                                        lontar:year ?year;
+                                        lontar:length ?length;
+                                        lontar:width ?width;
+                                        lontar:resource ?resource;
+                                        lontar:createBy ?person;
+                                        lontar:comeFrom ?origin;
+                                        lontar:saveIn ?place.
+                                ?person lontar:author ?author.
+                                ?origin lontar:area ?area;
+                                        lontar:regency ?regency.
+                                ?place  lontar:placename ?placename;
+                                        lontar:location ?location;
+                                        lontar:hasSave ?lontar.
+                                
+                                FILTER ($filter_query)
+                            }
+                        ";
+                    } else {
+                        echo "Error: Output from Python processing is empty.";
+                    }
+                }
             } else {
                 $query = "SELECT *
                 WHERE {
