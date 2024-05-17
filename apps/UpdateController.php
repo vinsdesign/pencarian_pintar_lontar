@@ -89,6 +89,54 @@ if (isset($_POST['TambahData'])) {
         </script>";
     }
 }
+if (isset($_POST['HapusData'])) {
+    $id = $_POST['id_title'];
+    $query = "
+        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+        PREFIX lontar: <http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#>
+
+        DELETE WHERE {
+            ?lontar lontar:title '$id';
+                    lontar:type ?type;
+                    lontar:subject ?subject;
+                    lontar:classification ?classification;
+                    lontar:language ?language;
+                    lontar:collation ?collation;
+                    lontar:year ?year;
+                    lontar:length ?length;
+                    lontar:width ?width;
+                    lontar:resource ?resource;
+                    lontar:createBy ?person;
+                    lontar:comeFrom ?origin;
+                    lontar:saveIn ?place.
+            ?person lontar:author ?author.
+            ?origin lontar:area ?area;
+                    lontar:regency ?regency.
+            ?place  lontar:placename ?placename;
+                    lontar:location ?location;
+                    lontar:hasSave ?lontar.
+        }
+    ";
+
+    // Membuat objek client SPARQL
+    $sparql = new \EasyRdf\Sparql\Client('http://localhost:3030/pencarian_lontar/update');
+
+    // Melakukan permintaan update dengan kueri yang telah disiapkan
+    $result = $sparql->update($query);
+
+    // Memeriksa hasil dan memberikan respons sesuai
+    if ($result) {
+        echo "<script>
+            alert('Data Berhasil Dihapus')
+            document.location.href='http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php'
+        </script>";
+    } else {
+        echo "<script>
+            alert('Gagal menambahkan data. Silakan coba lagi.')
+            document.location.href='http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php'
+        </script>";
+    }
+}
 
 function upload()
 {
