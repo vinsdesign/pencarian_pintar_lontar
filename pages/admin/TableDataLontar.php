@@ -193,7 +193,7 @@ if (!isset($_SESSION['login'])) {
                                         <div class="flex gap-2 text-lg text-darkBlue items-center">
                                             <button data-modal-target="popup-modal" data-modal-toggle="popup-modal" type="button" class="hover:text-danger"><i class="fa-solid fa-trash"></i> </button> |
                                             <button data-modal-target="static-modal-edit" data-modal-toggle="static-modal-edit" type="button" class="hover:text-orangePastel"><i class="fa-solid fa-pen-to-square"></i> </button> |
-                                            <a href="/DataLontar/detail"><button type="button" class="hover:text-success"><i class="fa-solid fa-circle-info"></i> </button> </a>
+                                            <a href="http://localhost/pencarian_pintar_lontar/pages/admin/DetailDataLontar.php?id=<?= $row->title; ?>"><button type="button" class="hover:text-success"><i class="fa-solid fa-circle-info"></i> </button> </a>
                                         </div>
                                     </td>
                                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
