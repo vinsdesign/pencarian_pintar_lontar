@@ -10,27 +10,27 @@ require "../../vendor/autoload.php";
 
 $sparql = new \EasyRdf\Sparql\Client('http://localhost:3030/pencarian_lontar/query');
 $query = "SELECT *
-WHERE {
-    ?lontar lontar:title ?title;
-            lontar:type ?type;
-            lontar:subject ?subject;
-            lontar:classification ?classification;
-            lontar:language ?language;
-            lontar:collation ?collation;
-            lontar:year ?year;
-            lontar:length ?length;
-            lontar:width ?width;
-            lontar:resource ?resource;
-            lontar:createBy ?person;
-            lontar:comeFrom ?origin;
-            lontar:saveIn ?place.
-    ?person lontar:author ?author.
-    ?origin lontar:area	?area;
-            lontar:regency ?regency.
-    ?place  lontar:placename ?placename;
-            lontar:location ?location;
-            lontar:hasSave ?lontar.	
-}";
+        WHERE {
+        ?lontar lontar:title ?title;
+                lontar:type ?type;
+                lontar:subject ?subject;
+                lontar:classification ?classification;
+                lontar:language ?language;
+                lontar:collation ?collation;
+                lontar:year ?year;
+                lontar:length ?length;
+                lontar:width ?width;
+                lontar:resource ?resource;
+                lontar:createBy ?person;
+                lontar:comeFrom ?origin;
+                lontar:saveIn ?place.
+        ?person lontar:author ?author.
+        ?origin lontar:area	?area;
+                lontar:regency ?regency.
+        ?place  lontar:placename ?placename;
+                lontar:location ?location;
+                lontar:hasSave ?lontar.	
+        }";
 
 
 

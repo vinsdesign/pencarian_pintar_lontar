@@ -1696,6 +1696,14 @@ input:checked + .toggle-bg {
   height: 700px;
 }
 
+.h-\[1000px\] {
+  height: 1000px;
+}
+
+.h-\[100px\] {
+  height: 100px;
+}
+
 .max-h-full {
   max-height: 100%;
 }
