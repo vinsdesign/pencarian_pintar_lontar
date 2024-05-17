@@ -44,7 +44,7 @@
                 Mulai Eksplorasi
                 <span class="font-montsBold text-orangePastel">Pencarian Lontar</span>
             </h1>
-            <form action="" method="post" class="">
+            <form action="http://localhost/pencarian_pintar_lontar/pages/user/KoleksiLontar.php" method="post" class="">
                 <div class="flex m-0 drop-shadow-[1px_4px_43.4px_rgba(0,0,0,0.50)]">
                     <div class="relative flex items-center text-lightSecondary focus-within:text-mediumBlue">
                         <i class="fa-solid fa-magnifying-glass absolute xxsm:text-base lg:text-xl 2xl:text-2xl xxsm:mt-2 xxsm:ml-3 mt-5 ml-5 text-mediumBlue" name="search"></i>
@@ -107,26 +107,20 @@
 
             if (isset($_POST['btn_keyword'])) {
                 $key = $_POST['keyword'];
-                // memanggil code python
+                // Memanggil code python
                 $command = escapeshellcmd("python nlp_processing.py " . escapeshellarg($key));
                 $output = shell_exec("$command 2>&1");
 
-                if (isset($_POST['btn_keyword'])) {
-                    $key = $_POST['keyword'];
-                    // Memanggil code python
-                    $command = escapeshellcmd("python nlp_processing.py " . escapeshellarg($key));
-                    $output = shell_exec("$command 2>&1");
+                $keyword_baru = strtolower(trim($output));
+                $keywords = explode(" ", $keyword_baru); // Memisahkan kata kunci yang dipisahkan oleh spasi
 
-                    $keyword_baru = strtolower(trim($output));
-                    $keywords = explode(" ", $keyword_baru); // Memisahkan kata kunci yang dipisahkan oleh spasi
+                if (!empty($keywords)) {
+                    $sparql = new \EasyRdf\Sparql\Client('http://localhost:3030/pencarian_lontar/query');
 
-                    if (!empty($keywords)) {
-                        $sparql = new \EasyRdf\Sparql\Client('http://localhost:3030/pencarian_lontar/query');
-
-                        // Buat filter untuk setiap kata kunci
-                        $filters = [];
-                        foreach ($keywords as $keyword) {
-                            $filters[] = "CONTAINS(LCASE(?title), '$keyword') ||
+                    // Buat filter untuk setiap kata kunci
+                    $filters = [];
+                    foreach ($keywords as $keyword) {
+                        $filters[] = "CONTAINS(LCASE(?title), '$keyword') ||
                                           CONTAINS(LCASE(?author), '$keyword') ||
                                           CONTAINS(LCASE(?year), '$keyword') ||
                                           CONTAINS(LCASE(?type), '$keyword') ||
@@ -140,11 +134,11 @@
                                           CONTAINS(LCASE(?regency), '$keyword') ||
                                           CONTAINS(LCASE(?location), '$keyword') ||
                                           CONTAINS(LCASE(?placename), '$keyword')";
-                        }
+                    }
 
-                        $filter_query = implode(" || ", $filters);
+                    $filter_query = implode(" || ", $filters);
 
-                        $query = "
+                    $query = "
                             PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
                             PREFIX lontar: <http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#>
                             
@@ -173,9 +167,8 @@
                                 FILTER ($filter_query)
                             }
                         ";
-                    } else {
-                        echo "Error: Output from Python processing is empty.";
-                    }
+                } else {
+                    echo "Error: Output from Python processing is empty.";
                 }
             } else {
                 $query = "SELECT *
