@@ -138,6 +138,10 @@ if (isset($_POST['HapusData'])) {
     }
 }
 
+if (isset($_POST['EditData'])) {
+}
+
+
 function upload()
 {
     $namaFile = $_FILES['upload_image']['name'];
