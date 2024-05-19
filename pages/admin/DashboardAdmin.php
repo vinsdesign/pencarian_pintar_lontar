@@ -190,7 +190,7 @@ if (!isset($_SESSION['login'])) {
                     foreach ($result as $row) :
                     ?>
                         <!-- data koleksi -->
-                        <div class="col-span-2 bg-lightSecondary h-[800px] rounded-2xl flex justify-center gap-3 items-center flex-col">
+                        <div class="col-span-2 bg-lightSecondary h-full rounded-2xl flex justify-center gap-3 items-center flex-col">
                             <div class="text-center">
                                 <h1 class="font-montsBold text-2xl">Koleksi Data Lontar</h1>
                             </div>

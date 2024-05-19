@@ -115,7 +115,7 @@
                 <div class="w-[1200px] bg-base-100 bg-cover rounded-2xl pb-4 shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)]">
 
                     <figure>
-                        <img class="w-[1200px] h-[600px] xxsm:rounded-t-2xl" src="../../image_base/<?= $row->resource; ?>" alt="Lontar" />
+                        <img class="w-[1200px] h-[700px] xxsm:rounded-t-2xl" src="../../image_base/<?= $row->resource; ?>" alt="Lontar" />
                     </figure>
                 <?php endforeach; ?>
                 <div class="mt-5 ml-5">
