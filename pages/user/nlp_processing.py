@@ -424,105 +424,105 @@
 
 
 
-# # menambahkan region
-# import nltk
-# import sys
-# from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
-# from nltk.corpus import stopwords
+# menambahkan region
+import nltk
+import sys
+from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
+from nltk.corpus import stopwords
 
-# # Unduh stop words bahasa Indonesia jika belum terunduh
-# nltk.download('stopwords')
+# Unduh stop words bahasa Indonesia jika belum terunduh
+nltk.download('stopwords')
 
-# # Memuat stop words bahasa Indonesia dari NLTK
-# stop_words = set(stopwords.words('indonesian'))
+# Memuat stop words bahasa Indonesia dari NLTK
+stop_words = set(stopwords.words('indonesian'))
 
-# # Menambahkan stop words khusus yang relevan dengan naskah lontar
-# custom_stop_words = {
-#     'lontar', 'naskah', 'teks', 'halaman', 'pada', 'yang', 'dan', 'dari', 'di', 'ke', 'untuk', 'adalah', 'oleh'
-# }
+# Menambahkan stop words khusus yang relevan dengan naskah lontar
+custom_stop_words = {
+    'lontar', 'naskah', 'teks', 'halaman', 'pada', 'yang', 'dan', 'dari', 'di', 'ke', 'untuk', 'adalah', 'oleh'
+}
 
-# # Menggabungkan stop words dasar dan custom
-# stop_words.update(custom_stop_words)
+# Menggabungkan stop words dasar dan custom
+stop_words.update(custom_stop_words)
 
-# # Kata-kata penting yang ingin ditampilkan
-# important_keywords = {
-#     "mantra", "itihasa", "weda", "lelampahan", "agama", "wariga", "babad", "tantri",
-#     "pamancangah", "satua", "cerita", "cerita wayang", "sesana/moral", "moral", "daun rontar",
-#     "3.5", "50", "karangasem", "gianyar", "buleleng", "singaraja", "tabanan", "negara",
-#     "bangli", "denpasar"
-# }
+# Kata-kata penting yang ingin ditampilkan
+important_keywords = {
+    "mantra", "itihasa", "weda", "lelampahan", "agama", "wariga", "babad", "tantri",
+    "pamancangah", "satua", "cerita", "cerita wayang", "sesana/moral", "moral", "daun rontar",
+    "3.5", "50", "karangasem", "gianyar", "buleleng", "singaraja", "tabanan", "negara",
+    "bangli", "denpasar"
+}
 
-# # Kamus sinonim sederhana
-# synonyms = {
-#     "upakara": "mantra",
-#     "sejarah": "babad",
-# }
+# Kamus sinonim sederhana
+synonyms = {
+    "upakara": "mantra",
+    "sejarah": "babad",
+}
 
-# # Daftar daerah di Bali
-# bali_regions = {
-#     "karangasem", "gianyar", "buleleng", "singaraja", "tabanan", "jembrana", "bangli", "denpasar", "klungkung", "badung"
-# }
+# Daftar daerah di Bali
+bali_regions = {
+    "karangasem", "gianyar", "buleleng", "singaraja", "tabanan", "jembrana", "bangli", "denpasar", "klungkung", "badung"
+}
 
-# def replace_keyword(word):
-#     return synonyms.get(word, word)
+def replace_keyword(word):
+    return synonyms.get(word, word)
 
-# def tokenize_input(keyword):
-#     try:
-#         # Konversi keyword ke lowercase
-#         lower_keyword = keyword.lower()
+def tokenize_input(keyword):
+    try:
+        # Konversi keyword ke lowercase
+        lower_keyword = keyword.lower()
 
-#         # Tokenisasi keyword menjadi kata-kata individual
-#         tokens = lower_keyword.split()
+        # Tokenisasi keyword menjadi kata-kata individual
+        tokens = lower_keyword.split()
 
-#         # Buat stemmer untuk bahasa Indonesia
-#         factory = StemmerFactory()
-#         stemmer = factory.create_stemmer()
+        # Buat stemmer untuk bahasa Indonesia
+        factory = StemmerFactory()
+        stemmer = factory.create_stemmer()
 
-#         # Hapus stop words
-#         filtered_tokens = [token for token in tokens if token not in stop_words]
+        # Hapus stop words
+        filtered_tokens = [token for token in tokens if token not in stop_words]
 
-#         # Lakukan stemming pada setiap kata
-#         stemmed_tokens = [stemmer.stem(token) for token in filtered_tokens]
+        # Lakukan stemming pada setiap kata
+        stemmed_tokens = [stemmer.stem(token) for token in filtered_tokens]
 
-#         # Cari kata penting yang ada dalam input
-#         important_tokens = [token for token in stemmed_tokens if token in important_keywords]
+        # Cari kata penting yang ada dalam input
+        important_tokens = [token for token in stemmed_tokens if token in important_keywords]
 
-#         # Jika tidak ada kata penting yang ditemukan, ambil kata terakhir dari tokens
-#         if not important_tokens:
-#             important_tokens = [stemmed_tokens[-1]]
+        # Jika tidak ada kata penting yang ditemukan, ambil kata terakhir dari tokens
+        if not important_tokens:
+            important_tokens = [stemmed_tokens[-1]]
 
-#         return important_tokens[0]  # Kembalikan kata penting pertama yang ditemukan
-#     except Exception as e:
-#         print("Error:", str(e))
-#         return None
+        return important_tokens[0]  # Kembalikan kata penting pertama yang ditemukan
+    except Exception as e:
+        print("Error:", str(e))
+        return None
 
-# def is_bali_region(keyword):
-#     return keyword.lower() in bali_regions
+def is_bali_region(keyword):
+    return keyword.lower() in bali_regions
 
-# if __name__ == "__main__":
-#     # Pastikan argumen keyword disediakan
-#     if len(sys.argv) != 2:
-#         print("Usage: python nlp_processing.py <keyword>")
-#         sys.exit(1)
+if __name__ == "__main__":
+    # Pastikan argumen keyword disediakan
+    if len(sys.argv) != 2:
+        print("Usage: python nlp_processing.py <keyword>")
+        sys.exit(1)
 
-#     # Baca keyword dari argumen pertama script
-#     keyword = sys.argv[1]
+    # Baca keyword dari argumen pertama script
+    keyword = sys.argv[1]
 
-#     # Jalankan fungsi tokenize_input
-#     processed_keyword = tokenize_input(keyword)
+    # Jalankan fungsi tokenize_input
+    processed_keyword = tokenize_input(keyword)
 
-#     # Ganti kata-kata dengan sinonim jika perlu
-#     replaced_keyword = replace_keyword(processed_keyword)
+    # Ganti kata-kata dengan sinonim jika perlu
+    replaced_keyword = replace_keyword(processed_keyword)
 
-#     # Cetak hasil pemrosesan
-#     if replaced_keyword is not None:
-#         print(replaced_keyword)
+    # Cetak hasil pemrosesan
+    if replaced_keyword is not None:
+        print(replaced_keyword)
 
-#     # Periksa apakah keyword adalah daerah di Bali
-#     if is_bali_region(replaced_keyword):
-#         print("Region:", replaced_keyword)
-#     else:
-#         print("General search within Bali regions")
+    # Periksa apakah keyword adalah daerah di Bali
+    if is_bali_region(replaced_keyword):
+        print("Region:", replaced_keyword)
+    else:
+        print("General search within Bali regions")
 
 
 
