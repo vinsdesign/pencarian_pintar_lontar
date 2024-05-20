@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,7 +28,7 @@
                 <ul class="text-white font-montsMedium flex md:flex-row flex-col md:items-center md:py-0 md:gap-10 gap-6 py-3">
                     <li><a class="hover:text-orangePastel" href="/pencarian_pintar_lontar/index.php">Beranda</a></li>
                     <li><a class="hover:text-orangePastel" href="/pencarian_pintar_lontar/pages/user/SejarahLontar.php">Sejarah Lontar</a></li>
-                    <li><a class="hover:text-orangePastel" href="/pencarian_pintar_lontar/pages/user/KoleksiLontar.php">Koleksi Lontar</a></li>
+                    <li><a class="hover:text-orangePastel" href="/pencarian_pintar_lontar/apps/SessionOutLontar.php">Koleksi Lontar</a></li>
                     <li><a class="hover:text-orangePastel" href="/pencarian_pintar_lontar/pages/user/TentangKami.php">Tentang Kami</a></li>
                 </ul>
             </div>
@@ -103,8 +106,13 @@
     <main>
         <div class="flex justify-center flex-wrap flex-row gap-5">
             <?php
-            session_start();
+
             require_once '../../apps/ViewLontar.php';
+            // Tambahkan debugging sesi
+            // Tambahkan debugging sesi
+            if (!isset($_SESSION)) {
+                echo "Session tidak dimulai.";
+            }
 
             // Query untuk mengambil important keywords
             $importantKeywordsQuery = "
@@ -235,17 +243,65 @@
                         FILTER ($filter_query)
                     }
                     ";
-
                     // Simpan hasil pencarian dalam sesi
-                    $_SESSION['search_results'] = $result;
+                    $_SESSION['search_results'] = $keywords;
                     $_SESSION['search_keyword'] = $key;
                 } else {
                     echo "Error: Output from Python processing is empty.";
                 }
             } elseif (isset($_SESSION['search_results'])) {
                 // Ambil hasil pencarian dari sesi
-                $result = $_SESSION['search_results'];
+                $keywords = $_SESSION['search_results'];
                 $key = $_SESSION['search_keyword'];
+                // Buat filter untuk setiap kata kunci
+                $filters = [];
+                foreach ($keywords as $keyword) {
+                    $filters[] = "CONTAINS(LCASE(?title), '$keyword') ||
+                                  CONTAINS(LCASE(?author), '$keyword') ||
+                                  CONTAINS(LCASE(?year), '$keyword') ||
+                                  CONTAINS(LCASE(?type), '$keyword') ||
+                                  CONTAINS(LCASE(?subject), '$keyword') ||
+                                  CONTAINS(LCASE(?classification), '$keyword') ||
+                                  CONTAINS(LCASE(?collation), '$keyword') ||
+                                  CONTAINS(LCASE(?language), '$keyword') ||
+                                  CONTAINS(STR(?length), '$keyword') ||
+                                  CONTAINS(STR(?width), '$keyword') ||
+                                  CONTAINS(LCASE(?area), '$keyword') ||
+                                  CONTAINS(LCASE(?regency), '$keyword') ||
+                                  CONTAINS(LCASE(?location), '$keyword') ||
+                                  CONTAINS(LCASE(?placename), '$keyword')";
+                }
+
+                $filter_query = implode(" || ", $filters);
+
+                $query = "
+                PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                PREFIX lontar: <http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#>
+                
+                SELECT *
+                WHERE {
+                    ?lontar lontar:title ?title;
+                            lontar:type ?type;
+                            lontar:subject ?subject;
+                            lontar:classification ?classification;
+                            lontar:language ?language;
+                            lontar:collation ?collation;
+                            lontar:year ?year;
+                            lontar:length ?length;
+                            lontar:width ?width;
+                            lontar:resource ?resource;
+                            lontar:createBy ?person;
+                            lontar:comeFrom ?origin;
+                            lontar:saveIn ?place.
+                    ?person lontar:author ?author.
+                    ?origin lontar:area ?area;
+                            lontar:regency ?regency.
+                    ?place  lontar:placename ?placename;
+                            lontar:location ?location;
+                            lontar:hasSave ?lontar.
+                    FILTER ($filter_query)
+                }
+                ";
             } else {
                 $query = "SELECT *
                 WHERE {
