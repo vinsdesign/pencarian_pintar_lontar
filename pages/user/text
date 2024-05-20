@@ -1,0 +1,203 @@
+<?php
+            require_once '../../apps/ViewLontar.php';
+
+            use EasyRdf\Sparql\Client;
+
+            // SPARQL endpoint URL
+            $endpoint = 'http://localhost:3030/pencarian_lontar/query';
+            $sparql = new Client($endpoint);
+
+            // Query untuk mengambil important keywords
+            $importantKeywordsQuery = "
+                PREFIX lontar: <http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#>
+
+                SELECT ?keyword WHERE {
+                    {
+                        ?s lontar:title ?keyword .
+                    } UNION {
+                        ?s lontar:type ?keyword .
+                    } UNION {
+                        ?s lontar:subject ?keyword .
+                    } UNION {
+                        ?s lontar:classification ?keyword .
+                    } UNION {
+                        ?s lontar:language ?keyword .
+                    } UNION {
+                        ?s lontar:collation ?keyword .
+                    } UNION {
+                        ?s lontar:year ?keyword .
+                    } UNION {
+                        ?s lontar:length ?keyword .
+                    } UNION {
+                        ?s lontar:width ?keyword .
+                    } UNION {
+                        ?s lontar:resource ?keyword .
+                    } UNION {
+                        ?s lontar:createBy ?keyword .
+                    } UNION {
+                        ?s lontar:comeFrom ?keyword .
+                    } UNION {
+                        ?s lontar:saveIn ?keyword .
+                    } UNION {
+                        ?person lontar:author ?keyword .
+                    } UNION {
+                        ?origin lontar:area ?keyword .
+                    } UNION {
+                        ?origin lontar:regency ?keyword .
+                    } UNION {
+                        ?place lontar:placename ?keyword .
+                    } UNION {
+                        ?place lontar:location ?keyword .
+                    }
+                }
+                ";
+            $importantKeywordsResults = $sparql->query($importantKeywordsQuery);
+
+            $importantKeywords = [];
+
+            foreach ($importantKeywordsResults as $result) {
+                $importantKeywords[] = $result->keyword->getValue();
+            }
+
+            if (isset($_POST['btn_keyword'])) {
+                $key = $_POST['keyword'];
+                // Encode data as JSON to pass to Python script
+                $data = json_encode([
+                    'keyword' => $key,
+                    'stop_words' => $stopWords,
+                    'important_keywords' => $importantKeywords
+                ]);
+
+                // Memanggil code python dengan data yang diencode sebagai argumen
+                $command = escapeshellcmd("python nlp_processing.py " . escapeshellarg($data));
+                $output = shell_exec("$command 2>&1");
+
+                $keyword_baru = strtolower(trim($output));
+                $keywords = explode(" ", $keyword_baru); // Memisahkan kata kunci yang dipisahkan oleh spasi
+
+                if (!empty($keywords)) {
+                    $filters = [];
+                    foreach ($keywords as $keyword) {
+                        $filters[] = "CONTAINS(LCASE(?title), '$keyword') ||
+                          CONTAINS(LCASE(?author), '$keyword') ||
+                          CONTAINS(LCASE(?year), '$keyword') ||
+                          CONTAINS(LCASE(?type), '$keyword') ||
+                          CONTAINS(LCASE(?subject), '$keyword') ||
+                          CONTAINS(LCASE(?classification), '$keyword') ||
+                          CONTAINS(LCASE(?collation), '$keyword') ||
+                          CONTAINS(LCASE(?language), '$keyword') ||
+                          CONTAINS(STR(?length), '$keyword') ||
+                          CONTAINS(STR(?width), '$keyword') ||
+                          CONTAINS(LCASE(?area), '$keyword') ||
+                          CONTAINS(LCASE(?regency), '$keyword') ||
+                          CONTAINS(LCASE(?location), '$keyword') ||
+                          CONTAINS(LCASE(?placename), '$keyword')";
+                    }
+
+                    $filter_query = implode(" || ", $filters);
+
+                    $query = "
+                        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                        PREFIX lontar: <http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#>
+                        
+                        SELECT *
+                        WHERE {
+                            ?lontar lontar:title ?title;
+                                    lontar:type ?type;
+                                    lontar:subject ?subject;
+                                    lontar:classification ?classification;
+                                    lontar:language ?language;
+                                    lontar:collation ?collation;
+                                    lontar:year ?year;
+                                    lontar:length ?length;
+                                    lontar:width ?width;
+                                    lontar:resource ?resource;
+                                    lontar:createBy ?person;
+                                    lontar:comeFrom ?origin;
+                                    lontar:saveIn ?place.
+                            ?person lontar:author ?author.
+                            ?origin lontar:area ?area;
+                                    lontar:regency ?regency.
+                            ?place  lontar:placename ?placename;
+                                    lontar:location ?location;
+                                    lontar:hasSave ?lontar.
+                            
+                            FILTER ($filter_query)
+                        }
+                        ";
+                } else {
+                    echo "Error: Output from Python processing is empty.";
+                }
+            } else {
+                $query = "SELECT *
+                WHERE {
+                    ?lontar lontar:title ?title;
+                            lontar:type ?type;
+                            lontar:subject ?subject;
+                            lontar:classification ?classification;
+                            lontar:language ?language;
+                            lontar:collation ?collation;
+                            lontar:year ?year;
+                            lontar:length ?length;
+                            lontar:width ?width;
+                            lontar:resource ?resource;
+                            lontar:createBy ?person;
+                            lontar:comeFrom ?origin;
+                            lontar:saveIn ?place.
+                    ?person lontar:author ?author.
+                    ?origin lontar:area	?area;
+                            lontar:regency ?regency.
+                    ?place  lontar:placename ?placename;
+                            lontar:location ?location;
+                            lontar:hasSave ?lontar.	
+                }";
+            }
+
+            // pagination
+            $jmlhDataPerHalaman = 10;
+            $result = $sparql->query($query);
+            $jumlahData = count($result);
+            $jumlahHalaman = ceil($jumlahData / $jmlhDataPerHalaman); //round-> Pembulatan ke atas
+            $halamanAktif = (isset($_GET['halaman'])) ? $_GET['halaman'] : 1;
+            //halaman aktif
+            $awalData = ($jmlhDataPerHalaman * $halamanAktif) - $jmlhDataPerHalaman;
+
+            $hasil = $sparql->query($query . "LIMIT $jmlhDataPerHalaman OFFSET $awalData");
+            // Memeriksa apakah ada hasil dari pencarian
+            if (isset($hasil) && count($hasil) > 0) {
+                foreach ($hasil as $data) :
+            ?>
+
+
+// $importantKeywords = [];
+
+            // foreach ($importantKeywordsResults as $result) {
+            //     $keyword = null;
+            //     $keyword = $result->keyword->getValue();
+            // }
+            // $importantKeywords[] = $keyword;
+
+            // foreach ($importantKeywordsResults as $result) {
+            //     $keyword = null;
+            //     // Memeriksa apakah nilai hasil adalah objek Resource
+            //     if ($result->keyword instanceof EasyRdf\Resource) {
+            //         // Memeriksa apakah objek resource terkait dengan graf
+            //         if ($result->keyword->getGraph() !== null) {
+            //             // Jika ya, gunakan label jika tersedia
+            //             $label = $result->keyword->label();
+            //             if ($label !== null) {
+            //                 $keyword = $label;
+            //             } else {
+            //                 // Jika tidak ada label, gunakan URI sebagai nilai
+            //                 $keyword = $result->keyword->getUri();
+            //             }
+            //         } else {
+            //             // Jika tidak ada graf, gunakan URI sebagai nilai
+            //             $keyword = $result->keyword->getUri();
+            //         }
+            //     } else {
+            //         // Jika bukan, ambil nilainya langsung
+            //         $keyword = $result->keyword->getValue();
+            //     }
+            //     $keywordsArray[] = $keyword;
+            // }

@@ -103,13 +103,82 @@
     <main>
         <div class="flex justify-center flex-wrap flex-row gap-5">
             <?php
+            session_start();
             require_once '../../apps/ViewLontar.php';
+
+            // Query untuk mengambil important keywords
+            $importantKeywordsQuery = "
+            PREFIX lontar: <http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#>
+            
+            SELECT ?keyword WHERE {
+                {
+                    ?s lontar:title ?keyword .
+                } UNION {
+                    ?s lontar:type ?keyword .
+                } UNION {
+                    ?s lontar:subject ?keyword .
+                } UNION {
+                    ?s lontar:classification ?keyword .
+                } UNION {
+                    ?s lontar:language ?keyword .
+                } UNION {
+                    ?s lontar:collation ?keyword .
+                } UNION {
+                    ?s lontar:year ?keyword .
+                } UNION {
+                    ?s lontar:length ?keyword .
+                } UNION {
+                    ?s lontar:width ?keyword .
+                } UNION {
+                    ?s lontar:resource ?keyword .
+                } UNION {
+                    ?s lontar:createBy ?keyword .
+                } UNION {
+                    ?s lontar:comeFrom ?keyword .
+                } UNION {
+                    ?s lontar:saveIn ?keyword .
+                } UNION {
+                    ?person lontar:author ?keyword .
+                } UNION {
+                    ?origin lontar:area ?keyword .
+                } UNION {
+                    ?origin lontar:regency ?keyword .
+                } UNION {
+                    ?place lontar:placename ?keyword .
+                } UNION {
+                    ?place lontar:location ?keyword .
+                }
+            }
+            ";
+            $importantKeywordsResults = $sparql->query($importantKeywordsQuery);
+
+            // Ambil hasil query dan simpan dalam array
+            $importantKeywords = [];
+            foreach ($importantKeywordsResults as $result) {
+                $importantKeywords[] = (string)$result->keyword;
+            }
 
             if (isset($_POST['btn_keyword'])) {
                 $key = $_POST['keyword'];
+
+                // Encode data as JSON to pass to Python script
+                $data = json_encode([
+                    'keyword' => $key,
+                    'important_keywords' => $importantKeywords
+                ]);
+
+                // Buat file sementara untuk menyimpan data JSON
+                $tempFile = tempnam(sys_get_temp_dir(), 'data');
+                file_put_contents($tempFile, $data);
+
                 // Memanggil code python
-                $command = escapeshellcmd("python nlp_processing.py " . escapeshellarg($key));
+                $command = escapeshellcmd("python processingNLP.py " . escapeshellarg($tempFile));
                 $output = shell_exec("$command 2>&1");
+
+                // Hapus file sementara setelah selesai
+                if (file_exists($tempFile)) {
+                    unlink($tempFile);
+                }
 
                 $keyword_baru = strtolower(trim($output));
                 $keywords = explode(" ", $keyword_baru); // Memisahkan kata kunci yang dipisahkan oleh spasi
@@ -121,55 +190,62 @@
                     $filters = [];
                     foreach ($keywords as $keyword) {
                         $filters[] = "CONTAINS(LCASE(?title), '$keyword') ||
-                                          CONTAINS(LCASE(?author), '$keyword') ||
-                                          CONTAINS(LCASE(?year), '$keyword') ||
-                                          CONTAINS(LCASE(?type), '$keyword') ||
-                                          CONTAINS(LCASE(?subject), '$keyword') ||
-                                          CONTAINS(LCASE(?classification), '$keyword') ||
-                                          CONTAINS(LCASE(?collation), '$keyword') ||
-                                          CONTAINS(LCASE(?language), '$keyword') ||
-                                          CONTAINS(STR(?length), '$keyword') ||
-                                          CONTAINS(STR(?width), '$keyword') ||
-                                          CONTAINS(LCASE(?area), '$keyword') ||
-                                          CONTAINS(LCASE(?regency), '$keyword') ||
-                                          CONTAINS(LCASE(?location), '$keyword') ||
-                                          CONTAINS(LCASE(?placename), '$keyword')";
+                                      CONTAINS(LCASE(?author), '$keyword') ||
+                                      CONTAINS(LCASE(?year), '$keyword') ||
+                                      CONTAINS(LCASE(?type), '$keyword') ||
+                                      CONTAINS(LCASE(?subject), '$keyword') ||
+                                      CONTAINS(LCASE(?classification), '$keyword') ||
+                                      CONTAINS(LCASE(?collation), '$keyword') ||
+                                      CONTAINS(LCASE(?language), '$keyword') ||
+                                      CONTAINS(STR(?length), '$keyword') ||
+                                      CONTAINS(STR(?width), '$keyword') ||
+                                      CONTAINS(LCASE(?area), '$keyword') ||
+                                      CONTAINS(LCASE(?regency), '$keyword') ||
+                                      CONTAINS(LCASE(?location), '$keyword') ||
+                                      CONTAINS(LCASE(?placename), '$keyword')";
                     }
 
                     $filter_query = implode(" || ", $filters);
 
                     $query = "
-                            PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-                            PREFIX lontar: <http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#>
-                            
-                            SELECT *
-                            WHERE {
-                                ?lontar lontar:title ?title;
-                                        lontar:type ?type;
-                                        lontar:subject ?subject;
-                                        lontar:classification ?classification;
-                                        lontar:language ?language;
-                                        lontar:collation ?collation;
-                                        lontar:year ?year;
-                                        lontar:length ?length;
-                                        lontar:width ?width;
-                                        lontar:resource ?resource;
-                                        lontar:createBy ?person;
-                                        lontar:comeFrom ?origin;
-                                        lontar:saveIn ?place.
-                                ?person lontar:author ?author.
-                                ?origin lontar:area ?area;
-                                        lontar:regency ?regency.
-                                ?place  lontar:placename ?placename;
-                                        lontar:location ?location;
-                                        lontar:hasSave ?lontar.
-                                
-                                FILTER ($filter_query)
-                            }
-                        ";
+                    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                    PREFIX lontar: <http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#>
+                    
+                    SELECT *
+                    WHERE {
+                        ?lontar lontar:title ?title;
+                                lontar:type ?type;
+                                lontar:subject ?subject;
+                                lontar:classification ?classification;
+                                lontar:language ?language;
+                                lontar:collation ?collation;
+                                lontar:year ?year;
+                                lontar:length ?length;
+                                lontar:width ?width;
+                                lontar:resource ?resource;
+                                lontar:createBy ?person;
+                                lontar:comeFrom ?origin;
+                                lontar:saveIn ?place.
+                        ?person lontar:author ?author.
+                        ?origin lontar:area ?area;
+                                lontar:regency ?regency.
+                        ?place  lontar:placename ?placename;
+                                lontar:location ?location;
+                                lontar:hasSave ?lontar.
+                        FILTER ($filter_query)
+                    }
+                    ";
+
+                    // Simpan hasil pencarian dalam sesi
+                    $_SESSION['search_results'] = $result;
+                    $_SESSION['search_keyword'] = $key;
                 } else {
                     echo "Error: Output from Python processing is empty.";
                 }
+            } elseif (isset($_SESSION['search_results'])) {
+                // Ambil hasil pencarian dari sesi
+                $result = $_SESSION['search_results'];
+                $key = $_SESSION['search_keyword'];
             } else {
                 $query = "SELECT *
                 WHERE {
@@ -187,11 +263,11 @@
                             lontar:comeFrom ?origin;
                             lontar:saveIn ?place.
                     ?person lontar:author ?author.
-                    ?origin lontar:area	?area;
+                    ?origin lontar:area ?area;
                             lontar:regency ?regency.
                     ?place  lontar:placename ?placename;
                             lontar:location ?location;
-                            lontar:hasSave ?lontar.	
+                            lontar:hasSave ?lontar.    
                 }";
             }
 
@@ -209,6 +285,7 @@
             if (isset($hasil) && count($hasil) > 0) {
                 foreach ($hasil as $data) :
             ?>
+
                     <!-- Koleksi Lontar -->
                     <div class="flex justify-center  items-center mt-4 ">
                         <div class="flex xxsm:flex-col  md:flex-row items-center rounded-lg xxsm:w-[250px] xsm:w-[280px] base:w-[360px] sm:w-[560px] md:w-[650px] lg:w-[800px] xl:w-[900px] 2xl:w-[700px] max-h-full shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] xxsm:flex">
