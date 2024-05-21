@@ -153,16 +153,18 @@ if (isset($_POST['EditData'])) {
     $location = htmlspecialchars($_POST['lokasi']);
     $area = htmlspecialchars($_POST['asal']);
     $regency = htmlspecialchars($_POST['regency']);
+    $gambarLama = htmlspecialchars($_POST['gambar_lama']);
     $id = $_POST['id_title'];
 
     // Membuat judul lontar dengan format yang sesuai
     $oldTitle_lontar = str_replace(' ', '_', $id);
     $new_title = str_replace(' ', '_', $title);
 
-    // mengecek gambar
-    $resource = upload();
-    if (!$resource) {
-        return false;
+    // cek apakah user pilih gambar baru atau tidak?
+    if ($_FILES['upload_image']['error'] === 4) {
+        $resource = $gambarLama;
+    } else {
+        $resource = upload();
     }
     // Menyiapkan query edit Data
     $query = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>

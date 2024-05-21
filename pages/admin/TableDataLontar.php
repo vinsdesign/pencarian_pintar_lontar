@@ -124,12 +124,12 @@ if (!isset($_SESSION['login'])) {
                     </div>
                     <!-- Search -->
                     <div class="flex items-center gap-2">
-                        <form class="flex items-center max-w-sm mx-auto">
+                        <form class="flex items-center max-w-sm mx-auto" method="post" action="">
                             <label for="simple-search" class="sr-only">Search</label>
                             <div class="relative w-full">
-                                <input type="search" id="simple-search" class="block p-2.5 pl-5 w-80 z-20 text-sm text-gray-900 border border-mediumBlue rounded-2xl focus:ring-orangePastel focus:border-darkBlue dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500" placeholder="Cari Data Lontar" required />
+                                <input type="search" id="simple-search" name="search" class="block p-2.5 pl-5 w-80 z-20 text-sm text-gray-900 border border-mediumBlue rounded-2xl focus:ring-orangePastel focus:border-darkBlue dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500" placeholder="Cari Data Lontar" required />
                                 <!-- button submit -->
-                                <button type="submit" class="absolute rounded-r-2xl top-0 end-0 h-full px-5 p-2.5 text-sm font-medium text-white bg-mediumBlue rounded-e-lg border border-mediumBlue hover:bg-darkBlue focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                <button type="submit" name="btn_search" class="absolute rounded-r-2xl top-0 end-0 h-full px-5 p-2.5 text-sm font-medium text-white bg-mediumBlue rounded-e-lg border border-mediumBlue hover:bg-darkBlue focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                     <i class="fa-solid fa-magnifying-glass"></i>
                                 </button>
                             </div>
@@ -172,6 +172,79 @@ if (!isset($_SESSION['login'])) {
                             <?php
                             include "../../apps/ViewLontar.php";
                             $i = 1;
+
+                            // query pencarian
+                            if (isset($_POST['btn_search'])) {
+                                $keyword = $_POST['search'];
+                                $query = "
+                                PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                                PREFIX lontar: <http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#>
+                                SELECT *
+                                WHERE {
+                                      BIND( '$keyword' as ?keyword)
+                                    ?lontar lontar:title ?title;
+                                            lontar:type ?type;
+                                            lontar:subject ?subject;
+                                            lontar:classification ?classification;
+                                            lontar:language ?language;
+                                            lontar:collation ?collation;
+                                            lontar:year ?year;
+                                            lontar:length ?length;
+                                            lontar:width ?width;
+                                            lontar:resource ?resource;
+                                            lontar:createBy ?person;
+                                            lontar:comeFrom ?origin;
+                                            lontar:saveIn ?place.
+                                    ?person lontar:author ?author.
+                                    ?origin lontar:area ?area;
+                                            lontar:regency ?regency.
+                                    ?place  lontar:placename ?placename;
+                                            lontar:location ?location;
+                                            lontar:hasSave ?lontar.
+                                    
+                                    FILTER(CONTAINS(LCASE(?title), ?keyword) ||
+                                           CONTAINS(LCASE(?author), ?keyword) || 
+                                           CONTAINS(LCASE(?subject), ?keyword) ||
+                                           CONTAINS(LCASE(?type), ?keyword) || 
+                                           CONTAINS(LCASE(?collation), ?keyword) ||
+                                           CONTAINS(LCASE(?year), ?keyword) || 
+                                           CONTAINS(LCASE(?length), ?keyword) ||
+                                           CONTAINS(LCASE(?width), ?keyword) || 
+                                           CONTAINS(LCASE(?language), ?keyword) ||
+                                           CONTAINS(LCASE(?placename), ?keyword) || 
+                                           CONTAINS(LCASE(?location), ?keyword)|| 
+                                           CONTAINS(LCASE(?area), ?keyword) ||
+                                           CONTAINS(LCASE(?regency), ?keyword)
+                                          )
+                            }";
+                            } else {
+                                $query = "
+                                PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                                PREFIX lontar: <http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#>
+                                SELECT *
+                                WHERE {
+                                ?lontar lontar:title ?title;
+                                        lontar:type ?type;
+                                        lontar:subject ?subject;
+                                        lontar:classification ?classification;
+                                        lontar:language ?language;
+                                        lontar:collation ?collation;
+                                        lontar:year ?year;
+                                        lontar:length ?length;
+                                        lontar:width ?width;
+                                        lontar:resource ?resource;
+                                        lontar:createBy ?person;
+                                        lontar:comeFrom ?origin;
+                                        lontar:saveIn ?place.
+                                ?person lontar:author ?author.
+                                ?origin lontar:area	?area;
+                                        lontar:regency ?regency.
+                                ?place  lontar:placename ?placename;
+                                        lontar:location ?location;
+                                        lontar:hasSave ?lontar.	
+                                }";
+                            }
+
                             // pagination
                             $jmlhDataPerHalaman = 10;
                             $result = $sparql->query($query);
@@ -237,7 +310,7 @@ if (!isset($_SESSION['login'])) {
                                                             <form id="edit_lontar" class="max-w-xl mx-auto" method="post" action="../../apps/UpdateController.php" enctype="multipart/form-data">
                                                                 <div class="grid md:grid-cols-2 md:gap-6">
                                                                     <input type="hidden" name="id_title" value="<?= $row->title ?>">
-                                                                    <input type="hidden" name="gambar_lama" value="<?= $row->resource; ?>">
+
                                                                     <div class="relative z-0 w-full mb-5 group">
                                                                         <input type="text" name="title" id="title" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-mediumBlue peer" placeholder="" value="<?= $row->title ?>" required />
                                                                         <label for="title" class="peer-focus:font-medium absolute text-sm text-gray-500 left-0 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-mediumBlue peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Judul </label>
@@ -308,6 +381,8 @@ if (!isset($_SESSION['login'])) {
                                                                     </div>
                                                                 </div>
                                                                 <div class="relative z-0 w-full mb-5 group">
+                                                                    <input type="hidden" name="gambar_lama" value="<?= $row->resource; ?>">
+                                                                    <img class="w-full h-52 mb-2" src="../../image_base/<?= $row->resource; ?>" alt="gambar">
                                                                     <input class="block w-full text-sm text-mediumBlue border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="upload_image_lontar" value="Basma" id="upload_image_lontar" name="upload_image" type="file">
                                                                     <div class="mt-1 text-sm text-left text-gray-500 dark:text-gray-300" id="upload_image_lontar">Upload Gambar format <span class="text-danger">.jpg .png .webp .svg</span></div>
                                                                 </div>
