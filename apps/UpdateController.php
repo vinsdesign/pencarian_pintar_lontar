@@ -139,6 +139,154 @@ if (isset($_POST['HapusData'])) {
 }
 
 if (isset($_POST['EditData'])) {
+    $title = htmlspecialchars($_POST['title']);
+    $type = htmlspecialchars($_POST['type']);
+    $subject = htmlspecialchars($_POST['subject']);
+    $author = htmlspecialchars($_POST['penulis']);
+    $classification = htmlspecialchars($_POST['klasifikasi']);
+    $bahasa = htmlspecialchars($_POST['bahasa']);
+    $collation = htmlspecialchars($_POST['collation']);
+    $tahun = htmlspecialchars($_POST['tahun_lontar']);
+    $panjang_lontar = htmlspecialchars($_POST['panjang_lontar']);
+    $lebar_lontar = htmlspecialchars($_POST['lebar_lontar']);
+    $placename = htmlspecialchars($_POST['tempat_penyimpanan']);
+    $location = htmlspecialchars($_POST['lokasi']);
+    $area = htmlspecialchars($_POST['asal']);
+    $regency = htmlspecialchars($_POST['regency']);
+    $id = $_POST['id_title'];
+
+    // Membuat judul lontar dengan format yang sesuai
+    $oldTitle_lontar = str_replace(' ', '_', $id);
+    $new_title = str_replace(' ', '_', $title);
+
+    // mengecek gambar
+    $resource = upload();
+    if (!$resource) {
+        return false;
+    }
+    // Menyiapkan query edit Data
+    $query = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+    PREFIX lontar: <http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#>
+
+    DELETE {
+        lontar:$oldTitle_lontar rdf:type lontar:Lontar ;
+                                lontar:title ?oldTitle ;
+                                lontar:type ?oldType ;
+                                lontar:subject ?oldSubject ;
+                                lontar:classification ?oldClassification ;
+                                lontar:language ?oldLanguage ;
+                                lontar:collation ?oldCollation ;
+                                lontar:year ?oldYear ;
+                                lontar:length ?oldLength ;
+                                lontar:width ?oldWidth ;
+                                lontar:resource ?oldResource ;
+                                lontar:comeFrom lontar:Origin_$oldTitle_lontar ;
+                                lontar:createBy lontar:Person_$oldTitle_lontar ;
+                                lontar:saveIn lontar:Place_$oldTitle_lontar .
+    
+        lontar:Origin_$oldTitle_lontar rdf:type lontar:Origin ;
+                                       lontar:area ?oldArea ;
+                                       lontar:regency ?oldRegency .
+    
+        lontar:Place_$oldTitle_lontar rdf:type lontar:Place ;
+                                      lontar:hasSave lontar:$oldTitle_lontar ;
+                                      lontar:placename ?oldPlacename ;
+                                      lontar:location ?oldLocation .
+    
+        lontar:Person_$oldTitle_lontar rdf:type lontar:Person ;
+                                       lontar:hasCreate lontar:$oldTitle_lontar ;
+                                       lontar:author ?oldAuthor ;
+                                       lontar:address ?oldAddress ;
+                                       lontar:cv ?oldCV .
+    }
+    INSERT {
+        lontar:$new_title rdf:type lontar:Lontar ;
+                          lontar:title '$title' ;
+                          lontar:type '$type' ;
+                          lontar:subject '$subject' ;
+                          lontar:classification '$classification' ;
+                          lontar:language '$bahasa' ;
+                          lontar:collation $collation ;
+                          lontar:year '$tahun' ;
+                          lontar:length $panjang_lontar ;
+                          lontar:width $lebar_lontar ;
+                          lontar:resource '$resource' ;
+                          lontar:comeFrom lontar:Origin_$new_title ;
+                          lontar:createBy lontar:Person_$new_title ;
+                          lontar:saveIn lontar:Place_$new_title .
+
+        lontar:Origin_$new_title rdf:type lontar:Origin ;
+                                 lontar:area '$area' ;
+                                 lontar:regency '$regency' .
+
+        lontar:Place_$new_title rdf:type lontar:Place ;
+                                lontar:hasSave lontar:$new_title ;
+                                lontar:placename '$placename' ;
+                                lontar:location '$location' .
+
+        lontar:Person_$new_title rdf:type lontar:Person ;
+                                 lontar:hasCreate lontar:$new_title ;
+                                 lontar:author '$author' ;
+                                 lontar:address '-' ;
+                                 lontar:cv '-' .
+    }
+    WHERE {
+        lontar:$oldTitle_lontar rdf:type lontar:Lontar ;
+                                lontar:title ?oldTitle ;
+                                lontar:type ?oldType ;
+                                lontar:subject ?oldSubject ;
+                                lontar:classification ?oldClassification ;
+                                lontar:language ?oldLanguage ;
+                                lontar:collation ?oldCollation ;
+                                lontar:year ?oldYear ;
+                                lontar:length ?oldLength ;
+                                lontar:width ?oldWidth ;
+                                lontar:resource ?oldResource ;
+                                lontar:comeFrom lontar:Origin_$oldTitle_lontar ;
+                                lontar:createBy lontar:Person_$oldTitle_lontar ;
+                                lontar:saveIn lontar:Place_$oldTitle_lontar .
+
+        lontar:Origin_$oldTitle_lontar rdf:type lontar:Origin ;
+                                       lontar:area ?oldArea ;
+                                       lontar:regency ?oldRegency .
+
+        lontar:Place_$oldTitle_lontar rdf:type lontar:Place ;
+                                      lontar:hasSave lontar:$oldTitle_lontar ;
+                                      lontar:placename ?oldPlacename ;
+                                      lontar:location ?oldLocation .
+
+        lontar:Person_$oldTitle_lontar rdf:type lontar:Person ;
+                                       lontar:hasCreate lontar:$oldTitle_lontar ;
+                                       lontar:author ?oldAuthor ;
+                                       lontar:address ?oldAddress ;
+                                       lontar:cv ?oldCV .
+    }";
+
+
+    // Membuat objek client SPARQL
+    $sparql = new \EasyRdf\Sparql\Client('http://localhost:3030/pencarian_lontar/update');
+
+    try {
+        $result = $sparql->update($query);
+
+        // Memeriksa hasil dan memberikan respons sesuai
+        if ($result) {
+            echo "<script>
+                 alert('Data Berhasil Diubah');
+                 document.location.href='http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php';
+             </script>";
+        } else {
+            echo "<script>
+                 alert('Gagal merubah data. Silakan coba lagi.');
+                 document.location.href='http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php';
+             </script>";
+        }
+    } catch (Exception $e) {
+        echo "<script>
+             alert('Terjadi kesalahan: " . $e->getMessage() . "');
+             document.location.href='http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php';
+         </script>";
+    }
 }
 
 
@@ -183,63 +331,3 @@ function upload()
     move_uploaded_file($tmpName, '../image_base/' . $namaFileNew);
     return $namaFileNew;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// // var_dump($title_place);
-// $queryTambah = sparql_get(
-// $endpointUpdate,
-// 'PREFIX rdf:<http: //www.w3.org/1999/02/22-rdf-syntax-ns#>
-    // PREFIX rdfs:<http: //www.w3.org/2000/01/rdf-schema#>
-        // PREFIX owl:<http: //www.w3.org/2002/07/owl#>
-            // PREFIX xml:<http: //www.w3.org/XML/1998/namespace#>
-                // PREFIX xsd:<http: //www.w3.org/2001/XMLSchema#>
-                    // PREFIX lontar:<http: //www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#>
-                        // INSERT DATA {
-                        // ## Menambahkan data individu Lontar
-                        // lontar:saraswati rdf:type lontar:Lontar ;
-                        // lontar:title "Purwa" ;
-                        // lontar:type "Daun Rontar" ;
-                        // lontar:subject "Mantra" ;
-                        // lontar:classification "Weda" ;
-                        // lontar:language "Bahasa Kawi" ;
-                        // lontar:collation 38 ;
-                        // lontar:year "-" ;
-                        // lontar:length 37 ;
-                        // lontar:width 3.5 ;
-                        // lontar:resource "Pitra_Puja.jpg";
-                        // lontar:comeFrom lontar:saraswati_origin ;
-                        // lontar:createBy lontar:saraswati_Person ;
-                        // lontar:saveIn lontar:saraswati_Place .
-
-                        // lontar:saraswati_origin rdf:type lontar:Origin ;
-                        // lontar:area "bangli";
-                        // lontar:regency "Bangli" .
-
-                        // lontar:saraswati_Person rdf:type lontar:Person ;
-                        // lontar:hasCreate lontar:saraswati ;
-                        // lontar:author "Ida Kelvin" .
-
-                        // lontar:saraswati_Place rdf:type lontar:Place;
-                        // lontar:hasSave lontar:saraswati ;
-                        // lontar:placename "Gedong Kirtya II" ;
-                        // lontar:location "Jalan Veteran No 20, Singaraja" .
-                        // }'
-
-                        // );

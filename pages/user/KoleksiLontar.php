@@ -109,7 +109,6 @@ session_start();
 
             require_once '../../apps/ViewLontar.php';
             // Tambahkan debugging sesi
-            // Tambahkan debugging sesi
             if (!isset($_SESSION)) {
                 echo "Session tidak dimulai.";
             }
