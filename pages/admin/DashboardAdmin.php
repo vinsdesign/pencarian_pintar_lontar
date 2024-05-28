@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['login'])) {
-    header("location: /pencarian_pintar_lontar/pages/admin/Login.php");
+    header("location: http://localhost/pencarian_pintar_lontar/pages/admin/login.php");
     exit;
 }
 ?>
@@ -117,7 +117,7 @@ if (!isset($_SESSION['login'])) {
         <div class="p-4 md:ml-64">
             <div class="flex justify-center items-center">
                 <?php if (isset($success)) : ?>
-                    <div id="toast-undo" class="flex justify-center items-center absolute z-50 top-0 transition-all  delay-500 w-full max-w-sm p-4 text-gray-500 bg-success rounded-lg shadow dark:text-gray-400 dark:bg-gray-800 mt-5" role="alert">
+                    <div id="toast-undo" class="flex justify-center items-center absolute z-50 top-0 transition-all delay-500 w-full max-w-sm p-4 text-gray-500 bg-success rounded-lg shadow dark:text-gray-400 dark:bg-gray-800 mt-5" role="alert">
                         <div class="text-sm font-normal flex justify-center items-center gap-3">
                             <i class="fa-solid fa-exclamation text-white text-lg "></i>
                             <h1 class="text-white font-montsMedium">Selamat Datang</h1>
@@ -133,6 +133,7 @@ if (!isset($_SESSION['login'])) {
                     </div>
                 <?php endif; ?>
             </div>
+
             <div class="p-4 border-2 border-gray-200 border-dashed rounded-2xl dark:border-gray-700 mt-20">
                 <div class="grid grid-rows-2 grid-flow-col gap-3">
                     <!-- data profile -->
@@ -154,125 +155,140 @@ if (!isset($_SESSION['login'])) {
                         </div>
                         <img src="../../public/assets/mypicture.svg" class="w-48 rounded-full" alt="mypicture" />
                     </div>
-                    <!-- data koleksi -->
-                    <div class="col-span-2 bg-lightSecondary h-80 rounded-2xl flex justify-center gap-3 items-center flex-col">
-                        <div class="text-center">
-                            <h1 class="font-montsBold text-2xl">Koleksi Data Lontar</h1>
-                        </div>
-                        <div class="flex flex-col gap-3">
-                            <div class="flex items-center justify-between gap-3 rounded-full w-[500px] shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] px-10 bg-white py-3">
-                                <div class="flex gap-4 items-center">
-                                    <div class="bg-darkBlue w-10 h-10 flex justify-center items-center rounded-lg">
-                                        <i class="fa-solid text-2xl text-white fa-database"></i>
+                    <?php
+                    require "../../vendor/autoload.php";
+                    \EasyRdf\RdfNamespace::set('rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#');
+                    \EasyRdf\RdfNamespace::set('rdfs', 'http://www.w3.org/2000/01/rdf-schema#');
+                    \EasyRdf\RdfNamespace::set('owl', 'http://www.w3.org/2002/07/owl#');
+                    \EasyRdf\RdfNamespace::set('xml', 'http://www.w3.org/XML/1998/namespace#');
+                    \EasyRdf\RdfNamespace::set('xsd', 'http://www.w3.org/XML/1998/namespace#');
+                    \EasyRdf\RdfNamespace::set('lontar', 'http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#');
+                    $sparql = new \EasyRdf\Sparql\Client('http://localhost:3030/pencarian_lontar/query');
+                    $query = "SELECT (COUNT(?lontar) AS ?count)
+                        WHERE {
+                            ?lontar lontar:title ?title;
+                                    lontar:type ?type;
+                                    lontar:subject ?subject;
+                                    lontar:classification ?classification;
+                                    lontar:language ?language;
+                                    lontar:collation ?collation;
+                                    lontar:year ?year;
+                                    lontar:length ?length;
+                                    lontar:width ?width;
+                                    lontar:resource ?resource;
+                                    lontar:createBy ?person;
+                                    lontar:comeFrom ?origin;
+                                    lontar:saveIn ?place.
+                            ?person lontar:author ?author.
+                            ?origin lontar:area ?area;
+                                    lontar:regency ?regency.
+                            ?place  lontar:placename 'Gedong Kirtya';
+                                    lontar:location ?location;
+                                    lontar:hasSave ?lontar.
+                        }";
+                    $result = $sparql->query($query);
+                    foreach ($result as $row) :
+                    ?>
+                        <!-- data koleksi -->
+                        <div class="col-span-2 bg-lightSecondary h-full rounded-2xl flex justify-center gap-3 items-center flex-col">
+                            <div class="text-center">
+                                <h1 class="font-montsBold text-2xl">Koleksi Data Lontar</h1>
+                            </div>
+                            <div class="flex flex-col gap-3">
+                                <div class="flex items-center justify-between gap-3 rounded-full w-[500px] shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] px-10 bg-white py-3">
+                                    <div class="flex gap-4 items-center">
+                                        <div class="bg-darkBlue w-10 h-10 flex justify-center items-center rounded-lg">
+                                            <i class="fa-solid text-2xl text-white fa-database"></i>
+                                        </div>
+                                        <div class="flex flex-col">
+                                            <h1>Gedong Kirtya</h1>
+                                            <p>Koleksi</p>
+                                        </div>
                                     </div>
-                                    <div class="flex flex-col">
-                                        <h1>Gedong Kirtya</h1>
-                                        <p>Koleksi</p>
-                                    </div>
+                                    <h1 class="text-darkBlue text-2xl"><?= $row->count ?></h1>
                                 </div>
-                                <h1 class="text-darkBlue text-2xl">80</h1>
+                            </div>
+                            <div class="flex flex-col gap-3">
+                                <div class="flex items-center justify-between gap-3 rounded-full w-[500px] shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] px-10 bg-white py-3">
+                                    <div class="flex gap-4 items-center">
+                                        <div class="bg-darkBlue w-10 h-10 flex justify-center items-center rounded-lg">
+                                            <i class="fa-solid text-2xl text-white fa-database"></i>
+                                        </div>
+                                        <div class="flex flex-col">
+                                            <h1>Tidak Teridentifikasi</h1>
+                                            <p>Koleksi</p>
+                                        </div>
+                                    </div>
+                                    <h1 class="text-darkBlue text-2xl">0</h1>
+                                </div>
                             </div>
                         </div>
-                        <div class="flex flex-col gap-3">
-                            <div class="flex items-center justify-between gap-3 rounded-full w-[500px] shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] px-10 bg-white py-3">
-                                <div class="flex gap-4 items-center">
-                                    <div class="bg-darkBlue w-10 h-10 flex justify-center items-center rounded-lg">
-                                        <i class="fa-solid text-2xl text-white fa-database"></i>
-                                    </div>
-                                    <div class="flex flex-col">
-                                        <h1>Tidak Teridentifikasi</h1>
-                                        <p>Koleksi</p>
-                                    </div>
-                                </div>
-                                <h1 class="text-darkBlue text-2xl">80</h1>
-                            </div>
-                        </div>
-                    </div>
+                    <?php endforeach; ?>
+
                     <!-- data asal lontar -->
-                    <div class="row-span-2 flex flex-col items-center gap-5 px-24 py-2 justify-center rounded-2xl bg-lightSecondary h-[650px] dark:bg-gray-800">
+                    <div class="row-span-2 flex flex-col items-center gap-5 px-24 py-5 justify-center rounded-2xl bg-lightSecondary dark:bg-gray-800">
                         <div class="text-center">
                             <h1 class="font-montsBold text-xl">Data Lontar</h1>
                             <p class="text-base text-justify text-darkSecondary">
                                 Terbanyak Dari Berbagai Daerah
                             </p>
                         </div>
-                        <div class="flex flex-col gap-3">
-                            <div class="flex items-center justify-between gap-3 rounded-full w-96 shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] px-10 bg-white py-3">
-                                <div class="flex gap-4 items-center">
-                                    <div class="bg-darkBlue w-10 h-10 flex justify-center items-center rounded-lg">
-                                        <i class="fa-solid text-2xl text-white fa-book"></i>
+                        <?php
+                        require "../../vendor/autoload.php";
+                        \EasyRdf\RdfNamespace::set('rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#');
+                        \EasyRdf\RdfNamespace::set('rdfs', 'http://www.w3.org/2000/01/rdf-schema#');
+                        \EasyRdf\RdfNamespace::set('owl', 'http://www.w3.org/2002/07/owl#');
+                        \EasyRdf\RdfNamespace::set('xml', 'http://www.w3.org/XML/1998/namespace#');
+                        \EasyRdf\RdfNamespace::set('xsd', 'http://www.w3.org/XML/1998/namespace#');
+                        \EasyRdf\RdfNamespace::set('lontar', 'http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#');
+                        $sparql = new \EasyRdf\Sparql\Client('http://localhost:3030/pencarian_lontar/query');
+                        $query = "SELECT ?regency (COUNT(?lontar) AS ?count)
+                    WHERE {
+                        ?lontar lontar:title ?title;
+                                lontar:type ?type;
+                                lontar:subject ?subject;
+                                lontar:classification ?classification;
+                                lontar:language ?language;
+                                lontar:collation ?collation;
+                                lontar:year ?year;
+                                lontar:length ?length;
+                                lontar:width ?width;
+                                lontar:resource ?resource;
+                                lontar:createBy ?person;
+                                lontar:comeFrom ?origin;
+                                lontar:saveIn ?place.
+                        ?person lontar:author ?author.
+                        ?origin lontar:area ?area;
+                                lontar:regency ?regency.
+                        ?place  lontar:placename ?placename;
+                                lontar:location ?location;
+                                lontar:hasSave ?lontar.
+                        FILTER (?regency IN ('Karangasem', 'Gianyar', 'Tabanan','Denpasar', 'Bangli', 'Badung', 'Jembrana', 'Buleleng','Klungkung', 'Mataram'))
+                    }
+                    GROUP BY ?regency";
+                        $result = $sparql->query($query);
+                        foreach ($result as $row) :
+                        ?>
+                            <div class="flex flex-col gap-3">
+                                <div class="flex items-center justify-between gap-3 rounded-full w-96 shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] px-10 bg-white py-3">
+                                    <div class="flex gap-4 items-center">
+                                        <div class="bg-darkBlue w-10 h-10 flex justify-center items-center rounded-lg">
+                                            <i class="fa-solid text-2xl text-white fa-book"></i>
+                                        </div>
+                                        <div class="flex flex-col">
+                                            <h1><?= $row->regency ?></h1>
+                                            <p>Asal</p>
+                                        </div>
                                     </div>
-                                    <div class="flex flex-col">
-                                        <h1>Karangasem</h1>
-                                        <p>Asal</p>
-                                    </div>
-                                </div>
-                                <h1 class="text-darkBlue text-2xl">80</h1>
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-between gap-3 rounded-full shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] w-full px-10 bg-white py-3">
-                            <div class="flex gap-4 items-center">
-                                <div class="bg-darkBlue w-10 h-10 flex justify-center items-center rounded-lg">
-                                    <i class="fa-solid text-2xl text-white fa-book"></i>
-                                </div>
-                                <div class="flex flex-col">
-                                    <h1>Gianyar</h1>
-                                    <p>Asal</p>
+                                    <h1 class="text-darkBlue text-2xl"><?= $row->count; ?></h1>
                                 </div>
                             </div>
-                            <h1 class="text-darkBlue text-2xl">80</h1>
-                        </div>
-                        <div class="flex items-center justify-between gap-3 rounded-full shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] w-full px-10 bg-white py-3">
-                            <div class="flex gap-4 items-center">
-                                <div class="bg-darkBlue w-10 h-10 rounded-lg flex justify-center items-center">
-                                    <i class="fa-solid text-2xl text-white fa-book"></i>
-                                </div>
-                                <div class="flex flex-col">
-                                    <h1>Singaraja</h1>
-                                    <p>Asal</p>
-                                </div>
-                            </div>
-                            <h1 class="text-darkBlue text-2xl">80</h1>
-                        </div>
-                        <div class="flex items-center justify-between gap-3 rounded-full shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] w-full px-10 bg-white py-3">
-                            <div class="flex gap-4 items-center">
-                                <div class="bg-darkBlue w-10 h-10 rounded-lg">
-                                    <i class="fa-solid text-2xl p-2 text-white fa-book"></i>
-                                </div>
-                                <div class="flex flex-col">
-                                    <h1>Lombok</h1>
-                                    <p>Asal</p>
-                                </div>
-                            </div>
-                            <h1 class="text-darkBlue text-2xl">80</h1>
-                        </div>
-                        <div class="flex items-center justify-between gap-3 rounded-full shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] w-full px-10 bg-white py-3">
-                            <div class="flex gap-4 items-center">
-                                <div class="bg-darkBlue w-10 h-10 rounded-lg">
-                                    <i class="fa-solid text-2xl p-2 text-white fa-book"></i>
-                                </div>
-                                <div class="flex flex-col">
-                                    <h1>Klungkung</h1>
-                                    <p>Asal</p>
-                                </div>
-                            </div>
-                            <h1 class="text-darkBlue text-2xl">80</h1>
-                        </div>
-                        <div class="flex items-center justify-between gap-3 rounded-full shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] w-full px-10 bg-white py-3">
-                            <div class="flex gap-4 items-center">
-                                <div class="bg-darkBlue w-10 h-10 rounded-lg">
-                                    <i class="fa-solid text-2xl p-2 text-white fa-book"></i>
-                                </div>
-                                <div class="flex flex-col">
-                                    <h1>Bangli</h1>
-                                    <p>Asal</p>
-                                </div>
-                            </div>
-                            <h1 class="text-darkBlue text-2xl">80</h1>
-                        </div>
+                        <?php endforeach ?>
                     </div>
+
                 </div>
             </div>
+
         </div>
     </main>
     <!-- script -->

@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,7 +12,7 @@
     <link rel="stylesheet" href="../../node_modules/@fortawesome/fontawesome-free/css/all.min.css">
 </head>
 
-<body class="font-montserrat">
+<body class="font-montserrat overflow-x-hidden">
     <header>
         <!-- navbar -->
         <nav class="bg-darkBlue flex justify-between items-center px-7 py-5">
@@ -25,7 +28,7 @@
                 <ul class="text-white font-montsMedium flex md:flex-row flex-col md:items-center md:py-0 md:gap-10 gap-6 py-3">
                     <li><a class="hover:text-orangePastel" href="/pencarian_pintar_lontar/index.php">Beranda</a></li>
                     <li><a class="hover:text-orangePastel" href="/pencarian_pintar_lontar/pages/user/SejarahLontar.php">Sejarah Lontar</a></li>
-                    <li><a class="hover:text-orangePastel" href="/pencarian_pintar_lontar/pages/user/KoleksiLontar.php">Koleksi Lontar</a></li>
+                    <li><a class="hover:text-orangePastel" href="/pencarian_pintar_lontar/apps/SessionOutLontar.php">Koleksi Lontar</a></li>
                     <li><a class="hover:text-orangePastel" href="/pencarian_pintar_lontar/pages/user/TentangKami.php">Tentang Kami</a></li>
                 </ul>
             </div>
@@ -44,13 +47,13 @@
                 Mulai Eksplorasi
                 <span class="font-montsBold text-orangePastel">Pencarian Lontar</span>
             </h1>
-            <form action="" class="">
+            <form action="http://localhost/pencarian_pintar_lontar/pages/user/KoleksiLontar.php" method="post" class="">
                 <div class="flex m-0 drop-shadow-[1px_4px_43.4px_rgba(0,0,0,0.50)]">
                     <div class="relative flex items-center text-lightSecondary focus-within:text-mediumBlue">
                         <i class="fa-solid fa-magnifying-glass absolute xxsm:text-base lg:text-xl 2xl:text-2xl xxsm:mt-2 xxsm:ml-3 mt-5 ml-5 text-mediumBlue" name="search"></i>
-                        <input type="text" placeholder="Cari Lontar" name="cari" autocomplete="off" aria-label="Cari Lontar" class="mt-5 xxsm:mt-2 xxsm:pl-12 px-16 placeholder-darkSecondary focus:placeholder-lightBlue xxsm:w-[200px] xxsm:h-9 sm:text-xl xsm:w-[250px] xsm:h-9 sm:w-[350px] sm:h-10 md:text-xl lg:text-2xl md:w-[300px] md:h-[50px] lg:w-[400px] lg:h-[55px] xl:w-[500px] xl:h-[60px] 2xl:w-[700px] 2xl:h-[70px] rounded-s-[15px] border-none ring-2 ring-mediumBlue focus:ring-orangePastel focus:ring-2" />
+                        <input type="text" placeholder="Cari Lontar" name="keyword" autocomplete="off" aria-label="Cari Lontar" class="mt-5 xxsm:mt-2 xxsm:pl-12 px-16 placeholder-darkSecondary focus:placeholder-lightBlue xxsm:w-[200px] xxsm:h-9 sm:text-xl xsm:w-[250px] xsm:h-9 sm:w-[350px] sm:h-10 md:text-xl lg:text-2xl md:w-[300px] md:h-[50px] lg:w-[400px] lg:h-[55px] xl:w-[500px] xl:h-[60px] 2xl:w-[700px] 2xl:h-[70px] rounded-s-[15px] border-none ring-2 ring-mediumBlue focus:ring-orangePastel focus:ring-2" />
                     </div>
-                    <button type="submit" class="bg-mediumBlue xxsm:mt-2 xxsm:text-base sm:px-3 xsm:text-lg xxsm:px-3 xsm:px-3 sm:text-xl md:text-2xl xl:text-3xl md:w-[100px] md:h-[50px] lg:w-[110px] lg:h-[55px] xl:w-[120px] xl:h-[60px] 2xl:w-[120px] 2xl:h-[70px] mt-5 text-orangePastel text-[24px] rounded-r-[15px] ring-2 ring-mediumBlue">
+                    <button type="submit" name="btn_keyword" class="bg-mediumBlue xxsm:mt-2 xxsm:text-base sm:px-3 xsm:text-lg xxsm:px-3 xsm:px-3 sm:text-xl md:text-2xl xl:text-3xl md:w-[100px] md:h-[50px] lg:w-[110px] lg:h-[55px] xl:w-[120px] xl:h-[60px] 2xl:w-[120px] 2xl:h-[70px] mt-5 text-orangePastel text-[24px] rounded-r-[15px] ring-2 ring-mediumBlue">
                         Cari
                     </button>
                 </div>
@@ -58,7 +61,7 @@
         </section>
         <!-- end search component -->
         <!-- carousel image -->
-        <div id="default-carousel" class="relative w-full" data-carousel="slide">
+        <div id="default-carousel" class="relative w-full mb-5 " data-carousel="slide">
             <!-- Carousel wrapper -->
             <div class="relative xxsm:h-56 base:h-60 sm:h-72 md:h-[25rem] lg:h-96 overflow-hidden xl:h-[30rem] 2xl:h-[35rem]">
                 <!-- Item 1 -->
@@ -100,33 +103,308 @@
         </div>
         <!-- end carousel image -->
     </header>
-
     <main>
-        <!-- Koleksi Lontar -->
-        <div class="flex justify-center items-center mt-5 ">
-            <div class="flex xxsm:flex-col md:flex-row items-center rounded-lg xxsm:w-[250px] xsm:w-[280px] base:w-[360px] sm:w-[560px] md:w-[650px] lg:w-[800px] xl:w-[900px] 2xl:w-[1000px] max-h-full shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] xxsm:flex">
-                <div class="flex flex-col justify-between p-4 leading-normal xxsm:order-2 md:order-none md:text-sm lg:text-base">
-                    <h2 class="xl:card-title text-darkBlue font-montsBold xxsm:text-center xxsm:text-lg base:text-xl xl:text-2xl">
-                        Bhasma
-                    </h2>
-                    <h2 class="font-montsMedium text-mediumBlue xl:text-lg">
-                        Pedanda Anyar | 22/05/1962 | Belah Batuh, Gianyar
-                    </h2>
-                    <p class="font-montserrat text-justify xl:text-md">
-                        Detail Deskripsi Lengkap Lontar, judul lontar : Bhasma, tipe bahan:
-                        Daun Ronta, subjek: Mantra, klasifikasi: Weda,
-                        bahasa: Bahasa Kawi, <a href="/pencarian_pintar_lontar/pages/user/DetailLontar.php" class="text-orangePastel">Selengkapnya</a>
-                    </p>
+        <div class="flex justify-center flex-wrap flex-row gap-5">
+            <?php
 
+            require_once '../../apps/ViewLontar.php';
+            // Tambahkan debugging sesi
+            if (!isset($_SESSION)) {
+                echo "Session tidak dimulai.";
+            }
+
+            // Query untuk mengambil important keywords
+            $importantKeywordsQuery = "
+            PREFIX lontar: <http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#>
+            
+            SELECT ?keyword WHERE {
+                {
+                    ?s lontar:title ?keyword .
+                } UNION {
+                    ?s lontar:type ?keyword .
+                } UNION {
+                    ?s lontar:subject ?keyword .
+                } UNION {
+                    ?s lontar:classification ?keyword .
+                } UNION {
+                    ?s lontar:language ?keyword .
+                } UNION {
+                    ?s lontar:collation ?keyword .
+                } UNION {
+                    ?s lontar:year ?keyword .
+                } UNION {
+                    ?s lontar:length ?keyword .
+                } UNION {
+                    ?s lontar:width ?keyword .
+                } UNION {
+                    ?s lontar:resource ?keyword .
+                } UNION {
+                    ?s lontar:createBy ?keyword .
+                } UNION {
+                    ?s lontar:comeFrom ?keyword .
+                } UNION {
+                    ?s lontar:saveIn ?keyword .
+                } UNION {
+                    ?person lontar:author ?keyword .
+                } UNION {
+                    ?origin lontar:area ?keyword .
+                } UNION {
+                    ?origin lontar:regency ?keyword .
+                } UNION {
+                    ?place lontar:placename ?keyword .
+                } UNION {
+                    ?place lontar:location ?keyword .
+                }
+            }
+            ";
+            $importantKeywordsResults = $sparql->query($importantKeywordsQuery);
+
+            // Ambil hasil query dan simpan dalam array
+            $importantKeywords = [];
+            foreach ($importantKeywordsResults as $result) {
+                $importantKeywords[] = (string)$result->keyword;
+            }
+
+            if (isset($_POST['btn_keyword'])) {
+                $key = $_POST['keyword'];
+
+                // Encode data as JSON to pass to Python script
+                $data = json_encode([
+                    'keyword' => $key,
+                    'important_keywords' => $importantKeywords
+                ]);
+
+                // Buat file sementara untuk menyimpan data JSON
+                $tempFile = tempnam(sys_get_temp_dir(), 'data');
+                file_put_contents($tempFile, $data);
+
+                // Memanggil code python
+                $command = escapeshellcmd("python processingNLP.py " . escapeshellarg($tempFile));
+                $output = shell_exec("$command 2>&1");
+
+                // Hapus file sementara setelah selesai
+                if (file_exists($tempFile)) {
+                    unlink($tempFile);
+                }
+
+                $keyword_baru = strtolower(trim($output));
+                $keywords = explode(" ", $keyword_baru); // Memisahkan kata kunci yang dipisahkan oleh spasi
+
+                if (!empty($keywords)) {
+                    $sparql = new \EasyRdf\Sparql\Client('http://localhost:3030/pencarian_lontar/query');
+
+                    // Buat filter untuk setiap kata kunci
+                    $filters = [];
+                    foreach ($keywords as $keyword) {
+                        $filters[] = "CONTAINS(LCASE(?title), '$keyword') ||
+                                      CONTAINS(LCASE(?author), '$keyword') ||
+                                      CONTAINS(LCASE(?year), '$keyword') ||
+                                      CONTAINS(LCASE(?type), '$keyword') ||
+                                      CONTAINS(LCASE(?subject), '$keyword') ||
+                                      CONTAINS(LCASE(?classification), '$keyword') ||
+                                      CONTAINS(LCASE(?collation), '$keyword') ||
+                                      CONTAINS(LCASE(?language), '$keyword') ||
+                                      CONTAINS(STR(?length), '$keyword') ||
+                                      CONTAINS(STR(?width), '$keyword') ||
+                                      CONTAINS(LCASE(?area), '$keyword') ||
+                                      CONTAINS(LCASE(?regency), '$keyword') ||
+                                      CONTAINS(LCASE(?location), '$keyword') ||
+                                      CONTAINS(LCASE(?placename), '$keyword')";
+                    }
+
+                    $filter_query = implode(" || ", $filters);
+
+                    $query = "
+                    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                    PREFIX lontar: <http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#>
+                    
+                    SELECT *
+                    WHERE {
+                        ?lontar lontar:title ?title;
+                                lontar:type ?type;
+                                lontar:subject ?subject;
+                                lontar:classification ?classification;
+                                lontar:language ?language;
+                                lontar:collation ?collation;
+                                lontar:year ?year;
+                                lontar:length ?length;
+                                lontar:width ?width;
+                                lontar:resource ?resource;
+                                lontar:createBy ?person;
+                                lontar:comeFrom ?origin;
+                                lontar:saveIn ?place.
+                        ?person lontar:author ?author.
+                        ?origin lontar:area ?area;
+                                lontar:regency ?regency.
+                        ?place  lontar:placename ?placename;
+                                lontar:location ?location;
+                                lontar:hasSave ?lontar.
+                        FILTER ($filter_query)
+                    }
+                    ";
+                    // Simpan hasil pencarian dalam sesi
+                    $_SESSION['search_results'] = $keywords;
+                    $_SESSION['search_keyword'] = $key;
+                } else {
+                    echo "Error: Output from Python processing is empty.";
+                }
+            } elseif (isset($_SESSION['search_results'])) {
+                // Ambil hasil pencarian dari sesi
+                $keywords = $_SESSION['search_results'];
+                $key = $_SESSION['search_keyword'];
+                // Buat filter untuk setiap kata kunci
+                $filters = [];
+                foreach ($keywords as $keyword) {
+                    $filters[] = "CONTAINS(LCASE(?title), '$keyword') ||
+                                  CONTAINS(LCASE(?author), '$keyword') ||
+                                  CONTAINS(LCASE(?year), '$keyword') ||
+                                  CONTAINS(LCASE(?type), '$keyword') ||
+                                  CONTAINS(LCASE(?subject), '$keyword') ||
+                                  CONTAINS(LCASE(?classification), '$keyword') ||
+                                  CONTAINS(LCASE(?collation), '$keyword') ||
+                                  CONTAINS(LCASE(?language), '$keyword') ||
+                                  CONTAINS(STR(?length), '$keyword') ||
+                                  CONTAINS(STR(?width), '$keyword') ||
+                                  CONTAINS(LCASE(?area), '$keyword') ||
+                                  CONTAINS(LCASE(?regency), '$keyword') ||
+                                  CONTAINS(LCASE(?location), '$keyword') ||
+                                  CONTAINS(LCASE(?placename), '$keyword')";
+                }
+
+                $filter_query = implode(" || ", $filters);
+
+                $query = "
+                PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                PREFIX lontar: <http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#>
+                
+                SELECT *
+                WHERE {
+                    ?lontar lontar:title ?title;
+                            lontar:type ?type;
+                            lontar:subject ?subject;
+                            lontar:classification ?classification;
+                            lontar:language ?language;
+                            lontar:collation ?collation;
+                            lontar:year ?year;
+                            lontar:length ?length;
+                            lontar:width ?width;
+                            lontar:resource ?resource;
+                            lontar:createBy ?person;
+                            lontar:comeFrom ?origin;
+                            lontar:saveIn ?place.
+                    ?person lontar:author ?author.
+                    ?origin lontar:area ?area;
+                            lontar:regency ?regency.
+                    ?place  lontar:placename ?placename;
+                            lontar:location ?location;
+                            lontar:hasSave ?lontar.
+                    FILTER ($filter_query)
+                }
+                ";
+            } else {
+                $query = "SELECT *
+                WHERE {
+                    ?lontar lontar:title ?title;
+                            lontar:type ?type;
+                            lontar:subject ?subject;
+                            lontar:classification ?classification;
+                            lontar:language ?language;
+                            lontar:collation ?collation;
+                            lontar:year ?year;
+                            lontar:length ?length;
+                            lontar:width ?width;
+                            lontar:resource ?resource;
+                            lontar:createBy ?person;
+                            lontar:comeFrom ?origin;
+                            lontar:saveIn ?place.
+                    ?person lontar:author ?author.
+                    ?origin lontar:area ?area;
+                            lontar:regency ?regency.
+                    ?place  lontar:placename ?placename;
+                            lontar:location ?location;
+                            lontar:hasSave ?lontar.    
+                }";
+            }
+
+            // pagination
+            $jmlhDataPerHalaman = 10;
+            $result = $sparql->query($query);
+            $jumlahData = count($result);
+            $jumlahHalaman = ceil($jumlahData / $jmlhDataPerHalaman); //round-> Pembulatan ke atas
+            $halamanAktif = (isset($_GET['halaman'])) ? $_GET['halaman'] : 1;
+            //halaman aktif
+            $awalData = ($jmlhDataPerHalaman * $halamanAktif) - $jmlhDataPerHalaman;
+
+            $hasil = $sparql->query($query . "LIMIT $jmlhDataPerHalaman OFFSET $awalData");
+            // Memeriksa apakah ada hasil dari pencarian
+            if (isset($hasil) && count($hasil) > 0) {
+                foreach ($hasil as $data) :
+            ?>
+
+                    <!-- Koleksi Lontar -->
+                    <div class="flex justify-center  items-center mt-4 ">
+                        <div class="flex xxsm:flex-col  md:flex-row items-center rounded-lg xxsm:w-[250px] xsm:w-[280px] base:w-[360px] sm:w-[560px] md:w-[650px] lg:w-[800px] xl:w-[900px] 2xl:w-[700px] max-h-full shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] xxsm:flex">
+                            <div class="flex flex-col justify-between p-4 leading-normal xxsm:order-2 md:order-none md:text-sm lg:text-base">
+                                <input type="hidden" name="title" value="<?= $data->title ?>">
+                                <h2 class="xl:card-title text-darkBlue font-montsBold xxsm:text-lg base:text-xl xl:text-lg">
+                                    <?= $data->title ?>
+                                </h2>
+                                <h2 class="font-montsMedium text-mediumBlue xl:text-sm">
+                                    <?= $data->title ?> | <?= $data->year ?> | <?= $data->area ?>, <?= $data->regency ?>
+                                </h2>
+                                <p class="font-montserrat text-justify xl:text-sm">
+                                    Detail Deskripsi Lengkap Lontar, judul lontar : <?= $data->title ?>, tipe bahan:
+                                    <?= $data->type ?>, subjek: <?= $data->subject ?>, klasifikasi: <?= $data->classification ?>,
+                                    bahasa: <?= $data->language ?> <a href="/pencarian_pintar_lontar/pages/user/DetailLontar.php?id=<?= $data->title ?>" class="text-orangePastel">Selengkapnya</a>
+                                </p>
+                            </div>
+                            <figure class="xxsm:order-1 md:order-none ">
+                                <img class=" xxsm:rounded-t-lg md:rounded-t-none md:rounded-tr-lg object-cover md:rounded-br-lg lg:rounded-r-lg" src="../../image_base/<?= $data->resource; ?>" width="800px" height="288px" alt="image">
+                            </figure>
+                        </div>
+                    </div>
+                <?php endforeach;
+            } else {
+                // Jika tidak ada hasil dari pencarian, tampilkan pesan
+                ?>
+                <!-- Pesan "Maaf, data yang Anda cari tidak ditemukan" -->
+                <div class="flex justify-center flex-col items-center mt-20">
+                    <p class="font-montsMedium">Maaf, data yang Anda cari tidak ditemukan.</p>
+                    <p class="font-montsMedium">Silahkan Coba Lagi!</p>
                 </div>
-                <figure class="xxsm:order-1 md:order-none object-cover">
-                    <img class="bg-cover xxsm:max-w-full lg:max-w-full md:w-[800px] md:h-[200px] lg:h-full  xxsm:rounded-t-lg md:rounded-t-none md:rounded-tr-lg md:rounded-br-lg lg:rounded-r-lg" src="../../public/assets/Tulis_Lontar.jpg" alt="image">
-                </figure>
-            </div>
+            <?php }; ?>
         </div>
-        <!-- KoleksiLontar -->
-    </main>
+        <!-- end KoleksiLontar -->
+        <div class="flex justify-center">
+            <!-- pagination -->
+            <nav aria-label="Page navigation example" class="flex justify-end items-center mt-5">
+                <ul class="inline-flex -space-x-px text-base h-10 text-darkBlue">
+                    <?php if ($halamanAktif > 1) : ?>
+                        <li>
+                            <a href="?halaman=<?= $halamanAktif - 1; ?>" class="flex items-center justify-center px-4 h-10 ms-0 leading-tight  bg-mediumBlue border border-e-0 border-lightBlue rounded-s-lg hover:bg-mediumBlue text-white hover:text-orangePastel dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><i class="fa-solid fa-angle-left"></i></a>
+                        </li>
+                    <?php endif; ?>
+                    <?php for ($i = 1; $i <= $jumlahHalaman; $i++) : ?>
+                        <?php if ($i == $halamanAktif) : ?>
+                            <li>
+                                <a href="#" class="flex items-center justify-center px-4 h-10 ms-0 leading-tight  bg-mediumBlue border border-e-0 border-lightBlue hover:bg-mediumBlue text-orangePastel font-montsSemiBold  dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><?= $i; ?></a>
+                            </li>
+                        <?php else : ?>
+                            <li>
+                                <a href="?halaman=<?= $i; ?>" class="flex items-center justify-center px-4 h-10 ms-0 leading-tight  bg-mediumBlue border border-e-0 border-lightBlue hover:bg-mediumBlue text-white hover:text-orangePastel dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><?= $i; ?></a>
+                            </li>
+                        <?php endif; ?>
+                    <?php endfor; ?>
+                    <?php if ($halamanAktif < $jumlahHalaman) : ?>
+                        <li>
+                            <a href="?halaman=<?= $halamanAktif + 1; ?>" class="flex items-center justify-center px-4 h-10 ms-0 leading-tight  bg-mediumBlue border border-e-0 border-lightBlue rounded-r-lg hover:bg-mediumBlue text-white hover:text-orangePastel dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><i class="fa-solid fa-angle-right"></i></a>
+                        </li>
+                    <?php endif; ?>
 
+                </ul>
+            </nav>
+        </div>
+    </main>
     <!-- Footer -->
     <footer class="w-full bg-darkBlue xxsm:px-4 xsm:px-8 sm:px-12 px-16 py-8 mt-16 text-white">
         <a href="#beranda">
