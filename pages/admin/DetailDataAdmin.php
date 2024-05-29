@@ -6,9 +6,8 @@ if (!isset($_SESSION['login'])) {
     exit;
 }
 
-$id = $_GET['id'];
 // query berdasarkan id
-$admin = mysqli_query($koneksi, "SELECT * FROM `admin` WHERE id = $id");
+$admin = mysqli_query($koneksi, "SELECT * FROM `admin` WHERE id = '115'");
 $row = mysqli_fetch_assoc($admin);
 ?>
 
@@ -102,13 +101,6 @@ $row = mysqli_fetch_assoc($admin);
                         <span class="ms-3 text-lightSecondary font-montsMedium group-hover:text-mediumBlue ">Data Lontar</span>
                     </a>
                 </li>
-                <!-- Data Users -->
-                <li role="presentation">
-                    <a href="http://localhost/pencarian_pintar_lontar/pages/admin/TableDataAdmin.php" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                        <i class="flex-shrink-0 w-5 h-5 text-orangePastel transition duration-75 dark:text-gray-400 group-hover:text-mediumBlue dark:group-hover:text-white fa-solid fa-users"></i>
-                        <span class="ms-3 text-lightSecondary font-montsMedium group-hover:text-mediumBlue ">Data Admin</span>
-                    </a>
-                </li>
             </ul>
             <ul class="space-y-2 font-medium" id="default-tab" data-tabs-toggle="#default-tab-content" role="tablist">
                 <!-- dashboard -->
@@ -128,7 +120,7 @@ $row = mysqli_fetch_assoc($admin);
                     <div class="flex w-full flex-col justify-center items-center">
                         <div class="w-full max-w-3xl p-5 my-5 bg-white border border-gray-200 rounded-xl shadow dark:bg-gray-800 dark:border-gray-700">
                             <div class="flex justify-between px-4">
-                                <a href="http://localhost/pencarian_pintar_lontar/pages/admin/TableDataAdmin.php"><button class="mt-2 mb-4 hover:bg-darkBlue px-5 py-2 text-white rounded-full bg-lightBlue hover:transition-all hover:delay-100"><i class="fa-solid fa-angle-left"></i> Kembali</button></a>
+                                <a href="http://localhost/pencarian_pintar_lontar/pages/admin/DashboardAdmin.php"><button class="mt-2 mb-4 hover:bg-darkBlue px-5 py-2 text-white rounded-full bg-lightBlue hover:transition-all hover:delay-100"><i class="fa-solid fa-angle-left"></i> Kembali</button></a>
                                 <button id="dropdownButton" data-dropdown-toggle="dropdown" class="inline-block text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-1.5" type="button">
                                     <span class="sr-only">Open dropdown</span>
                                     <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">
@@ -148,7 +140,7 @@ $row = mysqli_fetch_assoc($admin);
                                 </div>
                             </div>
                             <div class="flex flex-col items-center mb-5">
-                                <img class="w-96 h-96 mb-3 object-cover rounded-full shadow-lg" src="../../public/assets/<?= $row['gambar']; ?>" alt="image" />
+                                <img class="w-96 h-96 mb-3 object-cover rounded-full shadow-lg" src="../../apps/ImageBlob.php?id=" alt="image" />
                                 <h5 class="mb-1 text-xl font-montsSemiBold text-gray-900 dark:text-white"><?= $row['nama']; ?></h5>
                                 <span class="text-md text-gray-500 dark:text-gray-400">Admin</span>
                                 <div class=" flex items-center gap-5 justify-center mt-5">

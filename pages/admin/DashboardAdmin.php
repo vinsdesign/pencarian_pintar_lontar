@@ -37,35 +37,26 @@ if (!isset($_SESSION['login'])) {
                     </a>
                 </div>
                 <div class="flex items-center">
-                    <div class="flex items-center ms-3">
+                    <div class="flex items-center gap-5 ms-3">
+                        <h2 class="text-white font-montsMedium"><?= $_SESSION['nama']; ?></h2>
                         <div>
                             <button type="button" class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="dropdown-user">
                                 <span class="sr-only">Open user menu</span>
-
-                                <img class="w-8 h-8 rounded-full" src="../../public/assets/mypicture.svg" alt="user photo">
+                                <img class="w-8 h-8 rounded-full" src="../../public/assets/DashboardImage.jpg" alt="user photo">
                             </button>
                         </div>
                         <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600" id="dropdown-user">
                             <div class="px-4 py-3" role="none">
                                 <p class="text-sm text-gray-900 dark:text-white" role="none">
-                                    Neil Sims
-                                </p>
-                                <p class="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
-                                    neil.sims@flowbite.com
+                                    Admin
                                 </p>
                             </div>
                             <ul class="py-1" role="none">
                                 <li>
-                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Dashboard</a>
+                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Profile</a>
                                 </li>
                                 <li>
-                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Settings</a>
-                                </li>
-                                <li>
-                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Earnings</a>
-                                </li>
-                                <li>
-                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Sign out</a>
+                                    <a href="http://localhost/pencarian_pintar_lontar/apps/Logout.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Sign out</a>
                                 </li>
                             </ul>
                         </div>
@@ -92,13 +83,6 @@ if (!isset($_SESSION['login'])) {
                     <a href="http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                         <i class="flex-shrink-0 w-5 h-5 text-orangePastel transition duration-75 dark:text-gray-400 group-hover:text-mediumBlue dark:group-hover:text-white fa-solid fa-book"></i>
                         <span class="ms-3 text-lightSecondary font-montsMedium group-hover:text-mediumBlue ">Data Lontar</span>
-                    </a>
-                </li>
-                <!-- Data Users -->
-                <li role="presentation">
-                    <a href="http://localhost/pencarian_pintar_lontar/pages/admin/TableDataAdmin.php" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                        <i class="flex-shrink-0 w-5 h-5 text-orangePastel transition duration-75 dark:text-gray-400 group-hover:text-mediumBlue dark:group-hover:text-white fa-solid fa-users"></i>
-                        <span class="ms-3 text-lightSecondary font-montsMedium group-hover:text-mediumBlue ">Data Admin</span>
                     </a>
                 </li>
             </ul>
@@ -148,12 +132,12 @@ if (!isset($_SESSION['login'])) {
                                 Bali, marupa naskah lontar Bali.
                             </p>
                             <div>
-                                <a href=""><button type="button" class="py-2 px-5 me-2 mb-2 text-sm font-medium bg-darkBlue text-white focus:outline-none mt-1 rounded-full border border-gray-200 hover:bg-mediumBlue focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                                <a href="http://localhost/pencarian_pintar_lontar/pages/admin/DetailDataAdmin.php"><button type="button" class="py-2 px-5 me-2 mb-2 text-sm font-medium bg-darkBlue text-white focus:outline-none mt-1 rounded-full border border-gray-200 hover:bg-mediumBlue focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
                                         Lihat Profile
                                     </button></a>
                             </div>
                         </div>
-                        <img src="../../public/assets/mypicture.svg" class="w-48 rounded-full" alt="mypicture" />
+                        <img src="../../public/assets/DashboardImage.jpg" class="w-48 border-2 border-solid border-darkBlue rounded-full" alt="mypicture" />
                     </div>
                     <?php
                     require "../../vendor/autoload.php";
