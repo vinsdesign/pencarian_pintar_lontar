@@ -118,9 +118,34 @@ if (!isset($_SESSION['login'])) {
             <div class="p-4 border-2 border-gray-200 border-dashed rounded-2xl dark:border-gray-700 mt-16">
                 <div class=" w-xl p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                     <a href="http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php"><button class="mt-1 hover:bg-darkBlue px-5 py-2 text-white rounded-full bg-lightBlue hover:transition-all hover:delay-100"><i class="fa-solid fa-angle-left"></i> Kembali</button></a>
-                    <figure class="image-container mt-5 cursor-pointer">
-                        <img class="w-full h-[700px] xxsm:rounded-t-xl" src="../../image_base/<?= $row->resource; ?>" alt="Lontar" />
-                    </figure>
+                    <!-- carousel image -->
+                    <div id="default-carousel" class="relative w-full" data-carousel="slide">
+                        <!-- Carousel wrapper -->
+                        <div class="relative xxsm:h-56 base:h-60 sm:h-72 md:h-[25rem] lg:h-96 overflow-hidden xl:h-[30rem] 2xl:h-[35rem]">
+                            <!-- gambar 1 -->
+                            <figure class="image-container mt-5 cursor-pointer" data-carousel-item>
+                                <img class="w-full h-[700px] xxsm:rounded-t-xl" src="../../image_base/<?= $row->resource; ?>" alt="Lontar" />
+                            </figure>
+                        </div>
+                        <!-- Slider controls -->
+                        <button type="button" class="absolute xxsm:hidden base:block top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
+                            <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                                <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4" />
+                                </svg>
+                                <span class="sr-only">Previous</span>
+                            </span>
+                        </button>
+                        <button type="button" class="absolute xxsm:hidden base:block  top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
+                            <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                                <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
+                                </svg>
+                                <span class="sr-only">Next</span>
+                            </span>
+                        </button>
+                    </div>
+                    <!-- end carousel image -->
                     <div class="popup-image fixed top-0 left-0 bg-black z-50 w-full h-full  hidden">
                         <div class="close-popup-image flex justify-end p-5 cursor-pointer">
                             <i class="fa-solid fa-xmark text-white text-2xl hover:text-orangePastel"></i>
