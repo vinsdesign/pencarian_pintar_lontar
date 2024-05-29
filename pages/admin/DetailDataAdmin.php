@@ -6,9 +6,6 @@ if (!isset($_SESSION['login'])) {
     exit;
 }
 
-// query berdasarkan id
-$admin = mysqli_query($koneksi, "SELECT * FROM `admin` WHERE id = '115'");
-$row = mysqli_fetch_assoc($admin);
 ?>
 
 <!DOCTYPE html>
@@ -140,22 +137,22 @@ $row = mysqli_fetch_assoc($admin);
                                 </div>
                             </div>
                             <div class="flex flex-col items-center mb-5">
-                                <img class="w-96 h-96 mb-3 object-cover rounded-full shadow-lg" src="../../apps/ImageBlob.php?id=" alt="image" />
-                                <h5 class="mb-1 text-xl font-montsSemiBold text-gray-900 dark:text-white"><?= $row['nama']; ?></h5>
+                                <img class="w-96 h-96 mb-3 object-cover rounded-full shadow-lg" src="../../public/assets/DashboardImage.jpg" alt="image" />
+                                <h5 class="mb-1 text-xl font-montsSemiBold text-gray-900 dark:text-white"><?= $_SESSION['nama']; ?></h5>
                                 <span class="text-md text-gray-500 dark:text-gray-400">Admin</span>
                                 <div class=" flex items-center gap-5 justify-center mt-5">
                                     <a href="#" class="w-44 rounded-full bg-darkBlue hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 text-white inline-flex items-center justify-center px-10 py-2 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700">
                                         <i class="fa-solid fa-user me-3 text-2xl"></i>
                                         <div class="text-left rtl:text-right">
                                             <div class="mb-1 text-xs">Username</div>
-                                            <div class=" text-md font-montsSemiBold"><?= $row['username']; ?></div>
+                                            <div class=" text-md font-montsSemiBold"><?= $_SESSION['username']; ?></div>
                                         </div>
                                     </a>
                                     <a href="#" class="w-44 rounded-full bg-gray-800 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 text-white inline-flex items-center justify-center px-10 py-2 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700">
                                         <i class="fa-solid fa-key me-3 text-2xl"></i>
                                         <div class="text-left rtl:text-right">
                                             <div class="mb-1 text-xs">password</div>
-                                            <div class=" text-md font-montsSemiBold"><?= $row['password']; ?></div>
+                                            <div class=" text-md font-montsSemiBold"><?= $_SESSION['password']; ?></div>
                                         </div>
                                     </a>
                                 </div>

@@ -26,6 +26,7 @@ if (isset($_POST["login"])) {
             $_SESSION["id"] = $row["id"];
             $_SESSION["nama"] = $row["nama"];
             $_SESSION["username"] = $row["username"];
+            $_SESSION["password"] = $row["password"];
             $_SESSION["image"] = $row["gambar"];
             // Password cocok, redirect ke halaman DashboardAdmin
             header("location: http://localhost/pencarian_pintar_lontar/pages/admin/DashboardAdmin.php");
