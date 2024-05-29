@@ -51,14 +51,11 @@
                                 <label for="username" class="peer-focus:font-medium px-5 py-2 absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-5 scale-75 top-4 z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-orangePastel peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-3">Username</label>
                             </div>
                             <div class="relative z-0 w-full mb-3 group">
-                                <input type="password" name="password" id="password" class="block py-5 pb-2 mt-4 w-96 h-16 text-base text-gray-200 bg-mediumBlue border-0 border-l-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:text-white focus:ring-0 focus:border-orangePastel peer" placeholder=" " required />
+                                <input type="password" name="password" id="password" class="block py-5 pb-2 mt-4 w-96 h-16 text-sm text-gray-200 bg-mediumBlue border-0 border-l-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:text-white focus:ring-0 focus:border-orangePastel peer" placeholder=" " required />
                                 <label for="password" class="peer-focus:font-medium px-5 py-2 absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-5 scale-75 top-4 z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-orangePastel peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-3">Password</label>
-                            </div>
-                            <div class="flex justify-end items-center mb-5">
-                                <div class="flex items-center h-5">
-                                    <input id="remember" type="checkbox" name="remember" class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:bg-orangePastel  focus:ring-orangePastel dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-orangePastel dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800" />
+                                <div class="absolute bottom-5 right-5">
+                                    <i class="fa-solid fa-eye-low-vision text-gray-400 cursor-pointer  hover:text-orangePastel" id="icon-eye"></i>
                                 </div>
-                                <label for="remember" class="ms-2 text-base font-montsMedium text-white dark:text-gray-300">Remember me</label>
                             </div>
                             <div class="flex justify-end">
                                 <button type="submit" class="text-mediumBlue font-montsSemiBold bg-orangePastel hover:bg-orange-300 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" name="login">Submit</button>
@@ -76,3 +73,18 @@
 </body>
 
 </html>
+<script>
+    let eyeicon = document.getElementById("icon-eye");
+    let password = document.getElementById("password");
+    eyeicon.onclick = function() {
+        if (password.type == "password") {
+            password.type = "text";
+            eyeicon.classList.add("fa-eye");
+            eyeicon.classList.remove("fa-eye-low-vision");
+        } else {
+            password.type = "password";
+            eyeicon.classList.add("fa-eye-low-vision");
+            eyeicon.classList.remove("fa-eye");
+        }
+    }
+</script>

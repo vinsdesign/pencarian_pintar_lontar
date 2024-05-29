@@ -14,6 +14,7 @@ if (isset($_POST["login"])) {
 
 
     $result = mysqli_query($koneksi, "SELECT * FROM admin WHERE username = '$username'");
+
     // cek username
     if (mysqli_num_rows($result) === 1) { //mysqli_num_rows => ada berapa baris yang dikembalikan
 
@@ -23,6 +24,7 @@ if (isset($_POST["login"])) {
 
             // set session
             $_SESSION["login"] = true;
+
             $_SESSION["id"] = $row["id"];
             $_SESSION["nama"] = $row["nama"];
             $_SESSION["username"] = $row["username"];
@@ -32,9 +34,6 @@ if (isset($_POST["login"])) {
             header("location: http://localhost/pencarian_pintar_lontar/pages/admin/DashboardAdmin.php");
             $success = true;
             exit;
-        } else {
-            // Password tidak cocok, set pesan error
-            $error = true;
         }
     }
     $error = true;
