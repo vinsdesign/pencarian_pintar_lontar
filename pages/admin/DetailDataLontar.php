@@ -123,10 +123,10 @@ if (!isset($_SESSION['login'])) {
                     </figure>
                     <div class="popup-image fixed top-0 left-0 bg-black z-50 w-full h-full  hidden">
                         <div class="close-popup-image flex justify-end p-5 cursor-pointer">
-                            <i class="fa-solid fa-xmark text-white text-2xl"></i>
+                            <i class="fa-solid fa-xmark text-white text-2xl hover:text-orangePastel"></i>
                         </div>
-                        <div class="flex justify-center items-center">
-                            <img class="2xl:w-[1600px] 2xl:h-[730px] border-2 border-solid border-white object-cover rounded-2xl" src="../../image_base/<?= $row->resource; ?>" alt="Lontar" />
+                        <div class="flex justify-center items-center bg-cover">
+                            <img class="2xl:w-[1600px] 2xl:h-[730px] border-2 border-solid hover:scale-105  transition-all duration-700 border-white object-cover rounded-2xl" src="../../image_base/<?= $row->resource; ?>" alt="Lontar" />
                         </div>
                     </div>
                     <div class="mt-5">
