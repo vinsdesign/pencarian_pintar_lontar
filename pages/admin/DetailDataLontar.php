@@ -118,9 +118,17 @@ if (!isset($_SESSION['login'])) {
             <div class="p-4 border-2 border-gray-200 border-dashed rounded-2xl dark:border-gray-700 mt-16">
                 <div class=" w-xl p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                     <a href="http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php"><button class="mt-1 hover:bg-darkBlue px-5 py-2 text-white rounded-full bg-lightBlue hover:transition-all hover:delay-100"><i class="fa-solid fa-angle-left"></i> Kembali</button></a>
-                    <figure class="mt-5">
+                    <figure class="image-container mt-5 cursor-pointer">
                         <img class="w-full h-[700px] xxsm:rounded-t-xl" src="../../image_base/<?= $row->resource; ?>" alt="Lontar" />
                     </figure>
+                    <div class="popup-image fixed top-0 left-0 bg-black z-50 w-full h-full  hidden">
+                        <div class="close-popup-image flex justify-end p-5 cursor-pointer">
+                            <i class="fa-solid fa-xmark text-white text-2xl"></i>
+                        </div>
+                        <div class="flex justify-center items-center">
+                            <img class="2xl:w-[1600px] 2xl:h-[730px] border-2 border-solid border-white object-cover rounded-2xl" src="../../image_base/<?= $row->resource; ?>" alt="Lontar" />
+                        </div>
+                    </div>
                     <div class="mt-5">
                         <h5 class="mb-2 text-2xl font-montsBold tracking-tight text-darkBlue dark:text-white">Detail Data Lontar</h5>
                     </div>
@@ -204,6 +212,17 @@ if (!isset($_SESSION['login'])) {
     <?php endforeach; ?>
     <!-- script -->
     <script src="../../node_modules/flowbite/dist/flowbite.min.js"></script>
+    <script>
+        document.querySelectorAll('.image-container img').forEach(image => {
+            image.onclick = () => {
+                document.querySelector('.popup-image').style.display = 'block';
+                document.querySelector('.popup-image img').src = image.getAttribute('src');
+            }
+        })
+        document.querySelector('.popup-image .close-popup-image').onclick = () => {
+            document.querySelector('.popup-image').style.display = 'none';
+        }
+    </script>
 </body>
 
 </html>
