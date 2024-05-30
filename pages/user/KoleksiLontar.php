@@ -109,6 +109,7 @@ require_once '../../apps/ViewLontar.php';
             <h1 class="font-montsBold text-darkBlue text-2xl">Koleksi Naskah Lontar Bali</h1>
             <p class="text-darkSecondary">Terdapat
                 <span class="text-mediumBlue font-montsMedium">
+                    <!-- menghitung banyak data lontar -->
                     <?php
                     $result = $sparql->query($query);
                     $jumlahData = count($result);
@@ -118,34 +119,29 @@ require_once '../../apps/ViewLontar.php';
                 Data Lontar yang sudah Terdigitalisasi
             </p>
         </div>
-        <div class="">
-            <div class="flex justify-end w-[1300px]">
-                <button id="dropdownDelayButton" data-dropdown-toggle="dropdownDelay" data-dropdown-delay="500" data-dropdown-trigger="hover" class="text-white bg-darkBlue hover:bg-mediumBlue focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center gap-2 dark:bg-darkBlue dark:hover:mediumBlue dark:focus:ring-blue-800" type="button">Kategori Lontar <i class="fa-solid fa-filter text-orangePastel"></i>
-                </button>
+        <!-- pencarian berdasarkan klassifikasi -->
+        <?php
+
+        ?>
+        <div class="w-[1550px]">
+            <div class="flex justify-end">
+                <form action="" method="post" class="flex">
+                    <select name="klasifikasi_lontar" id="dropdownDelayButton" data-dropdown-toggle="dropdownDelay" data-dropdown-delay="500" data-dropdown-trigger="hover" class="text-white bg-darkBlue hover:bg-mediumBlue focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-s-[15px] text-sm px-5 py-3 text-center inline-flex items-center gap-2 dark:bg-darkBlue dark:hover:mediumBlue dark:focus:ring-blue-800 border-r-2 border-darkBlue appearance-none">
+                        <option>Klasifikasi Lontar</option>
+                        <option value="weda">Weda</option>
+                        <option value="agama">Agama</option>
+                        <option value="tantri">Tantri</option>
+                        <option value="itihasa">Itihasa</option>
+                        <option value="babad">Babad</option>
+                        <option value="tantri">Tantri</option>
+                        <option value="lelampahan">Lelampahan</option>
+                    </select>
+                    <button type="submit" name="cari-klasifikasi" class="bg-darkBlue  hover:bg-mediumBlue focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium text-sm px-3 py-4 text-center inline-flex items-center dark:bg-darkBlue dark:hover:mediumBlue dark:focus:ring-blue-800 rounded-r-[15px]">
+                        <i class="fa-solid fa-filter text-orangePastel"></i>
+                    </button>
+                </form>
             </div>
         </div>
-
-
-
-        <!-- Dropdown menu -->
-        <div id="dropdownDelay" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDelayButton">
-                <li>
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
-                </li>
-                <li>
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
-                </li>
-                <li>
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Earnings</a>
-                </li>
-                <li>
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sign out</a>
-                </li>
-            </ul>
-        </div>
-
-
         <div class="flex justify-center flex-wrap flex-row gap-5">
             <?php
             // Tambahkan debugging sesi
@@ -364,6 +360,39 @@ require_once '../../apps/ViewLontar.php';
                             lontar:hasSave ?lontar.    
                 }";
             }
+            if (isset($_POST['cari-klasifikasi'])) {
+                $klasifikasi = $_POST['klasifikasi_lontar'];
+                $query = "
+                PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                PREFIX lontar: <http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#>
+        
+                SELECT *
+                WHERE {
+                    ?lontar lontar:title ?title;
+                            lontar:type ?type;
+                            lontar:subject ?subject;
+                            lontar:classification ?classification;
+                            lontar:language ?language;
+                            lontar:collation ?collation;
+                            lontar:year ?year;
+                            lontar:length ?length;
+                            lontar:width ?width;
+                            lontar:resource ?resource;
+                            lontar:createBy ?person;
+                            lontar:comeFrom ?origin;
+                            lontar:saveIn ?place.
+                    ?person lontar:author ?author.
+                    ?origin lontar:area ?area;
+                            lontar:regency ?regency.
+                    ?place  lontar:placename ?placename;
+                            lontar:location ?location;
+                            lontar:hasSave ?lontar.
+                    FILTER (CONTAINS(LCASE(?classification), '$klasifikasi'))
+                }
+                
+            ";
+                $result = $sparql->query($query);
+            }
 
             // pagination
             $jmlhDataPerHalaman = 10;
@@ -379,7 +408,6 @@ require_once '../../apps/ViewLontar.php';
             if (isset($hasil) && count($hasil) > 0) {
                 foreach ($hasil as $data) :
             ?>
-
                     <!-- Koleksi Lontar -->
 
                     <div class="flex justify-center  items-center mt-4 ">
@@ -508,6 +536,40 @@ require_once '../../apps/ViewLontar.php';
     <!-- script -->
     <script src="../../public/js/menuNavbar.js"></script>
     <script src="../../node_modules/flowbite/dist/flowbite.min.js"></script>
+    <script>
+        function selectCategory(category) {
+            const sparqlQuery = `
+        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+        PREFIX lontar: <http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#>
+
+        SELECT *
+        WHERE {
+            ?lontar lontar:title ?title;
+                    lontar:type ?type;
+                    lontar:subject ?subject;
+                    lontar:classification ?classification;
+                    lontar:language ?language;
+                    lontar:collation ?collation;
+                    lontar:year ?year;
+                    lontar:length ?length;
+                    lontar:width ?width;
+                    lontar:resource ?resource;
+                    lontar:createBy ?person;
+                    lontar:comeFrom ?origin;
+                    lontar:saveIn ?place.
+            ?person lontar:author ?author.
+            ?origin lontar:area ?area;
+                    lontar:regency ?regency.
+            ?place  lontar:placename ?placename;
+                    lontar:location ?location;
+                    lontar:hasSave ?lontar.
+            FILTER (?classification = "${category}")
+        }
+    `;
+            // Kirim query ke endpoint SPARQL atau proses query sesuai kebutuhan
+            console.log(sparqlQuery);
+        }
+    </script>
 </body>
 
 </html>
