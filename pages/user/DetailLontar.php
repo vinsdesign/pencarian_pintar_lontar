@@ -117,10 +117,43 @@ session_start();
         ?>
             <section class="flex justify-center items-center  flex-col mt-4">
                 <div class="w-[1200px] bg-base-100 bg-cover rounded-2xl pb-4 shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)]">
+                    <!-- carousel image -->
+                    <div id="default-carousel" class="relative w-full" data-carousel="slide">
+                        <!-- Carousel wrapper -->
+                        <div class="relative xxsm:h-56 base:h-60 sm:h-72 md:h-[25rem] lg:h-96 overflow-hidden xl:h-[30rem] 2xl:h-[35rem]">
+                            <!-- gambar 1 -->
+                            <figure data-carousel-item class="image-container cursor-pointer">
+                                <img class="w-[1200px] h-[700px] object-cover xxsm:rounded-t-2xl" src="../../image_base/<?= $row->resource; ?>" alt="Lontar" />
+                            </figure>
+                        </div>
+                        <!-- Slider controls -->
+                        <button type="button" class="absolute xxsm:hidden base:block top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
+                            <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                                <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4" />
+                                </svg>
+                                <span class="sr-only">Previous</span>
+                            </span>
+                        </button>
+                        <button type="button" class="absolute xxsm:hidden base:block  top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
+                            <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                                <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
+                                </svg>
+                                <span class="sr-only">Next</span>
+                            </span>
+                        </button>
+                    </div>
+                    <!-- end carousel image -->
+                    <div class="popup-image fixed top-0 left-0 bg-black z-50 w-full h-full  hidden">
+                        <div class="close-popup-image flex justify-end p-5 cursor-pointer">
+                            <i class="fa-solid fa-xmark text-white text-2xl hover:text-orangePastel"></i>
+                        </div>
+                        <div class="flex justify-center items-center bg-cover">
+                            <img class="2xl:w-[1600px] 2xl:h-[730px] border-2 border-solid hover:scale-105  transition-all duration-700 border-white object-cover rounded-2xl" src="../../image_base/<?= $row->resource; ?>" alt="Lontar" />
+                        </div>
+                    </div>
 
-                    <figure>
-                        <img class="w-[1200px] h-[700px] xxsm:rounded-t-2xl" src="../../image_base/<?= $row->resource; ?>" alt="Lontar" />
-                    </figure>
                 <?php endforeach; ?>
                 <div class="mt-5 ml-5">
                     <h2 class="card-title bg-orangePastel w-fit p-2 rounded-t-lg font-montsMedium text-base border-b-4 border-solid border-b-mediumBlue">
@@ -364,6 +397,17 @@ session_start();
     <!-- script -->
     <script src="../../public/js/menuNavbar.js"></script>
     <script src="../../node_modules/flowbite/dist/flowbite.min.js"></script>
+    <script>
+        document.querySelectorAll('.image-container img').forEach(image => {
+            image.onclick = () => {
+                document.querySelector('.popup-image').style.display = 'block';
+                document.querySelector('.popup-image img').src = image.getAttribute('src');
+            }
+        })
+        document.querySelector('.popup-image .close-popup-image').onclick = () => {
+            document.querySelector('.popup-image').style.display = 'none';
+        }
+    </script>
 </body>
 
 </html>

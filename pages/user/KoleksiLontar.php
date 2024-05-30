@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once '../../apps/ViewLontar.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -104,15 +105,53 @@ session_start();
         <!-- end carousel image -->
     </header>
     <main>
+        <div class="flex justify-center items-center flex-col">
+            <h1 class="font-montsBold text-darkBlue text-2xl">Koleksi Naskah Lontar Bali</h1>
+            <p class="text-darkSecondary">Terdapat
+                <span class="text-mediumBlue font-montsMedium">
+                    <?php
+                    $result = $sparql->query($query);
+                    $jumlahData = count($result);
+                    echo $jumlahData;
+                    ?>
+                </span>
+                Data Lontar yang sudah Terdigitalisasi
+            </p>
+        </div>
+        <div class="">
+            <div class="flex justify-end w-[1300px]">
+                <button id="dropdownDelayButton" data-dropdown-toggle="dropdownDelay" data-dropdown-delay="500" data-dropdown-trigger="hover" class="text-white bg-darkBlue hover:bg-mediumBlue focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center gap-2 dark:bg-darkBlue dark:hover:mediumBlue dark:focus:ring-blue-800" type="button">Kategori Lontar <i class="fa-solid fa-filter text-orangePastel"></i>
+                </button>
+            </div>
+        </div>
+
+
+
+        <!-- Dropdown menu -->
+        <div id="dropdownDelay" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDelayButton">
+                <li>
+                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
+                </li>
+                <li>
+                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
+                </li>
+                <li>
+                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Earnings</a>
+                </li>
+                <li>
+                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sign out</a>
+                </li>
+            </ul>
+        </div>
+
+
         <div class="flex justify-center flex-wrap flex-row gap-5">
             <?php
-
-            require_once '../../apps/ViewLontar.php';
             // Tambahkan debugging sesi
             if (!isset($_SESSION)) {
                 echo "Session tidak dimulai.";
             }
-
             // Query untuk mengambil important keywords
             $importantKeywordsQuery = "
             PREFIX lontar: <http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#>
@@ -342,6 +381,7 @@ session_start();
             ?>
 
                     <!-- Koleksi Lontar -->
+
                     <div class="flex justify-center  items-center mt-4 ">
                         <div class="flex xxsm:flex-col  md:flex-row items-center rounded-lg xxsm:w-[250px] xsm:w-[280px] base:w-[360px] sm:w-[560px] md:w-[650px] lg:w-[800px] xl:w-[900px] 2xl:w-[700px] max-h-full shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] xxsm:flex">
                             <div class="flex flex-col justify-between p-4 leading-normal xxsm:order-2 md:order-none md:text-sm lg:text-base">
@@ -359,7 +399,7 @@ session_start();
                                 </p>
                             </div>
                             <figure class="xxsm:order-1 md:order-none ">
-                                <img class=" xxsm:rounded-t-lg md:rounded-t-none md:rounded-tr-lg object-cover md:rounded-br-lg lg:rounded-r-lg" src="../../image_base/<?= $data->resource; ?>" width="800px" height="288px" alt="image">
+                                <img class=" xxsm:rounded-t-lg md:rounded-t-none md:rounded-tr-lg object-cover md:rounded-br-lg lg:rounded-r-lg" src="../../image_base/<?= $data->resource; ?>" width="800px" height="400px" alt="image">
                             </figure>
                         </div>
                     </div>
