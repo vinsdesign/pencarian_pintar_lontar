@@ -537,7 +537,8 @@ if (!isset($_SESSION['login'])) {
 
                             </div>
                             <div class="relative z-0 w-full mb-5 group">
-                                <input class="block w-full text-sm text-mediumBlue border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="upload_image_lontar" name="upload_image" id="upload_image_lontar" type="file">
+                                <div id="image_preview" class="mt-4"></div>
+                                <input class="block w-full text-sm text-mediumBlue border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="upload_image_lontar" name="upload_image[]" id="upload_image_lontar" type="file" multiple>
                                 <div class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="upload_image_lontar">Upload Gambar format <span class="text-danger">.jpg .png .webp</span></div>
                             </div>
                             <!-- Modal footer -->
@@ -551,13 +552,28 @@ if (!isset($_SESSION['login'])) {
                 </div>
             </div>
         </div>
-
-
-
-
     </main>
     <!-- script -->
     <script src="../../node_modules/flowbite/dist/flowbite.min.js"></script>
+    <script>
+        function previewImages() {
+            var preview = document.querySelector('#image_preview');
+            preview.innerHTML = '';
+            if (this.files) {
+                [].forEach.call(this.files, function(file) {
+                    var reader = new FileReader();
+                    reader.onload = function(event) {
+                        var img = document.createElement('img');
+                        img.src = event.target.result;
+                        img.classList.add('h-20', 'mr-2', 'mb-2');
+                        preview.appendChild(img);
+                    };
+                    reader.readAsDataURL(file);
+                });
+            }
+        }
+        document.querySelector('#upload_image_lontar').addEventListener('change', previewImages);
+    </script>
 </body>
 
 </html>

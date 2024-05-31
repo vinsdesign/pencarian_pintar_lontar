@@ -21,15 +21,20 @@ if (isset($_POST['TambahData'])) {
     $location = htmlspecialchars($_POST['lokasi']);
     $area = htmlspecialchars($_POST['area']);
     $regency = htmlspecialchars($_POST['regency']);
-    // $resource = htmlspecialchars($_POST['upload_image']);
 
     // Membuat judul lontar dengan format yang sesuai
     $title_lontar = str_replace(' ', '_', $title);
 
-    // mengecek gambar
-    $resource = upload();
-    if (!$resource) {
+    // Mengecek dan mengunggah gambar
+    $resources = upload();
+    if ($resources === false) {
         return false;
+    }
+    $resourcesTriples = '';
+    if (is_array($resources)) {
+        foreach ($resources as $resource) {
+            $resourcesTriples .= "lontar:resource '$resource';\n";
+        }
     }
     // Menyiapkan kueri INSERT data
     $query = "
@@ -47,7 +52,7 @@ if (isset($_POST['TambahData'])) {
                      lontar:year '$tahun' ;
                      lontar:length $panjang_lontar ;
                      lontar:width $lebar_lontar ;
-                     lontar:resource '$resource';
+                     $resourcesTriples
                      lontar:comeFrom lontar:Origin_$title_lontar;
                      lontar:createBy lontar:Person_$title_lontar ;
                      lontar:saveIn lontar:Place_$title_lontar .
@@ -66,7 +71,6 @@ if (isset($_POST['TambahData'])) {
                     lontar:author '$author';
                     lontar:address '-';
                     lontar:cv '-' .
-
         }
     ";
 
@@ -89,6 +93,92 @@ if (isset($_POST['TambahData'])) {
         </script>";
     }
 }
+
+
+// if (isset($_POST['TambahData'])) {
+//     // Ambil semua data dari form
+//     $title = htmlspecialchars($_POST['title']);
+//     $type = htmlspecialchars($_POST['type']);
+//     $subject = htmlspecialchars($_POST['subject']);
+//     $author = htmlspecialchars($_POST['penulis']);
+//     $classification = htmlspecialchars($_POST['klasifikasi']);
+//     $bahasa = htmlspecialchars($_POST['bahasa']);
+//     $collation = htmlspecialchars($_POST['collation']);
+//     $tahun = htmlspecialchars($_POST['tahun_lontar']);
+//     $panjang_lontar = htmlspecialchars($_POST['panjang_lontar']);
+//     $lebar_lontar = htmlspecialchars($_POST['lebar_lontar']);
+//     $placename = htmlspecialchars($_POST['nama_tempat']);
+//     $location = htmlspecialchars($_POST['lokasi']);
+//     $area = htmlspecialchars($_POST['area']);
+//     $regency = htmlspecialchars($_POST['regency']);
+//     // $resource = htmlspecialchars($_POST['upload_image']);
+
+//     // Membuat judul lontar dengan format yang sesuai
+//     $title_lontar = str_replace(' ', '_', $title);
+
+//     // mengecek gambar
+//     $resource = upload();
+//     if (!$resource) {
+//         return false;
+//     }
+//     // Menyiapkan kueri INSERT data
+//     $query = "
+//         PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+//         PREFIX lontar: <http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#>
+
+//         INSERT DATA {
+//             lontar:$title_lontar rdf:type lontar:Lontar ;
+//                      lontar:title '$title' ;
+//                      lontar:type '$type' ;
+//                      lontar:subject '$subject' ;
+//                      lontar:classification '$classification' ;
+//                      lontar:language '$bahasa' ;
+//                      lontar:collation '$collation' ;
+//                      lontar:year '$tahun' ;
+//                      lontar:length $panjang_lontar ;
+//                      lontar:width $lebar_lontar ;
+//                      lontar:resource '$resource';
+//                      lontar:comeFrom lontar:Origin_$title_lontar;
+//                      lontar:createBy lontar:Person_$title_lontar ;
+//                      lontar:saveIn lontar:Place_$title_lontar .
+
+//             lontar:Origin_$title_lontar rdf:type lontar:Origin ;
+//                      lontar:area '$area';
+//                      lontar:regency '$regency' .
+
+//             lontar:Place_$title_lontar rdf:type lontar:Place ;
+//                      lontar:hasSave lontar:$title_lontar ;
+//                      lontar:placename '$placename' ;
+//                      lontar:location '$location' .
+
+//             lontar:Person_$title_lontar rdf:type lontar:Person ;
+//                     lontar:hasCreate lontar:$title_lontar ;
+//                     lontar:author '$author';
+//                     lontar:address '-';
+//                     lontar:cv '-' .
+
+//         }
+//     ";
+
+//     // Membuat objek client SPARQL
+//     $sparql = new \EasyRdf\Sparql\Client('http://localhost:3030/pencarian_lontar/update');
+
+//     // Melakukan permintaan update dengan kueri yang telah disiapkan
+//     $result = $sparql->update($query);
+
+//     // Memeriksa hasil dan memberikan respons sesuai
+//     if ($result) {
+//         echo "<script>
+//             alert('Data Berhasil Ditambahkan')
+//             document.location.href='http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php'
+//         </script>";
+//     } else {
+//         echo "<script>
+//             alert('Gagal menambahkan data. Silakan coba lagi.')
+//             document.location.href='http://localhost/pencarian_pintar_lontar/apps/TableDataLontar.php'
+//         </script>";
+//     }
+// }
 if (isset($_POST['HapusData'])) {
     $id = $_POST['id_title'];
     $query = "
@@ -291,45 +381,94 @@ if (isset($_POST['EditData'])) {
     }
 }
 
-
 function upload()
 {
-    $namaFile = $_FILES['upload_image']['name'];
-    $ukuranFile = $_FILES['upload_image']['size'];
-    $errorFIle = $_FILES['upload_image']['error'];
-    $tmpName = $_FILES['upload_image']['tmp_name'];
+    $uploadedFiles = [];
+    $filesCount = count($_FILES['upload_image']['name']);
 
-    // adakah gambar yang di upload
-    if ($errorFIle === 4) {
-        echo "<script>
-        alert('Masukan Gambar Lontar!')
-             document.location.href='http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php'
-        </script>";
-        return false;
-    }
-    // mengecek ekstensi gambar 
-    $ekstensiGambarValid = ['jpg', 'jpeg', 'png', 'webp', 'svg'];
-    $ekstensiGambar = explode('.', $namaFile); // memecah antara ekstensi dan nama file dalam array
-    $ekstensiGambar = strtolower(end($ekstensiGambar)); // mengambil array paling akhir
-    if (!in_array($ekstensiGambar, $ekstensiGambarValid)) {
-        echo "<script>
-        alert('Ekstensi Gambar Salah!')
-             
-        </script>";
-        return false;
-    }
-    // cek ukuran gambar jika lebih dari 5MB
-    if ($ukuranFile > 2000000) {
-        echo "<script>
-        alert('Gambar melebihi ukuran 1MB!')
-             document.location.href='http://localhost/pencarian_pintar_lontar/pages/admin/TableDataAdmin.php'
-        </script>";
-        return false;
-    }
-    $namaFileNew = uniqid();
-    $namaFileNew .= '.';
-    $namaFileNew .= $ekstensiGambar;
+    for ($i = 0; $i < $filesCount; $i++) {
+        $namaFile = $_FILES['upload_image']['name'][$i];
+        $ukuranFile = $_FILES['upload_image']['size'][$i];
+        $errorFile = $_FILES['upload_image']['error'][$i];
+        $tmpName = $_FILES['upload_image']['tmp_name'][$i];
 
-    move_uploaded_file($tmpName, '../image_base/' . $namaFileNew);
-    return $namaFileNew;
+        // adakah gambar yang di upload
+        if ($errorFile === 4) {
+            echo "<script>
+            alert('Masukan Gambar Lontar!')
+                 document.location.href='http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php'
+            </script>";
+            return false;
+        }
+
+        // mengecek ekstensi gambar 
+        $ekstensiGambarValid = ['jpg', 'jpeg', 'png', 'webp', 'svg'];
+        $ekstensiGambar = explode('.', $namaFile);
+        $ekstensiGambar = strtolower(end($ekstensiGambar));
+        if (!in_array($ekstensiGambar, $ekstensiGambarValid)) {
+            echo "<script>
+            alert('Ekstensi Gambar Salah!')
+                 
+            </script>";
+            return false;
+        }
+
+        // cek ukuran gambar jika lebih dari 2MB
+        if ($ukuranFile > 2000000) {
+            echo "<script>
+            alert('Gambar melebihi ukuran 2MB!')
+                 document.location.href='http://localhost/pencarian_pintar_lontar/pages/admin/TableDataAdmin.php'
+            </script>";
+            return false;
+        }
+
+        $namaFileNew = uniqid() . '.' . $ekstensiGambar;
+
+        move_uploaded_file($tmpName, '../image_base/' . $namaFileNew);
+        $uploadedFiles[] = $namaFileNew;
+    }
+
+    return $uploadedFiles;
 }
+
+// function upload()
+// {
+//     $namaFile = $_FILES['upload_image']['name'];
+//     $ukuranFile = $_FILES['upload_image']['size'];
+//     $errorFIle = $_FILES['upload_image']['error'];
+//     $tmpName = $_FILES['upload_image']['tmp_name'];
+
+//     // adakah gambar yang di upload
+//     if ($errorFIle === 4) {
+//         echo "<script>
+//         alert('Masukan Gambar Lontar!')
+//              document.location.href='http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php'
+//         </script>";
+//         return false;
+//     }
+//     // mengecek ekstensi gambar 
+//     $ekstensiGambarValid = ['jpg', 'jpeg', 'png', 'webp', 'svg'];
+//     $ekstensiGambar = explode('.', $namaFile); // memecah antara ekstensi dan nama file dalam array
+//     $ekstensiGambar = strtolower(end($ekstensiGambar)); // mengambil array paling akhir
+//     if (!in_array($ekstensiGambar, $ekstensiGambarValid)) {
+//         echo "<script>
+//         alert('Ekstensi Gambar Salah!')
+             
+//         </script>";
+//         return false;
+//     }
+//     // cek ukuran gambar jika lebih dari 5MB
+//     if ($ukuranFile > 2000000) {
+//         echo "<script>
+//         alert('Gambar melebihi ukuran 1MB!')
+//              document.location.href='http://localhost/pencarian_pintar_lontar/pages/admin/TableDataAdmin.php'
+//         </script>";
+//         return false;
+//     }
+//     $namaFileNew = uniqid();
+//     $namaFileNew .= '.';
+//     $namaFileNew .= $ekstensiGambar;
+
+//     move_uploaded_file($tmpName, '../image_base/' . $namaFileNew);
+//     return $namaFileNew;
+// }
