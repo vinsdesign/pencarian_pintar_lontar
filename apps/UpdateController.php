@@ -1,4 +1,5 @@
 <?php
+session_start();
 require "../vendor/autoload.php";
 
 // Definisikan namespace yang Anda butuhkan
@@ -82,15 +83,13 @@ if (isset($_POST['TambahData'])) {
 
     // Memeriksa hasil dan memberikan respons sesuai
     if ($result) {
-        echo "<script>
-            alert('Data Berhasil Ditambahkan')
-            document.location.href='http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php'
-        </script>";
+        $_SESSION['status_add'] = 'Berhasil Tambahkan';
+        $_SESSION['status_code'] = 'success';
+        header('Location: http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php');
     } else {
-        echo "<script>
-            alert('Gagal menambahkan data. Silakan coba lagi.')
-            document.location.href='http://localhost/pencarian_pintar_lontar/apps/TableDataLontar.php'
-        </script>";
+        $_SESSION['status_add'] = 'Data Gagal Tambahkan';
+        $_SESSION['status_code'] = 'error';
+        header('Location: http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php');
     }
 }
 
@@ -216,15 +215,13 @@ if (isset($_POST['HapusData'])) {
 
     // Memeriksa hasil dan memberikan respons sesuai
     if ($result) {
-        echo "<script>
-            alert('Data Berhasil Dihapus')
-            document.location.href='http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php'
-        </script>";
+        $_SESSION['status_delete'] = 'Berhasil Terhapus';
+        $_SESSION['status_code'] = 'success';
+        header('Location: http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php');
     } else {
-        echo "<script>
-            alert('Gagal menambahkan data. Silakan coba lagi.')
-            document.location.href='http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php'
-        </script>";
+        $_SESSION['status_delete'] = 'Data Gagal Dihapus';
+        $_SESSION['status_code'] = 'error';
+        header('Location: http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php');
     }
 }
 
@@ -363,15 +360,13 @@ if (isset($_POST['EditData'])) {
 
         // Memeriksa hasil dan memberikan respons sesuai
         if ($result) {
-            echo "<script>
-                 alert('Data Berhasil Diubah');
-                 document.location.href='http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php';
-             </script>";
+            $_SESSION['status_edit'] = 'Berhasil Edit Data';
+            $_SESSION['status_code'] = 'success';
+            header('Location: http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php');
         } else {
-            echo "<script>
-                 alert('Gagal merubah data. Silakan coba lagi.');
-                 document.location.href='http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php';
-             </script>";
+            $_SESSION['status_edit'] = 'Data Gagal Diedit';
+            $_SESSION['status_code'] = 'error';
+            header('Location: http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php');
         }
     } catch (Exception $e) {
         echo "<script>

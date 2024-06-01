@@ -548,32 +548,58 @@ if (!isset($_SESSION['login'])) {
                             </div>
                         </form>
                     </div>
-
                 </div>
             </div>
         </div>
     </main>
     <!-- script -->
     <script src="../../node_modules/flowbite/dist/flowbite.min.js"></script>
-    <script>
-        function previewImages() {
-            var preview = document.querySelector('#image_preview');
-            preview.innerHTML = '';
-            if (this.files) {
-                [].forEach.call(this.files, function(file) {
-                    var reader = new FileReader();
-                    reader.onload = function(event) {
-                        var img = document.createElement('img');
-                        img.src = event.target.result;
-                        img.classList.add('h-20', 'mr-2', 'mb-2');
-                        preview.appendChild(img);
-                    };
-                    reader.readAsDataURL(file);
-                });
-            }
-        }
-        document.querySelector('#upload_image_lontar').addEventListener('change', previewImages);
-    </script>
+    <script src="../../node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
+    <!-- sweetallert hapus -->
+    <?php
+    if (isset($_SESSION['status_delete']) && $_SESSION['status_delete'] != '') {
+    ?>
+        <script>
+            Swal.fire({
+                title: "<?= $_SESSION['status_delete'] ?>",
+                icon: "<?= $_SESSION['status_code'] ?>"
+            });
+        </script>
+    <?php
+        unset($_SESSION['status_delete']);
+        unset($_SESSION['status_code']);
+    }
+    ?>
+    <!-- sweetallert tambah data -->
+    <?php
+    if (isset($_SESSION['status_add']) && $_SESSION['status_add'] != '') {
+    ?>
+        <script>
+            Swal.fire({
+                title: "<?= $_SESSION['status_add'] ?>",
+                icon: "<?= $_SESSION['status_code'] ?>"
+            });
+        </script>
+    <?php
+        unset($_SESSION['status_add']);
+        unset($_SESSION['status_code']);
+    }
+    ?>
+    <!-- sweetallert edit -->
+    <?php
+    if (isset($_SESSION['status_edit']) && $_SESSION['status_edit'] != '') {
+    ?>
+        <script>
+            Swal.fire({
+                title: "<?= $_SESSION['status_edit'] ?>",
+                icon: "<?= $_SESSION['status_code'] ?>"
+            });
+        </script>
+    <?php
+        unset($_SESSION['status_edit']);
+        unset($_SESSION['status_code']);
+    }
+    ?>
 </body>
 
 </html>

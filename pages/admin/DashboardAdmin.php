@@ -277,6 +277,21 @@ if (!isset($_SESSION['login'])) {
     </main>
     <!-- script -->
     <script src="../../node_modules/flowbite/dist/flowbite.min.js"></script>
+    <script src="../../node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
+    <!-- sweetallert popup login -->
+    <?php
+    if (isset($_SESSION['popup_login']) && $_SESSION['popup_login'] != '') {
+    ?>
+        <script>
+            Swal.fire({
+                title: "<?= $_SESSION['popup_login'] ?>",
+                icon: "success"
+            });
+        </script>
+    <?php
+        unset($_SESSION['popup_login']);
+    }
+    ?>
 </body>
 
 </html>
