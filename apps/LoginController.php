@@ -26,6 +26,7 @@ if (isset($_POST["login"])) {
             $_SESSION["login"] = true;
 
             $_SESSION["id"] = $row["id"];
+            $_SESSION["popup_login"] = "Login Berhasil";
             $_SESSION["nama"] = $row["nama"];
             $_SESSION["username"] = $row["username"];
             $_SESSION["password"] = $row["password"];
