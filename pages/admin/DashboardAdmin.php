@@ -249,7 +249,10 @@ if (!isset($_SESSION['login'])) {
                                 lontar:hasSave ?lontar.
                         FILTER (?regency IN ('Karangasem', 'Gianyar', 'Tabanan','Denpasar', 'Bangli', 'Badung', 'Jembrana', 'Buleleng','Klungkung', 'Mataram'))
                     }
-                    GROUP BY ?regency";
+                    GROUP BY ?regency
+                    ORDER BY DESC(?count)
+                    ";
+
                         $result = $sparql->query($query);
                         foreach ($result as $row) :
                         ?>

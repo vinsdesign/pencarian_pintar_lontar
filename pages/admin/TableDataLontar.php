@@ -228,6 +228,7 @@ if (!isset($_SESSION['login'])) {
                                             lontar:hasSave ?lontar.
                                 }
                                 GROUP BY ?title ?type ?subject ?classification ?language ?collation ?year ?length ?width ?author ?area ?regency ?placename ?location
+                                ORDER BY ?title
                                 ";
                             }
 
