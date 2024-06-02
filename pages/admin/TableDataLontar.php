@@ -159,11 +159,11 @@ if (!isset($_SESSION['login'])) {
 
                             // query pencarian
                             if (isset($_POST['btn_search'])) {
-                                $keyword = $_POST['search'];
+                                $keyword = htmlspecialchars($_POST['search']);
                                 $query = "
                                 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
                                 PREFIX lontar: <http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#>
-                                SELECT *
+                                SELECT ?title ?type ?subject ?classification ?language ?collation ?year ?length ?width ?author ?area ?regency ?placename ?location (GROUP_CONCAT(?resource; SEPARATOR=',') AS ?resources)
                                 WHERE {
                                       BIND( '$keyword' as ?keyword)
                                     ?lontar lontar:title ?title;
@@ -200,7 +200,9 @@ if (!isset($_SESSION['login'])) {
                                            CONTAINS(LCASE(?area), ?keyword) ||
                                            CONTAINS(LCASE(?regency), ?keyword)
                                           )
-                            }";
+                            }
+                            GROUP BY ?title ?type ?subject ?classification ?language ?collation ?year ?length ?width ?author ?area ?regency ?placename ?location
+                            ";
                             } else {
                                 $query = "
                                 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -371,15 +373,22 @@ if (!isset($_SESSION['login'])) {
                                                                 </div>
                                                                 <div class="relative z-0 w-full mb-5 group">
                                                                     <input type="hidden" name="gambar_lama" value="<?= $row->resource; ?>">
-                                                                    <img class="w-full h-52 mb-2" src="../../image_base/<?= $row->resource; ?>" alt="gambar">
-                                                                    <input class="block w-full text-sm text-mediumBlue border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="upload_image_lontar" value="Basma" id="upload_image_lontar" name="upload_image" type="file">
+                                                                    <div class="flex justify-start gap-5 overflow-x-scroll">
+                                                                        <?php if (!empty($resourcesArray)) : ?>
+                                                                            <?php foreach ($resourcesArray as $resource) : ?>
+                                                                                <img src="../../image_base/<?= $resource; ?>" alt="gambar" class="w-96" />
+                                                                            <?php endforeach; ?>
+                                                                        <?php endif; ?>
+                                                                    </div>
+
+
+                                                                    <input class="block w-full text-sm mt-5 text-mediumBlue border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="upload_image_lontar" value="Basma" id="upload_image_lontar" name="upload_image[]" type="file" multiple>
                                                                     <div class="mt-1 text-sm text-left text-gray-500 dark:text-gray-300" id="upload_image_lontar">Upload Gambar format <span class="text-danger">.jpg .png .webp .svg</span></div>
                                                                 </div>
-
                                                                 <!-- Modal footer -->
-                                                                <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+                                                                <div class="flex items-center py-4 md:py-5 border-t border-gray-200 rounded-b dark:border-gray-600">
                                                                     <button data-modal-hide="static-modal-edit-<?= $i; ?>" type="submit" name="EditData" class="text-white bg-mediumBlue hover:bg-darkBlue focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 font-montsMedium">Submit</button>
-                                                                    <button data-modal-hide="static-modal-edit-<?= $i; ?>" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-darkBlue focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 font-montsMedium">Reset</button>
+                                                                    <button data-modal-hide="static-modal-edit-<?= $i; ?>" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-darkBlue focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 font-montsMedium">Cancel</button>
                                                                 </div>
                                                             </form>
                                                         </div>
