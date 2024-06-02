@@ -205,33 +205,36 @@ if (!isset($_SESSION['login'])) {
                                 $query = "
                                 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
                                 PREFIX lontar: <http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#>
-                                SELECT *
+                                SELECT ?title ?type ?subject ?classification ?language ?collation ?year ?length ?width ?author ?area ?regency ?placename ?location (GROUP_CONCAT(?resource; SEPARATOR=',') AS ?resources)
                                 WHERE {
-                                ?lontar lontar:title ?title;
-                                        lontar:type ?type;
-                                        lontar:subject ?subject;
-                                        lontar:classification ?classification;
-                                        lontar:language ?language;
-                                        lontar:collation ?collation;
-                                        lontar:year ?year;
-                                        lontar:length ?length;
-                                        lontar:width ?width;
-                                        lontar:resource ?resource;
-                                        lontar:createBy ?person;
-                                        lontar:comeFrom ?origin;
-                                        lontar:saveIn ?place.
-                                ?person lontar:author ?author.
-                                ?origin lontar:area	?area;
-                                        lontar:regency ?regency.
-                                ?place  lontar:placename ?placename;
-                                        lontar:location ?location;
-                                        lontar:hasSave ?lontar.	
-                                }";
+                                    ?lontar lontar:title ?title;
+                                            lontar:type ?type;
+                                            lontar:subject ?subject;
+                                            lontar:classification ?classification;
+                                            lontar:language ?language;
+                                            lontar:collation ?collation;
+                                            lontar:year ?year;
+                                            lontar:length ?length;
+                                            lontar:width ?width;
+                                            lontar:resource ?resource;
+                                            lontar:createBy ?person;
+                                            lontar:comeFrom ?origin;
+                                            lontar:saveIn ?place.
+                                    ?person lontar:author ?author.
+                                    ?origin lontar:area ?area;
+                                            lontar:regency ?regency.
+                                    ?place  lontar:placename ?placename;
+                                            lontar:location ?location;
+                                            lontar:hasSave ?lontar.
+                                }
+                                GROUP BY ?title ?type ?subject ?classification ?language ?collation ?year ?length ?width ?author ?area ?regency ?placename ?location
+                                ";
                             }
 
                             // pagination
                             $jmlhDataPerHalaman = 10;
                             $result = $sparql->query($query);
+
                             $jumlahData = 0;
                             foreach ($result as $row) {
                                 $jumlahData++;
@@ -242,6 +245,7 @@ if (!isset($_SESSION['login'])) {
                             $awalData = ($jmlhDataPerHalaman * $halamanAktif) - $jmlhDataPerHalaman;
                             $hasil = $sparql->query($query . "LIMIT $jmlhDataPerHalaman OFFSET $awalData");
                             foreach ($hasil as $row) :
+                                $resourcesArray = isset($row->resources) ? explode(",", $row->resources) : [];
                             ?>
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600">
                                     <td class="w-4 px-5 py-3">
@@ -405,7 +409,12 @@ if (!isset($_SESSION['login'])) {
                                     <td class="px-6 py-4"><?= $row->area; ?></td>
                                     <td class="px-6 py-4"><?= $row->regency; ?></td>
                                     <td class="px-6 py-4">
-                                        <img src="../../image_base/<?= $row->resource; ?>" alt="gambar" />
+                                        <?php if (!empty($resourcesArray)) :
+                                            $firstResource = $resourcesArray[0];
+                                        ?>
+                                            <img src="../../image_base/<?= $firstResource; ?>" alt="gambar" style="width: 100px; height: auto; margin: 5px;" />
+
+                                        <?php endif; ?>
                                     </td>
                                 </tr>
                             <?php $i++;

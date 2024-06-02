@@ -9,28 +9,30 @@ require "../../vendor/autoload.php";
 \EasyRdf\RdfNamespace::set('lontar', 'http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#');
 
 $sparql = new \EasyRdf\Sparql\Client('http://localhost:3030/pencarian_lontar/query');
-$query = "SELECT *
-        WHERE {
-        ?lontar lontar:title ?title;
-                lontar:type ?type;
-                lontar:subject ?subject;
-                lontar:classification ?classification;
-                lontar:language ?language;
-                lontar:collation ?collation;
-                lontar:year ?year;
-                lontar:length ?length;
-                lontar:width ?width;
-                lontar:resource ?resource;
-                lontar:createBy ?person;
-                lontar:comeFrom ?origin;
-                lontar:saveIn ?place.
-        ?person lontar:author ?author.
-        ?origin lontar:area	?area;
-                lontar:regency ?regency.
-        ?place  lontar:placename ?placename;
-                lontar:location ?location;
-                lontar:hasSave ?lontar.	
-        }";
+$query = "SELECT ?title ?type ?subject ?classification ?language ?collation ?year ?length ?width ?author ?area ?regency ?placename ?location (GROUP_CONCAT(?resource; SEPARATOR=',') AS ?resources)
+WHERE {
+    ?lontar lontar:title ?title;
+            lontar:type ?type;
+            lontar:subject ?subject;
+            lontar:classification ?classification;
+            lontar:language ?language;
+            lontar:collation ?collation;
+            lontar:year ?year;
+            lontar:length ?length;
+            lontar:width ?width;
+            lontar:resource ?resource;
+            lontar:createBy ?person;
+            lontar:comeFrom ?origin;
+            lontar:saveIn ?place.
+    ?person lontar:author ?author.
+    ?origin lontar:area ?area;
+            lontar:regency ?regency.
+    ?place  lontar:placename ?placename;
+            lontar:location ?location;
+            lontar:hasSave ?lontar.
+}
+GROUP BY ?title ?type ?subject ?classification ?language ?collation ?year ?length ?width ?author ?area ?regency ?placename ?location
+";
 
 
 
