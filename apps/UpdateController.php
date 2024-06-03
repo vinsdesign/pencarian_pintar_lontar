@@ -93,91 +93,6 @@ if (isset($_POST['TambahData'])) {
     }
 }
 
-
-// if (isset($_POST['TambahData'])) {
-//     // Ambil semua data dari form
-//     $title = htmlspecialchars($_POST['title']);
-//     $type = htmlspecialchars($_POST['type']);
-//     $subject = htmlspecialchars($_POST['subject']);
-//     $author = htmlspecialchars($_POST['penulis']);
-//     $classification = htmlspecialchars($_POST['klasifikasi']);
-//     $bahasa = htmlspecialchars($_POST['bahasa']);
-//     $collation = htmlspecialchars($_POST['collation']);
-//     $tahun = htmlspecialchars($_POST['tahun_lontar']);
-//     $panjang_lontar = htmlspecialchars($_POST['panjang_lontar']);
-//     $lebar_lontar = htmlspecialchars($_POST['lebar_lontar']);
-//     $placename = htmlspecialchars($_POST['nama_tempat']);
-//     $location = htmlspecialchars($_POST['lokasi']);
-//     $area = htmlspecialchars($_POST['area']);
-//     $regency = htmlspecialchars($_POST['regency']);
-//     // $resource = htmlspecialchars($_POST['upload_image']);
-
-//     // Membuat judul lontar dengan format yang sesuai
-//     $title_lontar = str_replace(' ', '_', $title);
-
-//     // mengecek gambar
-//     $resource = upload();
-//     if (!$resource) {
-//         return false;
-//     }
-//     // Menyiapkan kueri INSERT data
-//     $query = "
-//         PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-//         PREFIX lontar: <http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#>
-
-//         INSERT DATA {
-//             lontar:$title_lontar rdf:type lontar:Lontar ;
-//                      lontar:title '$title' ;
-//                      lontar:type '$type' ;
-//                      lontar:subject '$subject' ;
-//                      lontar:classification '$classification' ;
-//                      lontar:language '$bahasa' ;
-//                      lontar:collation '$collation' ;
-//                      lontar:year '$tahun' ;
-//                      lontar:length $panjang_lontar ;
-//                      lontar:width $lebar_lontar ;
-//                      lontar:resource '$resource';
-//                      lontar:comeFrom lontar:Origin_$title_lontar;
-//                      lontar:createBy lontar:Person_$title_lontar ;
-//                      lontar:saveIn lontar:Place_$title_lontar .
-
-//             lontar:Origin_$title_lontar rdf:type lontar:Origin ;
-//                      lontar:area '$area';
-//                      lontar:regency '$regency' .
-
-//             lontar:Place_$title_lontar rdf:type lontar:Place ;
-//                      lontar:hasSave lontar:$title_lontar ;
-//                      lontar:placename '$placename' ;
-//                      lontar:location '$location' .
-
-//             lontar:Person_$title_lontar rdf:type lontar:Person ;
-//                     lontar:hasCreate lontar:$title_lontar ;
-//                     lontar:author '$author';
-//                     lontar:address '-';
-//                     lontar:cv '-' .
-
-//         }
-//     ";
-
-//     // Membuat objek client SPARQL
-//     $sparql = new \EasyRdf\Sparql\Client('http://localhost:3030/pencarian_lontar/update');
-
-//     // Melakukan permintaan update dengan kueri yang telah disiapkan
-//     $result = $sparql->update($query);
-
-//     // Memeriksa hasil dan memberikan respons sesuai
-//     if ($result) {
-//         echo "<script>
-//             alert('Data Berhasil Ditambahkan')
-//             document.location.href='http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php'
-//         </script>";
-//     } else {
-//         echo "<script>
-//             alert('Gagal menambahkan data. Silakan coba lagi.')
-//             document.location.href='http://localhost/pencarian_pintar_lontar/apps/TableDataLontar.php'
-//         </script>";
-//     }
-// }
 if (isset($_POST['HapusData'])) {
     $id = $_POST['id_title'];
     $query = "
@@ -249,9 +164,23 @@ if (isset($_POST['EditData'])) {
 
     // cek apakah user pilih gambar baru atau tidak?
     if ($_FILES['upload_image']['error'] === 4) {
-        $resource = $gambarLama;
+        $resources = explode(',', $gambarLama);
     } else {
-        $resource = upload();
+        $resources = upload();
+        if (!$resources) {
+            // Handle error case if upload fails
+            $_SESSION['status_edit'] = 'Data Gagal Diedit';
+            $_SESSION['status_code'] = 'error';
+            header('Location: http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php');
+            exit;
+        }
+    }
+
+    $resourceTriplesOld = '';
+    $resourceTriplesNew = '';
+    foreach ($resources as $resource) {
+        $resourceTriplesOld .= "lontar:resource ?oldResource ;\n";
+        $resourceTriplesNew .= "lontar:resource '$resource' ;\n";
     }
     // Menyiapkan query edit Data
     $query = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -268,7 +197,7 @@ if (isset($_POST['EditData'])) {
                                 lontar:year ?oldYear ;
                                 lontar:length ?oldLength ;
                                 lontar:width ?oldWidth ;
-                                lontar:resource ?oldResource ;
+                                $resourceTriplesOld ;
                                 lontar:comeFrom lontar:Origin_$oldTitle_lontar ;
                                 lontar:createBy lontar:Person_$oldTitle_lontar ;
                                 lontar:saveIn lontar:Place_$oldTitle_lontar .
@@ -299,7 +228,7 @@ if (isset($_POST['EditData'])) {
                           lontar:year '$tahun' ;
                           lontar:length $panjang_lontar ;
                           lontar:width $lebar_lontar ;
-                          lontar:resource '$resource' ;
+                          $resourceTriplesNew ;
                           lontar:comeFrom lontar:Origin_$new_title ;
                           lontar:createBy lontar:Person_$new_title ;
                           lontar:saveIn lontar:Place_$new_title .
@@ -330,7 +259,7 @@ if (isset($_POST['EditData'])) {
                                 lontar:year ?oldYear ;
                                 lontar:length ?oldLength ;
                                 lontar:width ?oldWidth ;
-                                lontar:resource ?oldResource ;
+                                $resourceTriplesOld ;
                                 lontar:comeFrom lontar:Origin_$oldTitle_lontar ;
                                 lontar:createBy lontar:Person_$oldTitle_lontar ;
                                 lontar:saveIn lontar:Place_$oldTitle_lontar .

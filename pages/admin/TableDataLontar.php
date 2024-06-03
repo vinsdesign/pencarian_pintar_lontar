@@ -108,7 +108,7 @@ if (!isset($_SESSION['login'])) {
                     </div>
                     <!-- Search -->
                     <div class="flex items-center gap-2">
-                        <form class="flex items-center max-w-sm mx-auto" method="post" action="">
+                        <form class="flex items-center max-w-sm mx-auto" method="get" action="">
                             <label for="simple-search" class="sr-only">Search</label>
                             <div class="relative w-full">
                                 <input type="search" id="simple-search" name="search" class="block p-2.5 pl-5 w-80 z-20 text-sm text-gray-900 border border-mediumBlue rounded-2xl focus:ring-orangePastel focus:border-darkBlue dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500" placeholder="Cari Data Lontar" required />
@@ -158,8 +158,8 @@ if (!isset($_SESSION['login'])) {
                             $i = 1;
 
                             // query pencarian
-                            if (isset($_POST['btn_search'])) {
-                                $keyword = htmlspecialchars($_POST['search']);
+                            if (isset($_POST['btn_search']) || isset($_GET['search'])) {
+                                $keyword = isset($_POST['search']) ? htmlspecialchars($_POST['search']) : htmlspecialchars($_GET['search']);
                                 $query = "
                                 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
                                 PREFIX lontar: <http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#>
@@ -373,7 +373,8 @@ if (!isset($_SESSION['login'])) {
                                                                 </div>
                                                                 <div class="relative z-0 w-full mb-5 group">
                                                                     <input type="hidden" name="gambar_lama" value="<?= $row->resource; ?>">
-                                                                    <div class="flex justify-start gap-5 overflow-x-scroll">
+
+                                                                    <div class="flex justify-start items-center gap-5 overflow-x-scroll">
                                                                         <?php if (!empty($resourcesArray)) : ?>
                                                                             <?php foreach ($resourcesArray as $resource) : ?>
                                                                                 <img src="../../image_base/<?= $resource; ?>" alt="gambar" class="w-96" />
@@ -434,11 +435,15 @@ if (!isset($_SESSION['login'])) {
                     </table>
                 </div>
                 <!-- pagination -->
+                <?php
+                $searchQuery = isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '';
+                $baseUrl = "?search=$searchQuery&halaman=";
+                ?>
                 <nav aria-label="Page navigation example" class="flex justify-end items-center mt-5">
                     <ul class="inline-flex -space-x-px text-base h-10 text-darkBlue">
                         <?php if ($halamanAktif > 1) : ?>
                             <li>
-                                <a href="?halaman=<?= $halamanAktif - 1; ?>" class="flex items-center justify-center px-4 h-10 ms-0 leading-tight  bg-mediumBlue border border-e-0 border-lightBlue rounded-s-lg hover:bg-mediumBlue text-white hover:text-orangePastel dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><i class="fa-solid fa-angle-left"></i></a>
+                                <a href="<?= $baseUrl . $halamanAktif - 1; ?>" class="flex items-center justify-center px-4 h-10 ms-0 leading-tight  bg-mediumBlue border border-e-0 border-lightBlue rounded-s-lg hover:bg-mediumBlue text-white hover:text-orangePastel dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><i class="fa-solid fa-angle-left"></i></a>
                             </li>
                         <?php endif; ?>
                         <?php for ($i = 1; $i <= $jumlahHalaman; $i++) : ?>
@@ -448,13 +453,13 @@ if (!isset($_SESSION['login'])) {
                                 </li>
                             <?php else : ?>
                                 <li>
-                                    <a href="?halaman=<?= $i; ?>" class="flex items-center justify-center px-4 h-10 ms-0 leading-tight  bg-mediumBlue border border-e-0 border-lightBlue hover:bg-mediumBlue text-white hover:text-orangePastel dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><?= $i; ?></a>
+                                    <a href="<?= $baseUrl . $i; ?>" class="flex items-center justify-center px-4 h-10 ms-0 leading-tight  bg-mediumBlue border border-e-0 border-lightBlue hover:bg-mediumBlue text-white hover:text-orangePastel dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><?= $i; ?></a>
                                 </li>
                             <?php endif; ?>
                         <?php endfor; ?>
                         <?php if ($halamanAktif < $jumlahHalaman) : ?>
                             <li>
-                                <a href="?halaman=<?= $halamanAktif + 1; ?>" class="flex items-center justify-center px-4 h-10 ms-0 leading-tight  bg-mediumBlue border border-e-0 border-lightBlue rounded-r-lg hover:bg-mediumBlue text-white hover:text-orangePastel dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><i class="fa-solid fa-angle-right"></i></a>
+                                <a href="<?= $baseUrl . $halamanAktif + 1; ?>" class="flex items-center justify-center px-4 h-10 ms-0 leading-tight  bg-mediumBlue border border-e-0 border-lightBlue rounded-r-lg hover:bg-mediumBlue text-white hover:text-orangePastel dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><i class="fa-solid fa-angle-right"></i></a>
                             </li>
                         <?php endif; ?>
 
@@ -619,6 +624,56 @@ if (!isset($_SESSION['login'])) {
         unset($_SESSION['status_code']);
     }
     ?>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle add image button click
+            document.getElementById('add-image').addEventListener('click', function() {
+                document.getElementById('image-input').click();
+            });
+
+            // Handle file input change
+            document.getElementById('image-input').addEventListener('change', function(event) {
+                const files = event.target.files;
+                const imageContainer = document.getElementById('image-container');
+
+                Array.from(files).forEach(file => {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const imageWrapper = document.createElement('div');
+                        imageWrapper.classList.add('image-wrapper', 'flex', 'items-center');
+
+                        const removeButton = document.createElement('button');
+                        removeButton.type = 'button';
+                        removeButton.classList.add('bg-danger', 'px-3', 'py-1', 'rounded-full', 'remove-image');
+                        removeButton.innerHTML = '<i class="fa-solid fa-minus text-sm text-white"></i>';
+
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.alt = 'gambar';
+                        img.classList.add('w-96');
+
+                        imageWrapper.appendChild(removeButton);
+                        imageWrapper.appendChild(img);
+                        imageContainer.appendChild(imageWrapper);
+
+                        // Handle remove image button click
+                        removeButton.addEventListener('click', function() {
+                            imageWrapper.remove();
+                        });
+                    }
+                    reader.readAsDataURL(file);
+                });
+            });
+
+            // Handle remove existing image button click
+            document.querySelectorAll('.remove-image').forEach(button => {
+                button.addEventListener('click', function() {
+                    this.closest('.image-wrapper').remove();
+                });
+            });
+        });
+    </script>
+
 </body>
 
 </html>
