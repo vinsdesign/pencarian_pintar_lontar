@@ -253,7 +253,7 @@ require_once '../../apps/ViewLontar.php';
                     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
                     PREFIX lontar: <http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#>
                     
-                    SELECT *
+                    SELECT ?title ?type ?subject ?classification ?language ?collation ?year ?length ?width ?author ?area ?regency ?placename ?location (GROUP_CONCAT(?resource; SEPARATOR=',') AS ?resources)
                     WHERE {
                         ?lontar lontar:title ?title;
                                 lontar:type ?type;
@@ -274,8 +274,10 @@ require_once '../../apps/ViewLontar.php';
                         ?place  lontar:placename ?placename;
                                 lontar:location ?location;
                                 lontar:hasSave ?lontar.
+
                         FILTER ($filter_query)
                     }
+                    GROUP BY ?title ?type ?subject ?classification ?language ?collation ?year ?length ?width ?author ?area ?regency ?placename ?location
                     ";
                     // Simpan hasil pencarian dalam sesi
                     $_SESSION['search_results'] = $keywords;
@@ -312,53 +314,60 @@ require_once '../../apps/ViewLontar.php';
                 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
                 PREFIX lontar: <http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#>
                 
-                SELECT *
-                WHERE {
-                    ?lontar lontar:title ?title;
-                            lontar:type ?type;
-                            lontar:subject ?subject;
-                            lontar:classification ?classification;
-                            lontar:language ?language;
-                            lontar:collation ?collation;
-                            lontar:year ?year;
-                            lontar:length ?length;
-                            lontar:width ?width;
-                            lontar:resource ?resource;
-                            lontar:createBy ?person;
-                            lontar:comeFrom ?origin;
-                            lontar:saveIn ?place.
-                    ?person lontar:author ?author.
-                    ?origin lontar:area ?area;
-                            lontar:regency ?regency.
-                    ?place  lontar:placename ?placename;
-                            lontar:location ?location;
-                            lontar:hasSave ?lontar.
-                    FILTER ($filter_query)
-                }
+                SELECT ?title ?type ?subject ?classification ?language ?collation ?year ?length ?width ?author ?area ?regency ?placename ?location (GROUP_CONCAT(?resource; SEPARATOR=',') AS ?resources)
+                    WHERE {
+                        ?lontar lontar:title ?title;
+                                lontar:type ?type;
+                                lontar:subject ?subject;
+                                lontar:classification ?classification;
+                                lontar:language ?language;
+                                lontar:collation ?collation;
+                                lontar:year ?year;
+                                lontar:length ?length;
+                                lontar:width ?width;
+                                lontar:resource ?resource;
+                                lontar:createBy ?person;
+                                lontar:comeFrom ?origin;
+                                lontar:saveIn ?place.
+                        ?person lontar:author ?author.
+                        ?origin lontar:area ?area;
+                                lontar:regency ?regency.
+                        ?place  lontar:placename ?placename;
+                                lontar:location ?location;
+                                lontar:hasSave ?lontar.
+
+                        FILTER ($filter_query)
+                    }
+                    GROUP BY ?title ?type ?subject ?classification ?language ?collation ?year ?length ?width ?author ?area ?regency ?placename ?location
                 ";
             } else {
-                $query = "SELECT *
-                WHERE {
-                    ?lontar lontar:title ?title;
-                            lontar:type ?type;
-                            lontar:subject ?subject;
-                            lontar:classification ?classification;
-                            lontar:language ?language;
-                            lontar:collation ?collation;
-                            lontar:year ?year;
-                            lontar:length ?length;
-                            lontar:width ?width;
-                            lontar:resource ?resource;
-                            lontar:createBy ?person;
-                            lontar:comeFrom ?origin;
-                            lontar:saveIn ?place.
-                    ?person lontar:author ?author.
-                    ?origin lontar:area ?area;
-                            lontar:regency ?regency.
-                    ?place  lontar:placename ?placename;
-                            lontar:location ?location;
-                            lontar:hasSave ?lontar.    
-                }";
+                $query = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                PREFIX lontar: <http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#>
+                
+                SELECT ?title ?type ?subject ?classification ?language ?collation ?year ?length ?width ?author ?area ?regency ?placename ?location (GROUP_CONCAT(?resource; SEPARATOR=',') AS ?resources)
+                    WHERE {
+                        ?lontar lontar:title ?title;
+                                lontar:type ?type;
+                                lontar:subject ?subject;
+                                lontar:classification ?classification;
+                                lontar:language ?language;
+                                lontar:collation ?collation;
+                                lontar:year ?year;
+                                lontar:length ?length;
+                                lontar:width ?width;
+                                lontar:resource ?resource;
+                                lontar:createBy ?person;
+                                lontar:comeFrom ?origin;
+                                lontar:saveIn ?place.
+                        ?person lontar:author ?author.
+                        ?origin lontar:area ?area;
+                                lontar:regency ?regency.
+                        ?place  lontar:placename ?placename;
+                                lontar:location ?location;
+                                lontar:hasSave ?lontar.
+                    }
+                    GROUP BY ?title ?type ?subject ?classification ?language ?collation ?year ?length ?width ?author ?area ?regency ?placename ?location
+                ";
             }
             if (isset($_POST['cari-klasifikasi'])) {
                 $klasifikasi = $_POST['klasifikasi_lontar'];
@@ -366,7 +375,7 @@ require_once '../../apps/ViewLontar.php';
                 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
                 PREFIX lontar: <http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#>
         
-                SELECT *
+                SELECT ?title ?type ?subject ?classification ?language ?collation ?year ?length ?width ?author ?area ?regency ?placename ?location (GROUP_CONCAT(?resource; SEPARATOR=',') AS ?resources)
                 WHERE {
                     ?lontar lontar:title ?title;
                             lontar:type ?type;
@@ -389,9 +398,8 @@ require_once '../../apps/ViewLontar.php';
                             lontar:hasSave ?lontar.
                     FILTER (CONTAINS(LCASE(?classification), '$klasifikasi'))
                 }
-                
+                GROUP BY ?title ?type ?subject ?classification ?language ?collation ?year ?length ?width ?author ?area ?regency ?placename ?location        
             ";
-                $result = $sparql->query($query);
             }
 
             // pagination
@@ -407,6 +415,7 @@ require_once '../../apps/ViewLontar.php';
             // Memeriksa apakah ada hasil dari pencarian
             if (isset($hasil) && count($hasil) > 0) {
                 foreach ($hasil as $data) :
+                    $resourcesArray = isset($data->resources) ? explode(",", $data->resources) : [];
             ?>
                     <!-- Koleksi Lontar -->
 
@@ -427,7 +436,11 @@ require_once '../../apps/ViewLontar.php';
                                 </p>
                             </div>
                             <figure class="xxsm:order-1 md:order-none ">
-                                <img class=" xxsm:rounded-t-lg md:rounded-t-none md:rounded-tr-lg object-cover md:rounded-br-lg lg:rounded-r-lg" src="../../image_base/<?= $data->resource; ?>" width="800px" height="400px" alt="image">
+                                <?php if (!empty($resourcesArray)) :
+                                    $firstResource = $resourcesArray[0];
+                                ?>
+                                    <img class=" xxsm:rounded-t-lg md:rounded-t-none md:rounded-tr-lg object-cover md:rounded-br-lg lg:rounded-r-lg" src="../../image_base/<?= $firstResource; ?>" width="800px" height="400px" alt="image">
+                                <?php endif; ?>
                             </figure>
                         </div>
                     </div>

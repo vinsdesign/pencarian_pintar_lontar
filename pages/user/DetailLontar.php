@@ -118,13 +118,15 @@ session_start();
             <section class="flex justify-center items-center  flex-col mt-4">
                 <div class="w-[1200px] bg-base-100 bg-cover rounded-2xl pb-4 shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)]">
                     <!-- carousel image -->
-                    <div id="default-carousel" class="relative w-full" data-carousel="slide">
+                    <div id="default-carousel" class="relative w-full" data-carousel="static">
                         <!-- Carousel wrapper -->
                         <div class="relative xxsm:h-56 base:h-60 sm:h-72 md:h-[25rem] lg:h-96 overflow-hidden xl:h-[30rem] 2xl:h-[35rem]">
-                            <!-- gambar 1 -->
-                            <figure data-carousel-item class="image-container cursor-pointer">
-                                <img class="w-[1200px] h-[700px] object-cover xxsm:rounded-t-2xl" src="../../image_base/<?= $row->resource; ?>" alt="Lontar" />
-                            </figure>
+                            <?php foreach ($result as $row) : ?>
+                                <!-- gambar 1 -->
+                                <figure data-carousel-item class="image-container cursor-pointer">
+                                    <img class="w-[1200px] h-[700px] object-cover xxsm:rounded-t-2xl" src="../../image_base/<?= $row->resource; ?>" alt="Lontar" />
+                                </figure>
+                            <?php endforeach; ?>
                         </div>
                         <!-- Slider controls -->
                         <button type="button" class="absolute xxsm:hidden base:block top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>

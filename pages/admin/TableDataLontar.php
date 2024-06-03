@@ -381,10 +381,12 @@ if (!isset($_SESSION['login'])) {
                                                                             <?php endforeach; ?>
                                                                         <?php endif; ?>
                                                                     </div>
+                                                                    <figure>
+                                                                        <img id="image-preview" class="w-10 h-auto">
+                                                                    </figure>
 
-
-                                                                    <input class="block w-full text-sm mt-5 text-mediumBlue border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="upload_image_lontar" value="Basma" id="upload_image_lontar" name="upload_image[]" type="file" multiple>
-                                                                    <div class="mt-1 text-sm text-left text-gray-500 dark:text-gray-300" id="upload_image_lontar">Upload Gambar format <span class="text-danger">.jpg .png .webp .svg</span></div>
+                                                                    <input class="block w-full text-sm mt-5 text-mediumBlue border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="upload_image_lontar" value="Basma" id="edit_upload" name="upload_image[]" type="file" multiple>
+                                                                    <div class="mt-1 text-sm text-left text-gray-500 dark:text-gray-300">Upload Gambar format <span class="text-danger">.jpg .png .webp .svg</span></div>
                                                                 </div>
                                                                 <!-- Modal footer -->
                                                                 <div class="flex items-center py-4 md:py-5 border-t border-gray-200 rounded-b dark:border-gray-600">
@@ -579,6 +581,7 @@ if (!isset($_SESSION['login'])) {
     <!-- script -->
     <script src="../../node_modules/flowbite/dist/flowbite.min.js"></script>
     <script src="../../node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
+    <script src="../../public/js/uploadPreview.js"></script>
     <!-- sweetallert hapus -->
     <?php
     if (isset($_SESSION['status_delete']) && $_SESSION['status_delete'] != '') {
@@ -624,56 +627,6 @@ if (!isset($_SESSION['login'])) {
         unset($_SESSION['status_code']);
     }
     ?>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Handle add image button click
-            document.getElementById('add-image').addEventListener('click', function() {
-                document.getElementById('image-input').click();
-            });
-
-            // Handle file input change
-            document.getElementById('image-input').addEventListener('change', function(event) {
-                const files = event.target.files;
-                const imageContainer = document.getElementById('image-container');
-
-                Array.from(files).forEach(file => {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const imageWrapper = document.createElement('div');
-                        imageWrapper.classList.add('image-wrapper', 'flex', 'items-center');
-
-                        const removeButton = document.createElement('button');
-                        removeButton.type = 'button';
-                        removeButton.classList.add('bg-danger', 'px-3', 'py-1', 'rounded-full', 'remove-image');
-                        removeButton.innerHTML = '<i class="fa-solid fa-minus text-sm text-white"></i>';
-
-                        const img = document.createElement('img');
-                        img.src = e.target.result;
-                        img.alt = 'gambar';
-                        img.classList.add('w-96');
-
-                        imageWrapper.appendChild(removeButton);
-                        imageWrapper.appendChild(img);
-                        imageContainer.appendChild(imageWrapper);
-
-                        // Handle remove image button click
-                        removeButton.addEventListener('click', function() {
-                            imageWrapper.remove();
-                        });
-                    }
-                    reader.readAsDataURL(file);
-                });
-            });
-
-            // Handle remove existing image button click
-            document.querySelectorAll('.remove-image').forEach(button => {
-                button.addEventListener('click', function() {
-                    this.closest('.image-wrapper').remove();
-                });
-            });
-        });
-    </script>
-
 </body>
 
 </html>
