@@ -83,11 +83,11 @@ if (isset($_POST['TambahData'])) {
 
     // Memeriksa hasil dan memberikan respons sesuai
     if ($result) {
-        $_SESSION['status_add'] = 'Berhasil Tambahkan';
+        $_SESSION['status_add'] = 'Data Berhasil Ditambahkan';
         $_SESSION['status_code'] = 'success';
         header('Location: http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php');
     } else {
-        $_SESSION['status_add'] = 'Data Gagal Tambahkan';
+        $_SESSION['status_add'] = 'Data Gagal Ditambahkan';
         $_SESSION['status_code'] = 'error';
         header('Location: http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php');
     }
@@ -130,7 +130,7 @@ if (isset($_POST['HapusData'])) {
 
     // Memeriksa hasil dan memberikan respons sesuai
     if ($result) {
-        $_SESSION['status_delete'] = 'Berhasil Terhapus';
+        $_SESSION['status_delete'] = 'Data Berhasil Dihapus';
         $_SESSION['status_code'] = 'success';
         header('Location: http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php');
     } else {
@@ -167,13 +167,13 @@ if (isset($_POST['EditData'])) {
         $resources = explode(',', $gambarLama);
     } else {
         $resources = upload();
-        if (!$resources) {
-            // Handle error case if upload fails
-            $_SESSION['status_edit'] = 'Data Gagal Diedit';
-            $_SESSION['status_code'] = 'error';
-            header('Location: http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php');
-            exit;
-        }
+        // if (!$resources) {
+        //     // Handle error case if upload fails
+        //     $_SESSION['status_edit'] = 'Data Gagal karena gambar harus dimasukan';
+        //     $_SESSION['status_code'] = 'error';
+        //     header('Location: http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php');
+        //     exit;
+        // }
     }
 
     $resourceTriplesOld = '';
@@ -289,11 +289,11 @@ if (isset($_POST['EditData'])) {
 
         // Memeriksa hasil dan memberikan respons sesuai
         if ($result) {
-            $_SESSION['status_edit'] = 'Berhasil Edit Data';
+            $_SESSION['status_edit'] = 'Data Berhasil Dirubah';
             $_SESSION['status_code'] = 'success';
             header('Location: http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php');
         } else {
-            $_SESSION['status_edit'] = 'Data Gagal Diedit';
+            $_SESSION['status_edit'] = 'Data Gagal Dirubah';
             $_SESSION['status_code'] = 'error';
             header('Location: http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php');
         }
@@ -332,7 +332,7 @@ function upload()
         if (!in_array($ekstensiGambar, $ekstensiGambarValid)) {
             echo "<script>
             alert('Ekstensi Gambar Salah!')
-                 
+            document.location.href='http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php'
             </script>";
             return false;
         }
@@ -341,7 +341,7 @@ function upload()
         if ($ukuranFile > 2000000) {
             echo "<script>
             alert('Gambar melebihi ukuran 2MB!')
-                 document.location.href='http://localhost/pencarian_pintar_lontar/pages/admin/TableDataAdmin.php'
+                 document.location.href='http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php'
             </script>";
             return false;
         }
@@ -354,45 +354,3 @@ function upload()
 
     return $uploadedFiles;
 }
-
-// function upload()
-// {
-//     $namaFile = $_FILES['upload_image']['name'];
-//     $ukuranFile = $_FILES['upload_image']['size'];
-//     $errorFIle = $_FILES['upload_image']['error'];
-//     $tmpName = $_FILES['upload_image']['tmp_name'];
-
-//     // adakah gambar yang di upload
-//     if ($errorFIle === 4) {
-//         echo "<script>
-//         alert('Masukan Gambar Lontar!')
-//              document.location.href='http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php'
-//         </script>";
-//         return false;
-//     }
-//     // mengecek ekstensi gambar 
-//     $ekstensiGambarValid = ['jpg', 'jpeg', 'png', 'webp', 'svg'];
-//     $ekstensiGambar = explode('.', $namaFile); // memecah antara ekstensi dan nama file dalam array
-//     $ekstensiGambar = strtolower(end($ekstensiGambar)); // mengambil array paling akhir
-//     if (!in_array($ekstensiGambar, $ekstensiGambarValid)) {
-//         echo "<script>
-//         alert('Ekstensi Gambar Salah!')
-             
-//         </script>";
-//         return false;
-//     }
-//     // cek ukuran gambar jika lebih dari 5MB
-//     if ($ukuranFile > 2000000) {
-//         echo "<script>
-//         alert('Gambar melebihi ukuran 1MB!')
-//              document.location.href='http://localhost/pencarian_pintar_lontar/pages/admin/TableDataAdmin.php'
-//         </script>";
-//         return false;
-//     }
-//     $namaFileNew = uniqid();
-//     $namaFileNew .= '.';
-//     $namaFileNew .= $ekstensiGambar;
-
-//     move_uploaded_file($tmpName, '../image_base/' . $namaFileNew);
-//     return $namaFileNew;
-// }
