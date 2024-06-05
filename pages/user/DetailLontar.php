@@ -156,21 +156,16 @@ session_start();
                         </div>
                     </div>
 
-                <?php endforeach; ?>
-                <div class="mt-5 ml-5">
-                    <h2 class="card-title bg-orangePastel w-fit p-2 rounded-t-lg font-montsMedium text-base border-b-4 border-solid border-b-mediumBlue">
-                        Detail Deskripsi Lengkap Lontar
-                    </h2>
-                </div>
-                <div class="relative overflow-x-auto px-5">
-                    <table class="w-full text-sm text-left pb-5 rtl:text-right text-mediumBlue dark:text-gray-400">
-                        <tbody>
-                            <?php
-                            // arahkan ke view lontar
-                            require_once "../../apps/DetailController.php";
-                            $result = $sparql->query($query);
-                            foreach ($result as $row) :
-                            ?>
+
+                    <div class="mt-5 ml-5">
+                        <h2 class="card-title bg-orangePastel w-fit p-2 rounded-t-lg font-montsMedium text-base border-b-4 border-solid border-b-mediumBlue">
+                            Detail Deskripsi Lengkap Lontar
+                        </h2>
+                    </div>
+                    <div class="relative overflow-x-auto px-5">
+                        <table class="w-full text-sm text-left pb-5 rtl:text-right text-mediumBlue dark:text-gray-400">
+                            <tbody>
+
                                 <tr class="border-b border-gray-200 bg-lightSecondary">
                                     <th scope="row" class="pl-5 w-36 font-montsMedium">
                                         Title
@@ -327,9 +322,9 @@ session_start();
                                 </tr>
                             <?php endforeach; ?>
 
-                        </tbody>
-                    </table>
-                </div>
+                            </tbody>
+                        </table>
+                    </div>
 
                 </div>
             </section>
