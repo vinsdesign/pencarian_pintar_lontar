@@ -201,7 +201,7 @@ require_once '../../apps/ViewLontar.php';
             }
 
             if (isset($_POST['btn_keyword'])) {
-                $key = $_POST['keyword'];
+                $key = htmlspecialchars($_POST['keyword']);
 
                 // Encode data as JSON to pass to Python script
                 $data = json_encode([
@@ -398,10 +398,44 @@ require_once '../../apps/ViewLontar.php';
                             lontar:hasSave ?lontar.
                     FILTER (CONTAINS(LCASE(?classification), '$klasifikasi'))
                 }
+                GROUP BY ?title ?type ?subject ?classification ?language ?collation ?year ?length ?width ?author ?area ?regency ?placename ?location   
+                     
+            ";
+                // Simpan hasil klasifikasi dalam sesi
+                $_SESSION['klasifikasi_results'] = $klasifikasi;
+            } elseif (isset($_SESSION['klasifikasi_results'])) {
+                // Ambil hasil pencarian dari sesi
+                $klasifikasi = $_SESSION['klasifikasi_results'];
+                $query = "
+                PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                PREFIX lontar: <http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#>
+        
+                SELECT ?title ?type ?subject ?classification ?language ?collation ?year ?length ?width ?author ?area ?regency ?placename ?location (GROUP_CONCAT(?resource; SEPARATOR=',') AS ?resources)
+                WHERE {
+                    ?lontar lontar:title ?title;
+                            lontar:type ?type;
+                            lontar:subject ?subject;
+                            lontar:classification ?classification;
+                            lontar:language ?language;
+                            lontar:collation ?collation;
+                            lontar:year ?year;
+                            lontar:length ?length;
+                            lontar:width ?width;
+                            lontar:resource ?resource;
+                            lontar:createBy ?person;
+                            lontar:comeFrom ?origin;
+                            lontar:saveIn ?place.
+                    ?person lontar:author ?author.
+                    ?origin lontar:area ?area;
+                            lontar:regency ?regency.
+                    ?place  lontar:placename ?placename;
+                            lontar:location ?location;
+                            lontar:hasSave ?lontar.
+                    FILTER (CONTAINS(LCASE(?classification), '$klasifikasi'))
+                }
                 GROUP BY ?title ?type ?subject ?classification ?language ?collation ?year ?length ?width ?author ?area ?regency ?placename ?location        
             ";
             }
-
             // pagination
             $jmlhDataPerHalaman = 10;
             $result = $sparql->query($query);
@@ -418,7 +452,6 @@ require_once '../../apps/ViewLontar.php';
                     $resourcesArray = isset($data->resources) ? explode(",", $data->resources) : [];
             ?>
                     <!-- Koleksi Lontar -->
-
                     <div class="flex justify-center  items-center mt-4 ">
                         <div class="flex xxsm:flex-col  md:flex-row items-center rounded-lg xxsm:w-[250px] xsm:w-[280px] base:w-[360px] sm:w-[560px] md:w-[650px] lg:w-[800px] xl:w-[900px] 2xl:w-[700px] max-h-full shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] xxsm:flex">
                             <div class="flex flex-col justify-between p-4 leading-normal xxsm:order-2 md:order-none md:text-sm lg:text-base">
@@ -427,7 +460,7 @@ require_once '../../apps/ViewLontar.php';
                                     <?= $data->title ?>
                                 </h2>
                                 <h2 class="font-montsMedium text-mediumBlue xl:text-sm">
-                                    <?= $data->title ?> | <?= $data->year ?> | <?= $data->area ?>, <?= $data->regency ?>
+                                    <?= $data->author ?> | <?= $data->year ?> | <?= $data->area ?> | <?= $data->regency ?>
                                 </h2>
                                 <p class="font-montserrat text-justify xl:text-sm">
                                     Detail Deskripsi Lengkap Lontar, judul lontar : <?= $data->title ?>, tipe bahan:
@@ -549,40 +582,7 @@ require_once '../../apps/ViewLontar.php';
     <!-- script -->
     <script src="../../public/js/menuNavbar.js"></script>
     <script src="../../node_modules/flowbite/dist/flowbite.min.js"></script>
-    <script>
-        function selectCategory(category) {
-            const sparqlQuery = `
-        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-        PREFIX lontar: <http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#>
 
-        SELECT *
-        WHERE {
-            ?lontar lontar:title ?title;
-                    lontar:type ?type;
-                    lontar:subject ?subject;
-                    lontar:classification ?classification;
-                    lontar:language ?language;
-                    lontar:collation ?collation;
-                    lontar:year ?year;
-                    lontar:length ?length;
-                    lontar:width ?width;
-                    lontar:resource ?resource;
-                    lontar:createBy ?person;
-                    lontar:comeFrom ?origin;
-                    lontar:saveIn ?place.
-            ?person lontar:author ?author.
-            ?origin lontar:area ?area;
-                    lontar:regency ?regency.
-            ?place  lontar:placename ?placename;
-                    lontar:location ?location;
-                    lontar:hasSave ?lontar.
-            FILTER (?classification = "${category}")
-        }
-    `;
-            // Kirim query ke endpoint SPARQL atau proses query sesuai kebutuhan
-            console.log(sparqlQuery);
-        }
-    </script>
 </body>
 
 </html>

@@ -325,7 +325,23 @@ session_start();
                             </tbody>
                         </table>
                     </div>
+                    <div class="flex items-center flex-col gap-2">
+                        <h1 class="text-darkBlue font-montsSemiBold">Recomendasi pencarian:</h1>
+                        <div class="flex gap-5">
+                            <?php
+                            require_once '../../apps/Semantic_recomend.php';
+                            $hasil = $sparql->query($query);
+                            foreach ($hasil as $row) :
+                                $recommendedTitle = $row->recommendedTitle;
+                            ?>
 
+                                <a href="http://localhost/pencarian_pintar_lontar/pages/user/DetailLontar.php?id=<?= $recommendedTitle; ?>">
+                                    <button class="bg-darkBlue text-white px-5 py-2.5 rounded-full"><?= $recommendedTitle ?></button>
+                                </a>
+
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
                 </div>
             </section>
     </main>
