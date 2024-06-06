@@ -108,11 +108,49 @@
             Berikut informasi lengkap terkait data lontar
         </p>
         <div class="flex xxsm:flex-col xsm:flex-col xxsm:gap-3 xsm:gap-5 sm:flex-col sm:gap-5 md:flex-col lg:flex-row justify-center items-center mt-5 md:gap-5 gap-16">
+            <?php
+            require "vendor/autoload.php";
+            \EasyRdf\RdfNamespace::set('rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#');
+            \EasyRdf\RdfNamespace::set('rdfs', 'http://www.w3.org/2000/01/rdf-schema#');
+            \EasyRdf\RdfNamespace::set('owl', 'http://www.w3.org/2002/07/owl#');
+            \EasyRdf\RdfNamespace::set('xml', 'http://www.w3.org/XML/1998/namespace#');
+            \EasyRdf\RdfNamespace::set('xsd', 'http://www.w3.org/XML/1998/namespace#');
+            \EasyRdf\RdfNamespace::set('lontar', 'http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#');
+
+            $sparql = new \EasyRdf\Sparql\Client('http://localhost:3030/pencarian_lontar/query');
+            $query = "SELECT ?title ?type ?subject ?classification ?language ?collation ?year ?length ?width ?author ?area ?regency ?placename ?location (GROUP_CONCAT(?resource; SEPARATOR=',') AS ?resources)
+            WHERE {
+                ?lontar lontar:title ?title;
+                        lontar:type ?type;
+                        lontar:subject ?subject;
+                        lontar:classification ?classification;
+                        lontar:language ?language;
+                        lontar:collation ?collation;
+                        lontar:year ?year;
+                        lontar:length ?length;
+                        lontar:width ?width;
+                        lontar:resource ?resource;
+                        lontar:createBy ?person;
+                        lontar:comeFrom ?origin;
+                        lontar:saveIn ?place.
+                ?person lontar:author ?author.
+                ?origin lontar:area ?area;
+                        lontar:regency ?regency.
+                ?place  lontar:placename ?placename;
+                        lontar:location ?location;
+                        lontar:hasSave ?lontar.
+            }
+            GROUP BY ?title ?type ?subject ?classification ?language ?collation ?year ?length ?width ?author ?area ?regency ?placename ?location
+            ORDER BY ?title
+            ";
+            $result = $sparql->query($query);
+            $jumlahData = count($result);
+            ?>
             <a href="#">
                 <section class="bg-darkBlue text-center p-4 xxsm:w-[280px] xsm:w-[450px] sm:w-[500px] md:w-[500px] lg:w-[300px] xl:w-[350px] 2xl:w-[380px] text-white hover:text-orangePastel flex flex-col items-center">
                     <i class="fa-solid fa-database text-[150px]"></i>
                     <p class="text-white text-lg hover:text-orangePastel py-1 duration-500">
-                        <span class="font-montsBold">35</span> Data Lontar Terdigitalisasi
+                        <span class="font-montsBold"><?= $jumlahData ?></span> Data Lontar Terdigitalisasi
                     </p>
                 </section>
             </a>
@@ -128,7 +166,7 @@
                 <section class="bg-darkBlue text-center p-4 xxsm:w-[280px] xsm:w-[450px] sm:w-[500px] md:w-[500px] lg:w-[300px] xl:w-[350px] 2xl:w-[380px]  text-white hover:text-orangePastel flex flex-col items-center">
                     <i class="fa-solid fa-bookmark text-[150px]"></i>
                     <p class="text-white text-lg hover:text-orangePastel py-1 duration-500">
-                        <span class="font-montsBold">35</span> Data Lontar Tersimpan
+                        <span class="font-montsBold"><?= $jumlahData ?></span> Data Lontar Tersimpan
                     </p>
                 </section>
             </a>

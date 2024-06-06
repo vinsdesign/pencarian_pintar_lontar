@@ -140,74 +140,44 @@ if (!isset($_SESSION['login'])) {
                         <img src="../../public/assets/DashboardImage.jpg" class="w-48 border-2 border-solid border-darkBlue rounded-full" alt="mypicture" />
                     </div>
                     <?php
-                    require "../../vendor/autoload.php";
-                    \EasyRdf\RdfNamespace::set('rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#');
-                    \EasyRdf\RdfNamespace::set('rdfs', 'http://www.w3.org/2000/01/rdf-schema#');
-                    \EasyRdf\RdfNamespace::set('owl', 'http://www.w3.org/2002/07/owl#');
-                    \EasyRdf\RdfNamespace::set('xml', 'http://www.w3.org/XML/1998/namespace#');
-                    \EasyRdf\RdfNamespace::set('xsd', 'http://www.w3.org/XML/1998/namespace#');
-                    \EasyRdf\RdfNamespace::set('lontar', 'http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#');
-                    $sparql = new \EasyRdf\Sparql\Client('http://localhost:3030/pencarian_lontar/query');
-                    $query = "SELECT (COUNT(?lontar) AS ?count)
-                        WHERE {
-                            ?lontar lontar:title ?title;
-                                    lontar:type ?type;
-                                    lontar:subject ?subject;
-                                    lontar:classification ?classification;
-                                    lontar:language ?language;
-                                    lontar:collation ?collation;
-                                    lontar:year ?year;
-                                    lontar:length ?length;
-                                    lontar:width ?width;
-                                    lontar:resource ?resource;
-                                    lontar:createBy ?person;
-                                    lontar:comeFrom ?origin;
-                                    lontar:saveIn ?place.
-                            ?person lontar:author ?author.
-                            ?origin lontar:area ?area;
-                                    lontar:regency ?regency.
-                            ?place  lontar:placename 'Gedong Kirtya';
-                                    lontar:location ?location;
-                                    lontar:hasSave ?lontar.
-                        }";
+                    require_once '../../apps/ViewLontar.php';
                     $result = $sparql->query($query);
-                    foreach ($result as $row) :
+                    $jumlahData = count($result);
                     ?>
-                        <!-- data koleksi -->
-                        <div class="col-span-2 bg-lightSecondary h-full rounded-2xl flex justify-center gap-3 items-center flex-col">
-                            <div class="text-center">
-                                <h1 class="font-montsBold text-2xl">Koleksi Data Lontar</h1>
-                            </div>
-                            <div class="flex flex-col gap-3">
-                                <div class="flex items-center justify-between gap-3 rounded-full w-[500px] shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] px-10 bg-white py-3">
-                                    <div class="flex gap-4 items-center">
-                                        <div class="bg-darkBlue w-10 h-10 flex justify-center items-center rounded-lg">
-                                            <i class="fa-solid text-2xl text-white fa-database"></i>
-                                        </div>
-                                        <div class="flex flex-col">
-                                            <h1>Gedong Kirtya</h1>
-                                            <p>Koleksi</p>
-                                        </div>
+                    <!-- data koleksi -->
+                    <div class="col-span-2 bg-lightSecondary h-full rounded-2xl flex justify-center gap-3 items-center flex-col">
+                        <div class="text-center">
+                            <h1 class="font-montsBold text-2xl">Koleksi Data Lontar</h1>
+                        </div>
+                        <div class="flex flex-col gap-3">
+                            <div class="flex items-center justify-between gap-3 rounded-full w-[500px] shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] px-10 bg-white py-3">
+                                <div class="flex gap-4 items-center">
+                                    <div class="bg-darkBlue w-10 h-10 flex justify-center items-center rounded-lg">
+                                        <i class="fa-solid text-2xl text-white fa-database"></i>
                                     </div>
-                                    <h1 class="text-darkBlue text-2xl"><?= $row->count ?></h1>
-                                </div>
-                            </div>
-                            <div class="flex flex-col gap-3">
-                                <div class="flex items-center justify-between gap-3 rounded-full w-[500px] shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] px-10 bg-white py-3">
-                                    <div class="flex gap-4 items-center">
-                                        <div class="bg-darkBlue w-10 h-10 flex justify-center items-center rounded-lg">
-                                            <i class="fa-solid text-2xl text-white fa-database"></i>
-                                        </div>
-                                        <div class="flex flex-col">
-                                            <h1>Tidak Teridentifikasi</h1>
-                                            <p>Koleksi</p>
-                                        </div>
+                                    <div class="flex flex-col">
+                                        <h1>Gedong Kirtya</h1>
+                                        <p>Koleksi</p>
                                     </div>
-                                    <h1 class="text-darkBlue text-2xl">0</h1>
                                 </div>
+                                <h1 class="text-darkBlue text-2xl"><?= $jumlahData ?></h1>
                             </div>
                         </div>
-                    <?php endforeach; ?>
+                        <div class="flex flex-col gap-3">
+                            <div class="flex items-center justify-between gap-3 rounded-full w-[500px] shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] px-10 bg-white py-3">
+                                <div class="flex gap-4 items-center">
+                                    <div class="bg-darkBlue w-10 h-10 flex justify-center items-center rounded-lg">
+                                        <i class="fa-solid text-2xl text-white fa-database"></i>
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <h1>Tidak Teridentifikasi</h1>
+                                        <p>Koleksi</p>
+                                    </div>
+                                </div>
+                                <h1 class="text-darkBlue text-2xl">0</h1>
+                            </div>
+                        </div>
+                    </div>
 
                     <!-- data asal lontar -->
                     <div class="row-span-2 flex flex-col items-center gap-5 px-24 py-5 justify-center rounded-2xl bg-lightSecondary dark:bg-gray-800">
@@ -252,7 +222,6 @@ if (!isset($_SESSION['login'])) {
                     GROUP BY ?regency
                     ORDER BY DESC(?count)
                     ";
-
                         $result = $sparql->query($query);
                         foreach ($result as $row) :
                         ?>
