@@ -153,11 +153,11 @@ if (!isset($_SESSION['login'])) {
 
                         <div class="flex gap-4">
                             <div class="w-full">
-                                <label for="disabled-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
+                                <label for="disabled-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Judul Lontar</label>
                                 <input type="text" id="disabled-input" aria-label="disabled input" class="mb-5 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" value="<?= $row->title; ?>" disabled>
                             </div>
                             <div class="w-full">
-                                <label for="disabled-input-2" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type</label>
+                                <label for="disabled-input-2" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tipe Lontar</label>
                                 <input type="text" id="disabled-input-2" aria-label="disabled input-2" class="mb-5 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" value="<?= $row->type; ?>" disabled>
                             </div>
                         </div>
@@ -167,7 +167,7 @@ if (!isset($_SESSION['login'])) {
                                 <input type="text" id="disabled-input-3" aria-label="disabled input-3" class="mb-5 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" value="<?= $row->author; ?>" disabled>
                             </div>
                             <div class="w-full">
-                                <label for="disabled-input-4" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Subject Lontar</label>
+                                <label for="disabled-input-4" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Subjek Lontar</label>
                                 <input type="text" id="disabled-input-4" aria-label="disabled input-4" class="mb-5 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" value="<?= $row->subject; ?>" disabled>
                             </div>
                         </div>
@@ -177,47 +177,47 @@ if (!isset($_SESSION['login'])) {
                                 <input type="text" id="disabled-input-5" aria-label="disabled input-3" class="mb-5 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" value="<?= $row->classification; ?>" disabled>
                             </div>
                             <div class="w-full">
-                                <label for="disabled-input-6" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Bahasa</label>
+                                <label for="disabled-input-6" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Bahasa Lontar</label>
                                 <input type="text" id="disabled-input-6" aria-label="disabled input-3" class="mb-5 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" value="<?= $row->language; ?>" disabled>
                             </div>
                         </div>
                         <div class="flex gap-3">
                             <div class="w-full">
-                                <label for="disabled-input-7" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Collation</label>
+                                <label for="disabled-input-7" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jumlah Halaman Lontar</label>
                                 <input type="text" id="disabled-input-7" aria-label="disabled input-3" class="mb-5 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" value="<?= $row->collation; ?>" disabled>
                             </div>
                             <div class="w-full">
-                                <label for="disabled-input-8" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Year</label>
+                                <label for="disabled-input-8" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tahun</label>
                                 <input type="text" id="disabled-input-8" aria-label="disabled input-3" class="mb-5 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" value="<?= $row->year; ?>" disabled>
                             </div>
                         </div>
                         <div class="flex gap-3">
                             <div class="w-full">
-                                <label for="disabled-input-9" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Length</label>
-                                <input type="text" id="disabled-input-9" aria-label="disabled input-3" class="mb-5 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" value="<?= $row->length; ?>" disabled>
+                                <label for="disabled-input-9" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Panjang Lontar </label>
+                                <input type="text" id="disabled-input-9" aria-label="disabled input-3" class="mb-5 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" value="<?= $row->length; ?> cm" disabled>
                             </div>
                             <div class="w-full">
-                                <label for="disabled-input-10" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Width</label>
-                                <input type="text" id="disabled-input-10" aria-label="disabled input-3" class="mb-5 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" value="<?= $row->width; ?>" disabled>
+                                <label for="disabled-input-10" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Lebar Lontar</label>
+                                <input type="text" id="disabled-input-10" aria-label="disabled input-3" class="mb-5 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" value="<?= $row->width; ?> cm" disabled>
                             </div>
                         </div>
                         <div class="flex gap-3">
                             <div class="w-full">
-                                <label for="disabled-input-11" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">placename</label>
+                                <label for="disabled-input-11" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tempat Penyimpanan</label>
                                 <input type="text" id="disabled-input-11" aria-label="disabled input-3" class="mb-5 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" value="<?= $row->placename; ?>" disabled>
                             </div>
                             <div class="w-full">
-                                <label for="disabled-input-11" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">location</label>
+                                <label for="disabled-input-11" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Lokasi Penyimpanan</label>
                                 <input type="text" id="disabled-input-11" aria-label="disabled input-3" class="mb-5 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" value="<?= $row->location; ?>" disabled>
                             </div>
                         </div>
                         <div class="flex gap-3">
                             <div class="w-full">
-                                <label for="disabled-input-11" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Area</label>
+                                <label for="disabled-input-11" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Asal Daerah</label>
                                 <input type="text" id="disabled-input-11" aria-label="disabled input-3" class="mb-5 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" value="<?= $row->area; ?>" disabled>
                             </div>
                             <div class="w-full">
-                                <label for="disabled-input-11" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Regency</label>
+                                <label for="disabled-input-11" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kabupaten/Kota</label>
                                 <input type="text" id="disabled-input-11" aria-label="disabled input-3" class="mb-5 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" value="<?= $row->regency; ?>" disabled>
                             </div>
                         </div>

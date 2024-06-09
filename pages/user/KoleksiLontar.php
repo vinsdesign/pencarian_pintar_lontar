@@ -370,6 +370,7 @@ require_once '../../apps/ViewLontar.php';
                                 lontar:hasSave ?lontar.
                     }
                     GROUP BY ?title ?type ?subject ?classification ?language ?collation ?year ?length ?width ?author ?area ?regency ?placename ?location
+                    ORDER BY ?title
                 ";
             }
             if (isset($_POST['cari-klasifikasi'])) {
@@ -436,7 +437,7 @@ require_once '../../apps/ViewLontar.php';
                             lontar:hasSave ?lontar.
                     FILTER (CONTAINS(LCASE(?classification), '$klasifikasi'))
                 }
-                GROUP BY ?title ?type ?subject ?classification ?language ?collation ?year ?length ?width ?author ?area ?regency ?placename ?location        
+                GROUP BY ?title ?type ?subject ?classification ?language ?collation ?year ?length ?width ?author ?area ?regency ?placename ?location
             ";
             }
             // pagination
@@ -468,7 +469,7 @@ require_once '../../apps/ViewLontar.php';
                                 <p class="font-montserrat text-justify xl:text-sm">
                                     Detail Deskripsi Lengkap Lontar, judul lontar : <?= $data->title ?>, tipe bahan:
                                     <?= $data->type ?>, subjek: <?= $data->subject ?>, klasifikasi: <?= $data->classification ?>,
-                                    bahasa: <?= $data->language ?> <a href="/pencarian_pintar_lontar/pages/user/DetailLontar.php?id=<?= $data->title ?>" class="text-linkBlue font-montsMedium">Selengkapnya</a>
+                                    bahasa: <?= $data->language ?> <a href="/pencarian_pintar_lontar/pages/user/DetailLontar.php?id=<?= $data->title ?>" class="text-blue-600 underline underline-offset-2 font-montsMedium">Selengkapnya</a>
                                 </p>
                             </div>
                             <figure class="xxsm:order-1 md:order-none ">

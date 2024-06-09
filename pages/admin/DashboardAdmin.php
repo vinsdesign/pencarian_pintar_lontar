@@ -99,25 +99,6 @@ if (!isset($_SESSION['login'])) {
     </aside>
     <main>
         <div class="p-4 md:ml-64">
-            <div class="flex justify-center items-center">
-                <?php if (isset($success)) : ?>
-                    <div id="toast-undo" class="flex justify-center items-center absolute z-50 top-0 transition-all delay-500 w-full max-w-sm p-4 text-gray-500 bg-success rounded-lg shadow dark:text-gray-400 dark:bg-gray-800 mt-5" role="alert">
-                        <div class="text-sm font-normal flex justify-center items-center gap-3">
-                            <i class="fa-solid fa-exclamation text-white text-lg "></i>
-                            <h1 class="text-white font-montsMedium">Selamat Datang</h1>
-                        </div>
-                        <div class="flex items-center ms-auto space-x-2 rtl:space-x-reverse">
-                            <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-transparent text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#toast-undo" aria-label="Close">
-                                <span class="sr-only">Close</span>
-                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                <?php endif; ?>
-            </div>
-
             <div class="p-4 border-2 border-gray-200 border-dashed rounded-2xl dark:border-gray-700 mt-16">
                 <div class="grid grid-rows-2 grid-flow-col gap-3">
                     <!-- data profile -->
@@ -196,7 +177,7 @@ if (!isset($_SESSION['login'])) {
                         \EasyRdf\RdfNamespace::set('xsd', 'http://www.w3.org/XML/1998/namespace#');
                         \EasyRdf\RdfNamespace::set('lontar', 'http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#');
                         $sparql = new \EasyRdf\Sparql\Client('http://localhost:3030/pencarian_lontar/query');
-                        $query = "SELECT ?regency (COUNT(?lontar) AS ?count)
+                        $query = "SELECT ?regency (COUNT(DISTINCT?lontar) AS ?count)
                     WHERE {
                         ?lontar lontar:title ?title;
                                 lontar:type ?type;

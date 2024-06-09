@@ -135,13 +135,13 @@ if (!isset($_SESSION['login'])) {
                                 <!-- Table Head -->
                                 <th scope="col" class="px-6 py-3">Action</th>
                                 <th scope="col" class="px-6 py-3">No</th>
-                                <th scope="col" class="px-6 py-3">Title</th>
-                                <th scope="col" class="px-6 py-3">Type</th>
+                                <th scope="col" class="px-6 py-3">Judul Lontar</th>
+                                <th scope="col" class="px-6 py-3">Tipe Lontar</th>
                                 <th scope="col" class="px-6 py-3">Penulis</th>
-                                <th scope="col" class="px-6 py-3">Subject</th>
+                                <th scope="col" class="px-6 py-3">Subjek</th>
                                 <th scope="col" class="px-6 py-3">Klasifikasi</th>
                                 <th scope="col" class="px-6 py-3">Bahasa</th>
-                                <th scope="col" class="px-6 py-3">Collaction</th>
+                                <th scope="col" class="px-6 py-3">Jumlah Halaman</th>
                                 <th scope="col" class="px-6 py-3">Tahun Lontar</th>
                                 <th scope="col" class="px-6 py-3">Panjang Lontar</th>
                                 <th scope="col" class="px-6 py-3">Lebar Lontar</th>
@@ -149,7 +149,7 @@ if (!isset($_SESSION['login'])) {
                                 <th scope="col" class="px-6 py-3">Lokasi Penyimpanan</th>
                                 <th scope="col" class="px-6 py-3">Daerah</th>
                                 <th scope="col" class="px-6 py-3">Kabupaten</th>
-                                <th scope="col" class="px-6 py-3">Resource</th>
+                                <th scope="col" class="px-6 py-3">Gambar</th>
                             </tr>
                         </thead>
                         <tbody class="font-montsMedium text-mediumBlue">
@@ -159,7 +159,7 @@ if (!isset($_SESSION['login'])) {
 
                             // query pencarian
                             if (isset($_POST['btn_search']) || isset($_GET['search'])) {
-                                $keyword = isset($_POST['search']) ? htmlspecialchars($_POST['search']) : htmlspecialchars($_GET['search']);
+                                $keyword = isset($_POST['search']) ? strtolower(htmlspecialchars($_POST['search'])) : strtolower(htmlspecialchars($_GET['search']));
                                 $query = "
                                 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
                                 PREFIX lontar: <http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#>
@@ -202,6 +202,7 @@ if (!isset($_SESSION['login'])) {
                                           )
                             }
                             GROUP BY ?title ?type ?subject ?classification ?language ?collation ?year ?length ?width ?author ?area ?regency ?placename ?location
+                            ORDER BY ?title
                             ";
                             } else {
                                 $query = "
@@ -493,11 +494,11 @@ if (!isset($_SESSION['login'])) {
                             <div class="grid md:grid-cols-2 md:gap-6">
                                 <div class="relative z-0 w-full group">
                                     <input type="text" name="title" id="title" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 focus:outline-none focus:ring-0 focus:border-mediumBlue peer" autocomplete="off" placeholder=" " required />
-                                    <label for="title" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-mediumBlue  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Title </label>
+                                    <label for="title" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-mediumBlue  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Judul Lontar </label>
                                 </div>
                                 <div class="relative z-0 w-full mb-5 group">
                                     <input type="text" name="type" id="type" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 focus:outline-none focus:ring-0 focus:border-mediumBlue peer" placeholder=" " required autocomplete="off" />
-                                    <label for="type" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-mediumBlue peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Type </label>
+                                    <label for="type" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-mediumBlue peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Tipe Lontar </label>
                                 </div>
                             </div>
                             <div class="grid md:grid-cols-2 md:gap-6">
@@ -508,13 +509,13 @@ if (!isset($_SESSION['login'])) {
                                 </div>
                                 <div class="relative z-0 w-full mb-5 group">
                                     <input type="text" name="subject" id="subject" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600  focus:outline-none focus:ring-0 focus:border-mediumBlue peer" placeholder=" " required autocomplete="off" />
-                                    <label for="subject" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-mediumBlue  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Subject </label>
+                                    <label for="subject" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-mediumBlue  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Subjek Lontar </label>
                                 </div>
                             </div>
                             <div class="grid md:grid-cols-2 md:gap-6">
                                 <div class="relative z-0 w-full mb-5 group">
                                     <input type="text" name="klasifikasi" id="klasifikasi" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 focus:outline-none focus:ring-0 focus:border-mediumBlue peer" placeholder=" " required autocomplete="off" />
-                                    <label for="klasifikasi" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-mediumBlue peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Klasifikasi</label>
+                                    <label for="klasifikasi" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-mediumBlue peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Klasifikasi Lontar</label>
                                 </div>
                                 <div class="relative z-0 w-full mb-5 group">
                                     <input type="text" name="bahasa" id="bahasa" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 focus:outline-none focus:ring-0 focus:border-mediumBlue peer" placeholder=" " required autocomplete="off" />
@@ -524,7 +525,7 @@ if (!isset($_SESSION['login'])) {
                             <div class="grid md:grid-cols-2 md:gap-6">
                                 <div class="relative z-0 w-full mb-5 group">
                                     <input type="text" name="collation" id="collaction" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 focus:outline-none focus:ring-0 focus:border-mediumBlue peer" placeholder=" " required autocomplete="off" />
-                                    <label for="collaction" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-mediumBlue peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Collaction</label>
+                                    <label for="collaction" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-mediumBlue peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Jumlah Halaman Lontar</label>
                                 </div>
                                 <div class="relative z-0 w-full mb-5 group">
                                     <input type="text" name="tahun_lontar" id="tahun-lontar" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 focus:outline-none focus:ring-0 focus:border-mediumBlue peer" placeholder=" " required autocomplete="off" />
@@ -534,11 +535,11 @@ if (!isset($_SESSION['login'])) {
                             <div class="grid md:grid-cols-2 md:gap-6">
                                 <div class="relative z-0 w-full mb-5 group">
                                     <input type="text" name="panjang_lontar" id="panjang-lontar" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 focus:outline-none focus:ring-0 focus:border-mediumBlue peer" placeholder=" " required autocomplete="off" />
-                                    <label for="panjang-lontar" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-mediumBlue peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Panjang Lontar</label>
+                                    <label for="panjang-lontar" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-mediumBlue peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Panjang Lontar (cm)</label>
                                 </div>
                                 <div class="relative z-0 w-full mb-5 group">
                                     <input type="text" name="lebar_lontar" id="lebar-lontar" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 focus:outline-none focus:ring-0 focus:border-mediumBlue peer" placeholder=" " required autocomplete="off" />
-                                    <label for="lebar-lontar" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-mediumBlue  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Lebar Lontar</label>
+                                    <label for="lebar-lontar" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-mediumBlue  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Lebar Lontar (cm)</label>
                                 </div>
                             </div>
                             <div class="grid md:grid-cols-2 md:gap-6">
@@ -554,11 +555,11 @@ if (!isset($_SESSION['login'])) {
                             <div class="grid md:grid-cols-2 md:gap-6">
                                 <div class="relative z-0 w-full mb-5 group">
                                     <input type="text" name="area" id="area" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 focus:outline-none focus:ring-0 focus:border-mediumBlue peer" placeholder=" " required autocomplete="off" />
-                                    <label for="area" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-mediumBlue peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Area</label>
+                                    <label for="area" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-mediumBlue peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Daerah</label>
                                 </div>
                                 <div class="relative z-0 w-full mb-5 group">
                                     <input type="text" name="regency" id="regency" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 focus:outline-none focus:ring-0 focus:border-mediumBlue peer" placeholder=" " required autocomplete="off" />
-                                    <label for="regency" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-mediumBlue peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Regency</label>
+                                    <label for="regency" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-mediumBlue peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Kabupaten/Kota</label>
                                 </div>
 
                             </div>
