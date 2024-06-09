@@ -224,6 +224,9 @@ require_once '../../apps/ViewLontar.php';
 
                 $keyword_baru = strtolower(trim($output));
                 $keywords = explode(" ", $keyword_baru); // Memisahkan kata kunci yang dipisahkan oleh spasi
+                if (isset($_SESSION['klasifikasi_results'])) {
+                    unset($_SESSION['klasifikasi_results']);
+                }
 
                 if (!empty($keywords)) {
                     $sparql = new \EasyRdf\Sparql\Client('http://localhost:3030/pencarian_lontar/query');
@@ -465,7 +468,7 @@ require_once '../../apps/ViewLontar.php';
                                 <p class="font-montserrat text-justify xl:text-sm">
                                     Detail Deskripsi Lengkap Lontar, judul lontar : <?= $data->title ?>, tipe bahan:
                                     <?= $data->type ?>, subjek: <?= $data->subject ?>, klasifikasi: <?= $data->classification ?>,
-                                    bahasa: <?= $data->language ?> <a href="/pencarian_pintar_lontar/pages/user/DetailLontar.php?id=<?= $data->title ?>" class="text-linkBlue">Selengkapnya</a>
+                                    bahasa: <?= $data->language ?> <a href="/pencarian_pintar_lontar/pages/user/DetailLontar.php?id=<?= $data->title ?>" class="text-linkBlue font-montsMedium">Selengkapnya</a>
                                 </p>
                             </div>
                             <figure class="xxsm:order-1 md:order-none ">
