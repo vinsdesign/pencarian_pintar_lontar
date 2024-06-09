@@ -465,7 +465,7 @@ require_once '../../apps/ViewLontar.php';
                                 <p class="font-montserrat text-justify xl:text-sm">
                                     Detail Deskripsi Lengkap Lontar, judul lontar : <?= $data->title ?>, tipe bahan:
                                     <?= $data->type ?>, subjek: <?= $data->subject ?>, klasifikasi: <?= $data->classification ?>,
-                                    bahasa: <?= $data->language ?> <a href="/pencarian_pintar_lontar/pages/user/DetailLontar.php?id=<?= $data->title ?>" class="text-orangePastel">Selengkapnya</a>
+                                    bahasa: <?= $data->language ?> <a href="/pencarian_pintar_lontar/pages/user/DetailLontar.php?id=<?= $data->title ?>" class="text-linkBlue">Selengkapnya</a>
                                 </p>
                             </div>
                             <figure class="xxsm:order-1 md:order-none ">
