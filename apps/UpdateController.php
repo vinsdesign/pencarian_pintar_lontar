@@ -75,20 +75,29 @@ if (isset($_POST['TambahData'])) {
         }
     ";
 
-    // Membuat objek client SPARQL
-    $sparql = new \EasyRdf\Sparql\Client('http://localhost:3030/pencarian_lontar/update');
+    try {
+        // Membuat objek client SPARQL
+        $sparql = new \EasyRdf\Sparql\Client('http://localhost:3030/pencarian_lontar/update');
 
-    // Melakukan permintaan update dengan kueri yang telah disiapkan
-    $result = $sparql->update($query);
+        // Melakukan permintaan update dengan kueri yang telah disiapkan
+        $result = $sparql->update($query);
 
-    // Memeriksa hasil dan memberikan respons sesuai
-    if ($result) {
-        $_SESSION['status_add'] = 'Data Berhasil Ditambahkan';
-        $_SESSION['status_code'] = 'success';
-        header('Location: http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php');
-    } else {
-        $_SESSION['status_add'] = 'Data Gagal Ditambahkan';
+        // Memeriksa hasil dan memberikan respons sesuai
+        if ($result) {
+            $_SESSION['status_add'] = 'Data Berhasil Ditambahkan';
+            $_SESSION['status_code'] = 'success';
+            header('Location: http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php');
+        } else {
+            $_SESSION['status_add'] = 'Data Gagal Ditambahkan';
+            $_SESSION['status_code'] = 'error';
+            header('Location: http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php');
+        }
+    } catch (Exception $e) {
+        // Menangkap pengecualian dan memberikan informasi kegagalan
+        $_SESSION['status_add_error'] = 'Data Gagal Ditambahkan!';
+        $_SESSION['status_text'] = $e->getMessage();
         $_SESSION['status_code'] = 'error';
+        $_SESSION['status_footer'] = 'Pastikan Format Data ditambahkan Sudah Benar !';
         header('Location: http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php');
     }
 }
@@ -298,10 +307,12 @@ if (isset($_POST['EditData'])) {
             header('Location: http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php');
         }
     } catch (Exception $e) {
-        echo "<script>
-             alert('Terjadi kesalahan: " . $e->getMessage() . "');
-             document.location.href='http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php';
-         </script>";
+        // Menangkap pengecualian dan memberikan informasi kegagalan
+        $_SESSION['status_edit'] = 'Data Gagal Dirubah!';
+        $_SESSION['status_text'] = $e->getMessage();
+        $_SESSION['status_code'] = 'error';
+        $_SESSION['status_footer'] = 'Pastikan Format Data ditambahkan Sudah Benar !';
+        header('Location: http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php');
     }
 }
 
@@ -318,10 +329,9 @@ function upload()
 
         // adakah gambar yang di upload
         if ($errorFile === 4) {
-            echo "<script>
-            alert('Masukan Gambar Lontar!')
-                 document.location.href='http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php'
-            </script>";
+            $_SESSION['status_input_gambar'] = 'Wajib Masukan Gambar Lontar!';
+            $_SESSION['status_code'] = 'error';
+            header('Location: http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php');
             return false;
         }
 
@@ -330,19 +340,17 @@ function upload()
         $ekstensiGambar = explode('.', $namaFile);
         $ekstensiGambar = strtolower(end($ekstensiGambar));
         if (!in_array($ekstensiGambar, $ekstensiGambarValid)) {
-            echo "<script>
-            alert('Ekstensi Gambar Salah!')
-            document.location.href='http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php'
-            </script>";
+            $_SESSION['status_ekstensi_gambar'] = 'Ekstensi Gambar Salah!';
+            $_SESSION['status_code'] = 'error';
+            header('Location: http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php');
             return false;
         }
 
         // cek ukuran gambar jika lebih dari 2MB
-        if ($ukuranFile > 2000000) {
-            echo "<script>
-            alert('Gambar melebihi ukuran 2MB!')
-                 document.location.href='http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php'
-            </script>";
+        if ($ukuranFile > 2000) {
+            $_SESSION['status_size_gambar'] = 'Gambar Melebihi Ukuran 2MB!';
+            $_SESSION['status_code'] = 'error';
+            header('Location: http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php');
             return false;
         }
 
