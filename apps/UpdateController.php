@@ -86,11 +86,11 @@ if (isset($_POST['TambahData'])) {
         if ($result) {
             $_SESSION['status_add'] = 'Data Berhasil Ditambahkan';
             $_SESSION['status_code'] = 'success';
-            header('Location: http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php');
+            header('Location: https://lontarbali.id/pages/admin/TableDataLontar.php');
         } else {
             $_SESSION['status_add'] = 'Data Gagal Ditambahkan';
             $_SESSION['status_code'] = 'error';
-            header('Location: http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php');
+            header('Location: https://lontarbali.id/pages/admin/TableDataLontar.php');
         }
     } catch (Exception $e) {
         // Menangkap pengecualian dan memberikan informasi kegagalan
@@ -98,7 +98,7 @@ if (isset($_POST['TambahData'])) {
         $_SESSION['status_text'] = $e->getMessage();
         $_SESSION['status_code'] = 'error';
         $_SESSION['status_footer'] = 'Pastikan Format Data ditambahkan Sudah Benar !';
-        header('Location: http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php');
+        header('Location: https://lontarbali.id/pages/admin/TableDataLontar.php');
     }
 }
 
@@ -141,11 +141,11 @@ if (isset($_POST['HapusData'])) {
     if ($result) {
         $_SESSION['status_delete'] = 'Data Berhasil Dihapus';
         $_SESSION['status_code'] = 'success';
-        header('Location: http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php');
+        header('Location: https://lontarbali.id/pages/admin/TableDataLontar.php');
     } else {
         $_SESSION['status_delete'] = 'Data Gagal Dihapus';
         $_SESSION['status_code'] = 'error';
-        header('Location: http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php');
+        header('Location: https://lontarbali.id/pages/admin/TableDataLontar.php');
     }
 }
 
@@ -300,11 +300,11 @@ if (isset($_POST['EditData'])) {
         if ($result) {
             $_SESSION['status_edit'] = 'Data Berhasil Dirubah';
             $_SESSION['status_code'] = 'success';
-            header('Location: http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php');
+            header('Location: https://lontarbali.id/pages/admin/TableDataLontar.php');
         } else {
             $_SESSION['status_edit'] = 'Data Gagal Dirubah';
             $_SESSION['status_code'] = 'error';
-            header('Location: http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php');
+            header('Location: https://lontarbali.id/pages/admin/TableDataLontar.php');
         }
     } catch (Exception $e) {
         // Menangkap pengecualian dan memberikan informasi kegagalan
@@ -312,7 +312,7 @@ if (isset($_POST['EditData'])) {
         $_SESSION['status_text'] = $e->getMessage();
         $_SESSION['status_code'] = 'error';
         $_SESSION['status_footer'] = 'Pastikan Format Data ditambahkan Sudah Benar !';
-        header('Location: http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php');
+        header('Location: https://lontarbali.id/pages/admin/TableDataLontar.php');
     }
 }
 
@@ -331,7 +331,7 @@ function upload()
         if ($errorFile === 4) {
             $_SESSION['status_input_gambar'] = 'Wajib Masukan Gambar Lontar!';
             $_SESSION['status_code'] = 'error';
-            header('Location: http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php');
+            header('Location: https://lontarbali.id/pages/admin/TableDataLontar.php');
             return false;
         }
 
@@ -342,7 +342,7 @@ function upload()
         if (!in_array($ekstensiGambar, $ekstensiGambarValid)) {
             $_SESSION['status_ekstensi_gambar'] = 'Ekstensi Gambar Salah!';
             $_SESSION['status_code'] = 'error';
-            header('Location: http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php');
+            header('Location: https://lontarbali.id/pages/admin/TableDataLontar.php');
             return false;
         }
 
@@ -350,7 +350,7 @@ function upload()
         if ($ukuranFile > 2000) {
             $_SESSION['status_size_gambar'] = 'Gambar Melebihi Ukuran 2MB!';
             $_SESSION['status_code'] = 'error';
-            header('Location: http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php');
+            header('Location: https://lontarbali.id/pages/admin/TableDataLontar.php');
             return false;
         }
 

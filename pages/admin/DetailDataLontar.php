@@ -2,7 +2,7 @@
 session_start();
 require_once '../../config/config.php';
 if (!isset($_SESSION['login'])) {
-    header("location: http://localhost/pencarian_pintar_lontar/pages/admin/login.php");
+    header("Location: https://lontarbali.id/pages/admin/login.php");
     exit;
 }
 ?>
@@ -108,7 +108,7 @@ if (!isset($_SESSION['login'])) {
         <div class="p-4 md:ml-64">
             <div class="p-4 border-2 border-gray-200 border-dashed rounded-2xl dark:border-gray-700 mt-16">
                 <div class=" w-xl p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                    <a href="http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php"><button class="mt-1 hover:bg-darkBlue px-5 py-2 text-white rounded-full bg-lightBlue hover:transition-all hover:delay-100"><i class="fa-solid fa-angle-left"></i> Kembali</button></a>
+                    <a href="https://lontarbali.id/pages/admin/TableDataLontar.php"><button class="mt-1 hover:bg-darkBlue px-5 py-2 text-white rounded-full bg-lightBlue hover:transition-all hover:delay-100"><i class="fa-solid fa-angle-left"></i> Kembali</button></a>
                     <!-- carousel image -->
                     <div id="default-carousel" class="relative w-full" data-carousel="static">
                         <!-- Carousel wrapper -->
