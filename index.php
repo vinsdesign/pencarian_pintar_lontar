@@ -38,8 +38,8 @@
     <!-- end navbar -->
 
     <!-- search component -->
-    <section class="flex flex-col justify-center items-center absolute z-40 xxsm:-translate-x-1/2 xxsm:-translate-y-60 xsm:-translate-y-50 base:-translate-y-48 sm:-translate-y-48 md:-translate-y-36 lg:-translate-y-40 xxsm:top-1/2 xxsm:left-1/2">
-        <h1 class="text-white xl:mb-3 font-medium xxsm:text-sm xsm:text-lg sm:text-xl md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl xxsm:mb-0">
+    <section class="flex flex-col justify-center items-center absolute z-40 xxsm:-translate-x-1/2 xxsm:-translate-y-60 xsm:-translate-y-50 base:-translate-y-[14rem] sm:-translate-y-48 md:-translate-y-36 lg:-translate-y-40 xxsm:top-1/2 xxsm:left-1/2">
+        <h1 class="text-white xl:mb-3 font-medium xxsm:text-sm xsm:text-base sm:text-xl md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl xxsm:mb-0">
             Mulai Eksplorasi
             <span class="font-montsBold text-orangePastel">Pencarian Lontar</span>
         </h1>
