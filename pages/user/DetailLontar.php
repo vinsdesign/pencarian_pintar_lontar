@@ -335,7 +335,7 @@ session_start();
                                 $recommendedTitle = $row->recommendedTitle;
                             ?>
 
-                                <a href="http://localhost/pencarian_pintar_lontar/pages/user/DetailLontar.php?id=<?= $recommendedTitle; ?>">
+                                <a href="https://lontarbali.id/pages/user/DetailLontar.php?id=<?= $recommendedTitle; ?>">
                                     <button class="bg-darkBlue text-white px-5 py-2.5 rounded-full"><?= $recommendedTitle ?></button>
                                 </a>
 

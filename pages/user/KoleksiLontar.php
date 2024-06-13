@@ -27,10 +27,10 @@ require_once '../../apps/ViewLontar.php';
             <!-- menu navigation -->
             <div id="navigation" class="md:static md:min-h-fit absolute md:w-auto z-50 bg-darkBlue min-h-[20vh] left-0 top-[-100%] w-full flex items-center pl-6">
                 <ul class="text-white font-montsMedium flex md:flex-row flex-col md:items-center md:py-0 md:gap-10 gap-6 py-3">
-                    <li><a class="hover:text-orangePastel" href="/pencarian_pintar_lontar/index.php">Beranda</a></li>
-                    <li><a class="hover:text-orangePastel" href="/pencarian_pintar_lontar/pages/user/SejarahLontar.php">Sejarah Lontar</a></li>
-                    <li><a class="hover:text-orangePastel" href="/pencarian_pintar_lontar/apps/SessionOutLontar.php">Koleksi Lontar</a></li>
-                    <li><a class="hover:text-orangePastel" href="/pencarian_pintar_lontar/pages/user/TentangKami.php">Tentang Kami</a></li>
+                    <li><a class="hover:text-orangePastel" href="https://lontarbali.id/index.php">Beranda</a></li>
+                    <li><a class="hover:text-orangePastel" href="https://lontarbali.id/pages/user/SejarahLontar.php">Sejarah Lontar</a></li>
+                    <li><a class="hover:text-orangePastel" href="https://lontarbali.id/apps/SessionOutLontar.php">Koleksi Lontar</a></li>
+                    <li><a class="hover:text-orangePastel" href="https://lontarbali.id/pages/user/TentangKami.php">Tentang Kami</a></li>
                 </ul>
             </div>
             <div id="add" class="md:hidden">
@@ -48,7 +48,7 @@ require_once '../../apps/ViewLontar.php';
                 Mulai Eksplorasi
                 <span class="font-montsBold text-orangePastel">Pencarian Lontar</span>
             </h1>
-            <form action="http://localhost/pencarian_pintar_lontar/pages/user/KoleksiLontar.php" method="post" class="">
+            <form action="https://lontarbali.id/pages/user/KoleksiLontar.php" method="post" class="">
                 <div class="flex m-0 drop-shadow-[1px_4px_43.4px_rgba(0,0,0,0.50)]">
                     <div class="relative flex items-center text-lightSecondary focus-within:text-mediumBlue">
                         <i class="fa-solid fa-magnifying-glass absolute xxsm:text-base lg:text-xl 2xl:text-2xl xxsm:mt-2 xxsm:ml-3 mt-5 ml-5 text-mediumBlue" name="search"></i>
@@ -469,7 +469,7 @@ require_once '../../apps/ViewLontar.php';
                                 <p class="font-montserrat text-justify xl:text-sm">
                                     Detail Deskripsi Lengkap Lontar, judul lontar : <?= $data->title ?>, tipe bahan:
                                     <?= $data->type ?>, subjek: <?= $data->subject ?>, klasifikasi: <?= $data->classification ?>,
-                                    bahasa: <?= $data->language ?> <a href="/pencarian_pintar_lontar/pages/user/DetailLontar.php?id=<?= $data->title ?>" class="text-blue-600 underline underline-offset-2 font-montsMedium">Selengkapnya</a>
+                                    bahasa: <?= $data->language ?> <a href="https://lontarbali.id/pages/user/DetailLontar.php?id=<?= $data->title ?>" class="text-blue-600 underline underline-offset-2 font-montsMedium">Selengkapnya</a>
                                 </p>
                             </div>
                             <figure class="xxsm:order-1 md:order-none ">

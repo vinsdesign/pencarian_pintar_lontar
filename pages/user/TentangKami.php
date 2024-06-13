@@ -23,10 +23,10 @@
             <!-- menu navigation -->
             <div id="navigation" class="md:static md:min-h-fit absolute md:w-auto z-50 bg-darkBlue min-h-[20vh] left-0 top-[-100%] w-full flex items-center pl-6">
                 <ul class="text-white font-montsMedium flex md:flex-row flex-col md:items-center md:py-0 md:gap-10 gap-6 py-3">
-                    <li><a class="hover:text-orangePastel" href="/pencarian_pintar_lontar/index.php">Beranda</a></li>
-                    <li><a class="hover:text-orangePastel" href="/pencarian_pintar_lontar/pages/user/SejarahLontar.php">Sejarah Lontar</a></li>
-                    <li><a class="hover:text-orangePastel" href="/pencarian_pintar_lontar/pages/user/KoleksiLontar.php">Koleksi Lontar</a></li>
-                    <li><a class="hover:text-orangePastel" href="/pencarian_pintar_lontar/pages/user/TentangKami.php">Tentang Kami</a></li>
+                    <li><a class="hover:text-orangePastel" href="https://lontarbali.id/index.php">Beranda</a></li>
+                    <li><a class="hover:text-orangePastel" href="https://lontarbali.id/pages/user/SejarahLontar.php">Sejarah Lontar</a></li>
+                    <li><a class="hover:text-orangePastel" href="https://lontarbali.id/pages/user/KoleksiLontar.php">Koleksi Lontar</a></li>
+                    <li><a class="hover:text-orangePastel" href="https://lontarbali.id/pages/user/TentangKami.php">Tentang Kami</a></li>
                 </ul>
             </div>
             <div id="add" class="md:hidden">
@@ -148,7 +148,7 @@
                         </div>
                         <div class="flex flex-col text-sm">
                             <h1 class="font-montsBold">Admin</h1>
-                            <p class="font-montsMedium">Informasi selengkapnya <br> <a class="text-[#293A9E]" href="/pencarian_pintar_lontar/pages/admin/Login.php">dashboard_admin</a>
+                            <p class="font-montsMedium">Informasi selengkapnya <br> <a class="text-[#293A9E]" href="https://lontarbali.id/pages/admin/Login.php">dashboard_admin</a>
                             </p>
                         </div>
                     </section>
