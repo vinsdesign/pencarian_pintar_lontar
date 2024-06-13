@@ -105,9 +105,9 @@
         <div class="bg-[#F4F4F4] w-full xxsm:h-[630px] xsm:h-[600px] sm:h-[500px] 2xl:h-[350px]">
             <div class="xxsm:flex xxsm:flex-col 2xl:w-[1100px] 2xl:mx-auto 2xl:py-10">
                 <h1 class="xxsm:text-xl xxsm:text-center xxsm:mt-5 xxsm:font-montsBold text-darkBlue 2xl:text-2xl 2xl:text-left">Tentang Kami</h1>
-                <div class="xxsm:flex xxsm:flex-col xxsm:items-center sm:flex sm:flex-row sm:justify-center justify-between xxsm:gap-1">
-                    <p class="font-montsMedium xxsm:text-sm xxsm:px-3 xsm:px-5 sm:w-[400px] 2xl:w-[850px] 2xl:text-lg text-justify">Website Lontar Bali merupakan website mesin pencari naskah lontar Bali yang digunakan untuk pelestarian dalam bentuk digitalisasi budaya. Selain itu website ini dapat memahami makna kata yang diinputkan oleh user berkat pendekatan teknologi ontologi.</p>
-                    <h1 class="xxsm:text-xl xxsm:mt-5 xxsm:w-40 xsm:mt-2  xxsm:text-center font-montsBold text-4xl text-mediumBlue leading-[2.8rem] sm:text-xl sm:w-28 sm:mt-0 sm:text-left">Mesin Pencari Pintar Lontar<span class="text-orangePastel">.</span></h1>
+                <div class="xxsm:flex xxsm:flex-col xxsm:items-center sm:flex sm:flex-row sm:justify-center justify-between xxsm:gap-1 2xl:gap-10">
+                    <p class=" font-montsMedium xxsm:text-sm xxsm:px-3 xsm:px-5 sm:w-[400px] 2xl:p-0 2xl:w-[850px] 2xl:text-md text-justify">Website Lontar Bali merupakan website mesin pencari naskah lontar Bali yang digunakan untuk pelestarian dalam bentuk digitalisasi budaya. Selain itu website ini dapat memahami makna kata yang diinputkan oleh user berkat pendekatan teknologi ontologi.</p>
+                    <h1 class="xxsm:text-xl xxsm:mt-5 xxsm:w-40 xsm:mt-2  xxsm:text-center font-montsBold 2xl:text-4xl text-mediumBlue 2xl:leading-[2.8rem] 2xl:w-80 sm:text-xl sm:w-28 sm:mt-0 sm:text-left">Mesin Pencari Pintar Lontar<span class="text-orangePastel">.</span></h1>
                 </div>
                 <div class="xxsm:flex xxsm:flex-col xxsm:items-center xxsm:gap-6 xxsm:mt-2 md:flex md:flex-row 2xl:flex 2xl:justify-between 2xl:items-center 2xl:mt-5">
                     <section class="bg-white rounded-lg xxsm:w-72 xsm:w-80 base:w-96 xsm:gap-3 xxsm:p-3 2xl:w-[22rem] 2xl:h-24 flex items-center xxsm:justify-center xxsm:gap-2 2xl:justify-evenly p-6 shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]">
@@ -157,14 +157,14 @@
         </div>
 
         <div class="xxsm:w-full 2xl:w-[1100px] 2xl:mx-auto 2xl:py-10">
-            <div class="xxsm:flex xxsm:flex-col flex justify-between">
-                <section class="xxsm:flex xxsm:flex-col xxsm:gap-2 flex justify-center 2xl:gap-10 items-center">
+            <div class="xxsm:flex xxsm:flex-col 2xl:flex 2xl:flex-row 2xl:justify-between">
+                <section class="xxsm:flex xxsm:flex-col xxsm:gap-2 2xl:flex 2xl:flex-row 2xl:justify-center 2xl:gap-10 items-center">
                     <div class="2xl:flex 2xl:flex-col 2xl:w-[400px]">
-                        <h1 class="xxsm:text-lg xxsm:mt-5 xxsm:text-center font-montsBold text-darkBlue 2xl:text-2xl">Sumber Data<span class="text-orangePastel">.</span></h1>
-                        <p class="xxsm:text-sm xxsm:px-3 xsm:px-5 sm:px-20 font-montsMedium text-justify">Sumber Data Lontar yang terdapat pada website Lontar Bali berasal dari Museum Lontar Gedong Kirtya. Pada Museum Gedong Kirtya terdapat ribuan lontar, beberapa prasasti dan ribuan buku yang berhubungan dengan beberapa aspek kehidupan manusia yang dirawat dan dijaga dengan sangat baik. <a href="/SejarahLontar">Selengkapnya</a></p>
+                        <h1 class="xxsm:text-lg xxsm:mt-5 xxsm:text-center font-montsBold text-darkBlue 2xl:text-2xl 2xl:text-left text-2xl">Sumber Data<span class="text-orangePastel">.</span></h1>
+                        <p class="xxsm:text-sm xxsm:px-3 xsm:px-5 sm:px-20 2xl:p-0 font-montsMedium text-justify">Sumber Data Lontar yang terdapat pada website Lontar Bali berasal dari Museum Lontar Gedong Kirtya. Pada Museum Gedong Kirtya terdapat ribuan lontar, beberapa prasasti dan ribuan buku yang berhubungan dengan beberapa aspek kehidupan manusia yang dirawat dan dijaga dengan sangat baik. <a href="/SejarahLontar">Selengkapnya</a></p>
                     </div>
                     <div class="flex flex-col justify-center base:mt-2 gap-4">
-                        <div class="xxsm:flex xxsm:flex-col xxsm:gap-2 2xl:flex 2xl:gap-4">
+                        <div class="xxsm:flex xxsm:flex-col xxsm:gap-2 2xl:flex 2xl:flex-row 2xl:gap-4">
                             <img class="xxsm:w-80 base:w-96 sm:w-[500px] 2xl:w-80" src="../../public/assets/img-tentangkami(1).jpg" alt="img-tentangkami(1)">
                             <img class="xxsm:w-80 base:w-96 sm:w-[500px] 2xl:w-80" src="../../public/assets/img-tentangkami(2).jpg" alt="img-tentangkami(2)">
                         </div>
