@@ -1,8 +1,8 @@
 <?php
-$host = "localhost";
-$user = "root";
-$pass = "";
-$db = "lontar_bali";
+$host = "server.lontarbali.id";
+$user = "lonq9289_admin_lontar";
+$pass = "4v.HZqZw(=qB";
+$db = "lonq9289_lontar_bali";
 
 $koneksi = mysqli_connect($host, $user, $pass, $db);
 
