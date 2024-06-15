@@ -148,7 +148,7 @@
                         </div>
                         <div class="flex flex-col text-sm">
                             <h1 class="font-montsBold">Admin</h1>
-                            <p class="font-montsMedium">Informasi selengkapnya <br> <a class="text-[#293A9E]" href="/pencarian_pintar_lontar/pages/admin/Login.php">dashboard_admin</a>
+                            <p class="font-montsMedium">Informasi selengkapnya <br> <a class="text-[#293A9E]" href="https://vinsjs.site/lontar_bali/pages/admin/login.php">dashboard_admin</a>
                             </p>
                         </div>
                     </section>
