@@ -27,10 +27,10 @@ session_start();
             <!-- menu navigation -->
             <div id="navigation" class="md:static md:min-h-fit absolute md:w-auto z-50 bg-darkBlue min-h-[20vh] left-0 top-[-100%] w-full flex items-center pl-6">
                 <ul class="text-white font-montsMedium flex md:flex-row flex-col md:items-center md:py-0 md:gap-10 gap-6 py-3">
-                    <li><a class="hover:text-orangePastel" href="/pencarian_pintar_lontar/index.php">Beranda</a></li>
-                    <li><a class="hover:text-orangePastel" href="/pencarian_pintar_lontar/pages/user/SejarahLontar.php">Sejarah Lontar</a></li>
-                    <li><a class="hover:text-orangePastel" href="/pencarian_pintar_lontar/pages/user/KoleksiLontar.php">Koleksi Lontar</a></li>
-                    <li><a class="hover:text-orangePastel" href="/pencarian_pintar_lontar/pages/user/TentangKami.php">Tentang Kami</a></li>
+                    <li><a class="hover:text-orangePastel" href="https://vinsjs.site/lontar_bali/index.php">Beranda</a></li>
+                    <li><a class="hover:text-orangePastel" href="https://vinsjs.site/lontar_bali/pages/user/SejarahLontar.php">Sejarah Lontar</a></li>
+                    <li><a class="hover:text-orangePastel" href="https://vinsjs.site/lontar_bali/pages/user/KoleksiLontar.php">Koleksi Lontar</a></li>
+                    <li><a class="hover:text-orangePastel" href="https://vinsjs.site/lontar_bali/pages/user/TentangKami.php">Tentang Kami</a></li>
                 </ul>
             </div>
             <div id="add" class="md:hidden">
@@ -107,7 +107,7 @@ session_start();
     <!-- main content -->
     <main class="flex flex-col">
         <div class="flex justify-start items-center w-[1200px] mx-auto">
-            <a href="/pencarian_pintar_lontar/pages/user/KoleksiLontar.php"><button class="mt-4 px-5 py-2 text-white rounded-full bg-lightBlue hover:transition-all hover:delay-150"><i class="fa-solid fa-angle-left"></i> Kembali</button></a>
+            <a href="https://vinsjs.site/lontar_bali/pages/user/KoleksiLontar.php"><button class="mt-4 px-5 py-2 text-white rounded-full bg-lightBlue hover:transition-all hover:delay-150"><i class="fa-solid fa-angle-left"></i> Kembali</button></a>
         </div>
         <?php
         // arahkan ke view lontar
@@ -335,7 +335,7 @@ session_start();
                                 $recommendedTitle = $row->recommendedTitle;
                             ?>
 
-                                <a href="http://localhost/pencarian_pintar_lontar/pages/user/DetailLontar.php?id=<?= $recommendedTitle; ?>">
+                                <a href="https://vinsjs.site/lontar_bali/pages/user/DetailLontar.php?id=<?= $recommendedTitle; ?>">
                                     <button class="bg-darkBlue text-white px-5 py-2.5 rounded-full"><?= $recommendedTitle ?></button>
                                 </a>
 

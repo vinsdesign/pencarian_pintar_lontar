@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['login'])) {
-    header("location: http://localhost/pencarian_pintar_lontar/pages/admin/login.php");
+    header("location: https://vinsjs.site/lontar_bali/pages/admin/login.php");
     exit;
 }
 ?>
@@ -53,10 +53,10 @@ if (!isset($_SESSION['login'])) {
                             </div>
                             <ul class="py-1" role="none">
                                 <li>
-                                    <a href="http://localhost/pencarian_pintar_lontar/pages/admin/DetailDataAdmin.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Profile</a>
+                                    <a href="https://vinsjs.site/lontar_bali/pages/admin/DetailDataAdmin.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Profile</a>
                                 </li>
                                 <li>
-                                    <a href="http://localhost/pencarian_pintar_lontar/apps/Logout.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Sign out</a>
+                                    <a href="https://vinsjs.site/lontar_bali/apps/Logout.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Sign out</a>
                                 </li>
                             </ul>
                         </div>
@@ -73,14 +73,14 @@ if (!isset($_SESSION['login'])) {
             <ul class="space-y-2 font-medium" id="default-tab" data-tabs-toggle="#default-tab-content" role="tablist">
                 <!-- dashboard -->
                 <li role="presentation">
-                    <a href="http://localhost/pencarian_pintar_lontar/pages/admin/DashboardAdmin.php" class="flex items-center p-2 text-gray-900 hover:text-mediumBlue rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                    <a href="https://vinsjs.site/lontar_bali/pages/admin/DashboardAdmin.php" class="flex items-center p-2 text-gray-900 hover:text-mediumBlue rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                         <i class="flex-shrink-0 w-5 h-5 text-orangePastel transition duration-75 dark:text-gray-400 group-hover:text-mediumBlue dark:group-hover:text-white fa-solid fa-home"></i>
                         <span class="ms-3 text-white font-montsMedium group-hover:text-mediumBlue ">Dashboard</span>
                     </a>
                 </li>
                 <!-- data lontar -->
                 <li role="presentation">
-                    <a href="http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                    <a href="https://vinsjs.site/lontar_bali/pages/admin/TableDataLontar.php" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                         <i class="flex-shrink-0 w-5 h-5 text-orangePastel transition duration-75 dark:text-gray-400 group-hover:text-mediumBlue dark:group-hover:text-white fa-solid fa-book"></i>
                         <span class="ms-3 text-lightSecondary font-montsMedium group-hover:text-mediumBlue ">Data Lontar</span>
                     </a>
@@ -89,7 +89,7 @@ if (!isset($_SESSION['login'])) {
             <ul class="space-y-2 font-medium" id="default-tab" data-tabs-toggle="#default-tab-content" role="tablist">
                 <!-- dashboard -->
                 <li role="presentation">
-                    <a href="http://localhost/pencarian_pintar_lontar/apps/Logout.php" class="flex items-center p-2 text-gray-900 hover:text-mediumBlue rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                    <a href="https://vinsjs.site/lontar_bali/apps/Logout.php" class="flex items-center p-2 text-gray-900 hover:text-mediumBlue rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                         <i class="flex-shrink-0 w-5 h-5 text-orangePastel transition duration-75 dark:text-gray-400 group-hover:text-mediumBlue dark:group-hover:text-white fa-solid fa-sign-out"></i>
                         <span class="ms-3 text-white font-montsMedium group-hover:text-mediumBlue ">Sign Out</span>
                     </a>
@@ -113,7 +113,7 @@ if (!isset($_SESSION['login'])) {
                                 Bali, marupa naskah lontar Bali.
                             </p>
                             <div>
-                                <a href="http://localhost/pencarian_pintar_lontar/pages/admin/DetailDataAdmin.php"><button type="button" class="py-2 px-5 me-2 mb-2 text-sm font-medium bg-darkBlue text-white focus:outline-none mt-1 rounded-full border border-gray-200 hover:bg-mediumBlue focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                                <a href="https://vinsjs.site/lontar_bali/pages/admin/DetailDataAdmin.php"><button type="button" class="py-2 px-5 me-2 mb-2 text-sm font-medium bg-darkBlue text-white focus:outline-none mt-1 rounded-full border border-gray-200 hover:bg-mediumBlue focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
                                         Lihat Profile
                                     </button></a>
                             </div>

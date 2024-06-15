@@ -4,7 +4,7 @@ require '../../config/config.php';
 
 // cek session jika sudah ada session langsung arahin ke   --
 if (isset($_SESSION['login'])) {
-    header("Location: http://localhost/pencarian_pintar_lontar/pages/admin/DashboardAdmin.php");
+    header("Location: https://vinsjs.site/lontar_bali/pages/admin/DashboardAdmin.php");
     exit;
 }
 
@@ -32,7 +32,7 @@ if (isset($_POST["login"])) {
             $_SESSION["password"] = $row["password"];
             $_SESSION["image"] = $row["gambar"];
             // Password cocok, redirect ke halaman DashboardAdmin
-            header("location: http://localhost/pencarian_pintar_lontar/pages/admin/DashboardAdmin.php");
+            header("location: https://vinsjs.site/lontar_bali/pages/admin/DashboardAdmin.php");
             $success = true;
             exit;
         }

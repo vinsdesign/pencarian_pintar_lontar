@@ -8,5 +8,5 @@ session_destroy();
 // setcookie('key', '', time() - 3600);
 
 // Redirect ke halaman login atau halaman lain yang sesuai
-header("Location: http://localhost/pencarian_pintar_lontar/pages/user/KoleksiLontar.php");
+header("Location: https://vinsjs.site/lontar_bali//pages/user/KoleksiLontar.php");
 exit;
