@@ -106,8 +106,8 @@ session_start();
     </header>
     <!-- main content -->
     <main class="flex flex-col">
-        <div class="flex justify-start items-center w-[1200px] mx-auto">
-            <a href="/pencarian_pintar_lontar/pages/user/KoleksiLontar.php"><button class="mt-4 px-5 py-2 text-white rounded-full bg-lightBlue hover:transition-all hover:delay-150"><i class="fa-solid fa-angle-left"></i> Kembali</button></a>
+        <div class="flex justify-start items-center 2xl:w-[1200px] mx-auto">
+            <a href="/pencarian_pintar_lontar/pages/user/KoleksiLontar.php"><button class="mt-4 px-5 py-2 xxsm:text-sm text-white rounded-full bg-lightBlue hover:transition-all hover:delay-150"><i class="fa-solid fa-angle-left"></i> Kembali</button></a>
         </div>
         <?php
         // arahkan ke view lontar
@@ -115,8 +115,8 @@ session_start();
         $result = $sparql->query($query);
         foreach ($result as $row) :
         ?>
-            <section class="flex justify-center items-center  flex-col mt-4">
-                <div class="w-[1200px] bg-base-100 bg-cover rounded-2xl pb-4 shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)]">
+            <section class="flex justify-center items-center flex-col xxsm:mt-2 2xl:mt-4">
+                <div class="xxsm:w-[280px] xsm:w-[360px] base:w-[400px] sm:w-[560px] md:w-[650px] lg:w-[800px] xl:w-[1000px] 2xl:w-[1200px] bg-cover rounded-2xl shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)]">
                     <!-- carousel image -->
                     <div id="default-carousel" class="relative w-full" data-carousel="static">
                         <!-- Carousel wrapper -->
@@ -124,21 +124,21 @@ session_start();
                             <?php foreach ($result as $row) : ?>
                                 <!-- gambar 1 -->
                                 <figure data-carousel-item class="image-container cursor-pointer">
-                                    <img class="w-[1200px] h-[700px] object-cover xxsm:rounded-t-2xl" src="../../image_base/<?= $row->resource; ?>" alt="Lontar" />
+                                    <img class="xxsm:w-[280px] xsm:w-[360px] base:w-[400px] sm:w-[560px] md:w-[650px] lg:w-[800px] xl:w-[1000px] 2xl:w-[1200px] 2xl:h-[700px] object-cover xxsm:rounded-t-2xl" src="../../image_base/<?= $row->resource; ?>" alt="Lontar" />
                                 </figure>
                             <?php endforeach; ?>
                         </div>
                         <!-- Slider controls -->
-                        <button type="button" class="absolute xxsm:hidden base:block top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
-                            <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                        <button type="button" class="absolute base:block top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
+                            <span class="inline-flex items-center justify-center w-8 h-8 2xl:w-10 2xl:h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
                                 <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4" />
                                 </svg>
                                 <span class="sr-only">Previous</span>
                             </span>
                         </button>
-                        <button type="button" class="absolute xxsm:hidden base:block  top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
-                            <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                        <button type="button" class="absolute base:block top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
+                            <span class="inline-flex items-center justify-center  w-8 h-8 2xl:w-10 2xl:h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
                                 <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
                                 </svg>
@@ -155,17 +155,14 @@ session_start();
                             <img class="2xl:w-[1600px] 2xl:h-[730px] border-2 border-solid hover:scale-105  transition-all duration-700 border-white object-cover rounded-2xl" src="../../image_base/<?= $row->resource; ?>" alt="Lontar" />
                         </div>
                     </div>
-
-
-                    <div class="mt-5 ml-5">
-                        <h2 class="card-title bg-orangePastel w-fit p-2 rounded-t-lg font-montsMedium text-base border-b-4 border-solid border-b-mediumBlue">
+                    <div class="2xl:mt-5 2xl:ml-3 xxsm:mt-2 xsm:justify-start xsm:ml-3 flex xxsm:justify-center 2xl:justify-start">
+                        <h2 class="xxsm:text-sm xxsm:px-4 card-title bg-orangePastel w-fit p-2 rounded-t-lg font-montsMedium text-base border-b-4 border-solid border-b-mediumBlue">
                             Detail Deskripsi Lengkap Lontar
                         </h2>
                     </div>
-                    <div class="relative overflow-x-auto px-5">
+                    <div class="relative overflow-x-auto xxsm:px-3">
                         <table class="w-full text-sm text-left pb-5 rtl:text-right text-mediumBlue dark:text-gray-400">
                             <tbody>
-
                                 <tr class="border-b border-gray-200 bg-lightSecondary">
                                     <th scope="row" class="pl-5 w-36 font-montsMedium">
                                         Title
@@ -325,9 +322,9 @@ session_start();
                             </tbody>
                         </table>
                     </div>
-                    <div class="flex items-center flex-col gap-2">
-                        <h1 class="text-darkBlue font-montsSemiBold">Recomendasi pencarian:</h1>
-                        <div class="flex gap-5">
+                    <div class="flex items-center flex-col gap-2 mb-4">
+                        <h1 class="text-darkBlue xxsm:text-base font-montsSemiBold">-- Recomendasi Pencarian --</h1>
+                        <div class="flex xxsm:justify-center xxsm:flex-wrap xxsm:gap-2 2xl:gap-5">
                             <?php
                             require_once '../../apps/Semantic_recomend.php';
                             $hasil = $sparql->query($query);
@@ -336,7 +333,7 @@ session_start();
                             ?>
 
                                 <a href="http://localhost/pencarian_pintar_lontar/pages/user/DetailLontar.php?id=<?= $recommendedTitle; ?>">
-                                    <button class="bg-darkBlue text-white px-5 py-2.5 rounded-full"><?= $recommendedTitle ?></button>
+                                    <button class="bg-darkBlue xxsm:text-sm text-white px-5 py-2.5 rounded-full"><?= $recommendedTitle ?></button>
                                 </a>
 
                             <?php endforeach; ?>
