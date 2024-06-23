@@ -174,12 +174,12 @@
                 </section>
             </div>
         </div>
-        <div data-tooltip-target="tooltip-default" data-tooltip-placement="top" class="overflow-hidden xxsm:h-96 2xl:h-[380px] w-full bg-white mt-2">
+        <div data-tooltip-target="tooltip-default" data-tooltip-placement="top" class=" flex justify-center overflow-hidden xxsm:h-96 2xl:h-[380px] w-full bg-white mt-2">
             <div id="tooltip-default" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
                 Lokasi Gedong Kirtya
                 <div class="tooltip-arrow" data-popper-arrow></div>
             </div>
-            <iframe class="h-[380px] rounded-lg border-solid border-2 border-primary text-center p-4 xxsm:w-[320px] xsm:w-[370px] base:w-[480px] sm:w-[640px] md:w-[600px] lg:w-[700px] lg:h-[800px] xl:w-[900px] 2xl:w-full cursor-pointer" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d246.86062462500414!2d115.09618568847965!3d-8.124884578298582!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd19082db52408f%3A0x32c58443e0833f36!2sGedong%20Kirtya!5e0!3m2!1sen!2sid!4v1714303284416!5m2!1sen!2sid" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <iframe class="h-[380px] rounded-lg border-solid border-2 border-primary text-center p-4 xxsm:w-[350px] xsm:w-[400px] base:w-[480px] sm:w-[640px] md:w-[600px] lg:w-[700px] lg:h-[800px] xl:w-[900px] 2xl:w-full cursor-pointer" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d246.86062462500414!2d115.09618568847965!3d-8.124884578298582!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd19082db52408f%3A0x32c58443e0833f36!2sGedong%20Kirtya!5e0!3m2!1sen!2sid!4v1714303284416!5m2!1sen!2sid" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
     </main>
 

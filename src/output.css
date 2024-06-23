@@ -4927,6 +4927,14 @@ input:checked + .toggle-bg {
     width: 100%;
   }
 
+  .xxsm\:w-\[330px\] {
+    width: 330px;
+  }
+
+  .xxsm\:w-\[350px\] {
+    width: 350px;
+  }
+
   .xxsm\:flex-col {
     flex-direction: column;
   }
@@ -5100,6 +5108,10 @@ input:checked + .toggle-bg {
 
   .xsm\:w-\[340px\] {
     width: 340px;
+  }
+
+  .xsm\:w-\[400px\] {
+    width: 400px;
   }
 
   .xsm\:flex-col {
