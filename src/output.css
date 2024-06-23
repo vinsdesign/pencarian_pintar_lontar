@@ -1085,6 +1085,16 @@ input:checked + .toggle-bg {
   }
 }
 
+@media (min-width: 360px) {
+  .\!container {
+    max-width: 360px !important;
+  }
+
+  .container {
+    max-width: 360px;
+  }
+}
+
 @media (min-width: 370px) {
   .\!container {
     max-width: 370px !important;
@@ -1782,10 +1792,6 @@ input:checked + .toggle-bg {
 
 .w-\[1200px\] {
   width: 1200px;
-}
-
-.w-\[1550px\] {
-  width: 1550px;
 }
 
 .w-\[500px\] {
@@ -4249,6 +4255,12 @@ input:checked + .toggle-bg {
     }
   }
 
+  @media (min-width: 360px) {
+    .sm\:container {
+      max-width: 360px;
+    }
+  }
+
   @media (min-width: 370px) {
     .sm\:container {
       max-width: 370px;
@@ -5172,11 +5184,6 @@ input:checked + .toggle-bg {
     width: 480px;
   }
 
-  .base\:-translate-y-48 {
-    --tw-translate-y: -12rem;
-    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-  }
-
   .base\:-translate-y-\[14rem\] {
     --tw-translate-y: -14rem;
     transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
@@ -5770,6 +5777,10 @@ input:checked + .toggle-bg {
     width: 120px;
   }
 
+  .\32xl\:w-\[1550px\] {
+    width: 1550px;
+  }
+
   .\32xl\:w-\[1600px\] {
     width: 1600px;
   }
@@ -5822,6 +5833,10 @@ input:checked + .toggle-bg {
     align-items: center;
   }
 
+  .\32xl\:justify-end {
+    justify-content: flex-end;
+  }
+
   .\32xl\:justify-center {
     justify-content: center;
   }
@@ -5842,31 +5857,13 @@ input:checked + .toggle-bg {
     gap: 1rem;
   }
 
-  .\32xl\:gap-2 {
-    gap: 0.5rem;
-  }
-
-  .\32xl\:gap-20 {
-    gap: 5rem;
-  }
-
   .\32xl\:p-0 {
     padding: 0px;
-  }
-
-  .\32xl\:px-1 {
-    padding-left: 0.25rem;
-    padding-right: 0.25rem;
   }
 
   .\32xl\:py-10 {
     padding-top: 2.5rem;
     padding-bottom: 2.5rem;
-  }
-
-  .\32xl\:px-0 {
-    padding-left: 0px;
-    padding-right: 0px;
   }
 
   .\32xl\:text-left {
@@ -5881,11 +5878,6 @@ input:checked + .toggle-bg {
   .\32xl\:text-4xl {
     font-size: 2.25rem;
     line-height: 2.5rem;
-  }
-
-  .\32xl\:text-lg {
-    font-size: 1.125rem;
-    line-height: 1.75rem;
   }
 
   .\32xl\:leading-\[2\.8rem\] {
