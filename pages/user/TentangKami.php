@@ -180,7 +180,7 @@ include_once "../../config/URLconfig.php";
                         </div>
                         <div class="flex flex-col text-sm">
                             <h1 class="font-montsBold">Admin</h1>
-                            <p class="font-montsMedium">Informasi selengkapnya <br> <a class="text-[#293A9E]" href="<?= BASE_URL; ?>pages/admin/Login.php">dashboard_admin</a>
+                            <p class="font-montsMedium">Informasi selengkapnya <br> <a class="text-[#293A9E]" href="<?= BASE_URL; ?>pages/admin/login.php">dashboard_admin</a>
                             </p>
                         </div>
                     </section>
