@@ -1,3 +1,7 @@
+<?php
+include_once "config/URLconfig.php";
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
