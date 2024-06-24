@@ -12,6 +12,34 @@ session_start();
     <link rel="stylesheet" href="../../src/output.css">
     <link rel="stylesheet" href="../../node_modules/@fortawesome/fontawesome-free/css/all.min.css">
 </head>
+<style>
+    @keyframes typing {
+        from {
+            width: 0;
+        }
+
+        to {
+            width: 100%;
+        }
+    }
+
+    @keyframes blink {
+        50% {
+            border-color: transparent;
+        }
+    }
+
+    .typing-animation {
+        overflow: hidden;
+        border-right: .15em solid orange;
+        white-space: nowrap;
+        margin: 0 auto;
+        letter-spacing: .15em;
+        animation:
+            typing 6s steps(60, end) infinite,
+            blink .75s step-end infinite;
+    }
+</style>
 
 <body class="font-montserrat">
     <header>
@@ -45,10 +73,12 @@ session_start();
         <div id="default-carousel" class="relative w-full" data-carousel="slide">
             <!-- search component -->
             <section class="flex flex-col justify-center items-center absolute z-40 inset-0">
-                <h1 class="text-white xl:mb-3 font-medium xxsm:text-sm xsm:text-lg sm:text-xl md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl xxsm:mb-0">
-                    Mulai Eksplorasi
-                    <span class="font-montsBold text-orangePastel">Pencarian Lontar</span>
-                </h1>
+                <div class="">
+                    <h1 class="typing-animation text-white xl:mb-3 font-medium xxsm:text-sm xsm:text-base sm:text-xl md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl xxsm:mb-0">
+                        Mulai Eksplorasi
+                        <span class="font-montsBold text-orangePastel">Pencarian Lontar .</span>
+                    </h1>
+                </div>
                 <form action="KoleksiLontar.php" method="post" class="">
                     <div class="flex m-0 drop-shadow-[1px_4px_43.4px_rgba(0,0,0,0.50)]">
                         <div class="relative flex items-center text-lightSecondary focus-within:text-mediumBlue">
