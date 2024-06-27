@@ -26,61 +26,84 @@ if (isset($_POST['TambahData'])) {
     // Membuat judul lontar dengan format yang sesuai
     $title_lontar = str_replace(' ', '_', $title);
 
-    // Mengecek dan mengunggah gambar
-    $resources = upload();
-    if ($resources === false) {
-        return false;
-    }
-    $resourcesTriples = '';
-    if (is_array($resources)) {
-        foreach ($resources as $resource) {
-            $resourcesTriples .= "lontar:resource '$resource';\n";
-        }
-    }
-    // Menyiapkan kueri INSERT data
-    $query = "
-        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+    // Membuat objek client SPARQL
+    $sparql = new \EasyRdf\Sparql\Client('http://localhost:3030/pencarian_lontar/query');
+
+    // Kueri untuk memeriksa apakah title sudah ada
+    $checkQuery = "
         PREFIX lontar: <http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#>
 
-        INSERT DATA {
-            lontar:$title_lontar rdf:type lontar:Lontar ;
-                     lontar:title '$title' ;
-                     lontar:type '$type' ;
-                     lontar:subject '$subject' ;
-                     lontar:classification '$classification' ;
-                     lontar:language '$bahasa' ;
-                     lontar:collation '$collation' ;
-                     lontar:year '$tahun' ;
-                     lontar:length $panjang_lontar ;
-                     lontar:width $lebar_lontar ;
-                     $resourcesTriples
-                     lontar:comeFrom lontar:Origin_$title_lontar;
-                     lontar:createBy lontar:Person_$title_lontar ;
-                     lontar:saveIn lontar:Place_$title_lontar .
-
-            lontar:Origin_$title_lontar rdf:type lontar:Origin ;
-                     lontar:area '$area';
-                     lontar:regency '$regency' .
-
-            lontar:Place_$title_lontar rdf:type lontar:Place ;
-                     lontar:hasSave lontar:$title_lontar ;
-                     lontar:placename '$placename' ;
-                     lontar:location '$location' .
-
-            lontar:Person_$title_lontar rdf:type lontar:Person ;
-                    lontar:hasCreate lontar:$title_lontar ;
-                    lontar:author '$author';
-                    lontar:address '-';
-                    lontar:cv '-' .
+        ASK WHERE {
+            ?lontar lontar:title '$title' .
         }
     ";
 
     try {
-        // Membuat objek client SPARQL
-        $sparql = new \EasyRdf\Sparql\Client('http://localhost:3030/pencarian_lontar/update');
+        // Melakukan permintaan query untuk mengecek keberadaan title
+        $exists = $sparql->query($checkQuery)->isTrue();
+
+        if ($exists) {
+            $_SESSION['status_add'] = 'Judul lontar sudah ada!';
+            $_SESSION['status_code'] = 'error';
+            header('Location: http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php');
+            exit();
+        }
+
+        // Mengecek dan mengunggah gambar
+        $resources = upload();
+        if ($resources === false) {
+            return false;
+        }
+        $resourcesTriples = '';
+        if (is_array($resources)) {
+            foreach ($resources as $resource) {
+                $resourcesTriples .= "lontar:resource '$resource';\n";
+            }
+        }
+
+        // Menyiapkan kueri INSERT data
+        $query = "
+            PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+            PREFIX lontar: <http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#>
+
+            INSERT DATA {
+                lontar:$title_lontar rdf:type lontar:Lontar ;
+                         lontar:title '$title' ;
+                         lontar:type '$type' ;
+                         lontar:subject '$subject' ;
+                         lontar:classification '$classification' ;
+                         lontar:language '$bahasa' ;
+                         lontar:collation '$collation' ;
+                         lontar:year '$tahun' ;
+                         lontar:length $panjang_lontar ;
+                         lontar:width $lebar_lontar ;
+                         $resourcesTriples
+                         lontar:comeFrom lontar:Origin_$title_lontar;
+                         lontar:createBy lontar:Person_$title_lontar ;
+                         lontar:saveIn lontar:Place_$title_lontar .
+
+                lontar:Origin_$title_lontar rdf:type lontar:Origin ;
+                         lontar:area '$area';
+                         lontar:regency '$regency' .
+
+                lontar:Place_$title_lontar rdf:type lontar:Place ;
+                         lontar:hasSave lontar:$title_lontar ;
+                         lontar:placename '$placename' ;
+                         lontar:location '$location' .
+
+                lontar:Person_$title_lontar rdf:type lontar:Person ;
+                        lontar:hasCreate lontar:$title_lontar ;
+                        lontar:author '$author';
+                        lontar:address '-';
+                        lontar:cv '-' .
+            }
+        ";
+
+        // Membuat objek client SPARQL untuk update
+        $sparqlUpdate = new \EasyRdf\Sparql\Client('http://localhost:3030/pencarian_lontar/update');
 
         // Melakukan permintaan update dengan kueri yang telah disiapkan
-        $result = $sparql->update($query);
+        $result = $sparqlUpdate->update($query);
 
         // Memeriksa hasil dan memberikan respons sesuai
         if ($result) {
@@ -97,45 +120,73 @@ if (isset($_POST['TambahData'])) {
         $_SESSION['status_add_error'] = 'Data Gagal Ditambahkan!';
         $_SESSION['status_text'] = $e->getMessage();
         $_SESSION['status_code'] = 'error';
-        $_SESSION['status_footer'] = 'Pastikan Format Data ditambahkan Sudah Benar !';
+        $_SESSION['status_footer'] = 'Pastikan Format Data ditambahkan sudah Benar !';
         header('Location: http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php');
     }
 }
 
+
 if (isset($_POST['HapusData'])) {
     $id = $_POST['id_title'];
-    $query = "
-        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-        PREFIX lontar: <http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#>
 
-        DELETE WHERE {
-            ?lontar lontar:title '$id';
-                    lontar:type ?type;
-                    lontar:subject ?subject;
-                    lontar:classification ?classification;
-                    lontar:language ?language;
-                    lontar:collation ?collation;
-                    lontar:year ?year;
-                    lontar:length ?length;
-                    lontar:width ?width;
-                    lontar:resource ?resource;
-                    lontar:createBy ?person;
-                    lontar:comeFrom ?origin;
-                    lontar:saveIn ?place.
-            ?person lontar:author ?author.
-            ?origin lontar:area ?area;
-                    lontar:regency ?regency.
-            ?place  lontar:placename ?placename;
-                    lontar:location ?location;
-                    lontar:hasSave ?lontar.
+    // Membuat objek client SPARQL untuk query
+    $sparqlQuery = new \EasyRdf\Sparql\Client('http://localhost:3030/pencarian_lontar/query');
+
+    // Kueri untuk mendapatkan nama file gambar yang terkait dengan data lontar
+    $getImageQuery = "
+            PREFIX lontar: <http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#>
+    
+            SELECT ?resource WHERE {
+                ?lontar lontar:title '$id' ;
+                        lontar:resource ?resource .
+            }
+        ";
+
+    // Melakukan permintaan query untuk mendapatkan nama file gambar
+    $resultImageQuery = $sparqlQuery->query($getImageQuery);
+
+    // Menghapus file gambar dari folder
+    foreach ($resultImageQuery as $row) {
+        $resource = $row->resource->getValue();
+        $filePath = '../image_base/' . $resource;
+        if (file_exists($filePath)) {
+            unlink($filePath);
         }
-    ";
+    }
 
-    // Membuat objek client SPARQL
-    $sparql = new \EasyRdf\Sparql\Client('http://localhost:3030/pencarian_lontar/update');
+    // Kueri untuk menghapus data lontar
+    $deleteQuery = "
+            PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+            PREFIX lontar: <http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#>
+    
+            DELETE WHERE {
+                ?lontar lontar:title '$id';
+                        lontar:type ?type;
+                        lontar:subject ?subject;
+                        lontar:classification ?classification;
+                        lontar:language ?language;
+                        lontar:collation ?collation;
+                        lontar:year ?year;
+                        lontar:length ?length;
+                        lontar:width ?width;
+                        lontar:resource ?resource;
+                        lontar:createBy ?person;
+                        lontar:comeFrom ?origin;
+                        lontar:saveIn ?place.
+                ?person lontar:author ?author.
+                ?origin lontar:area ?area;
+                        lontar:regency ?regency.
+                ?place  lontar:placename ?placename;
+                        lontar:location ?location;
+                        lontar:hasSave ?lontar.
+            }
+        ";
+
+    // Membuat objek client SPARQL untuk update
+    $sparqlUpdate = new \EasyRdf\Sparql\Client('http://localhost:3030/pencarian_lontar/update');
 
     // Melakukan permintaan update dengan kueri yang telah disiapkan
-    $result = $sparql->update($query);
+    $result = $sparqlUpdate->update($deleteQuery);
 
     // Memeriksa hasil dan memberikan respons sesuai
     if ($result) {
@@ -148,6 +199,7 @@ if (isset($_POST['HapusData'])) {
         header('Location: http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php');
     }
 }
+
 
 if (isset($_POST['EditData'])) {
     $title = htmlspecialchars($_POST['title']);
