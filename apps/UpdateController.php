@@ -347,7 +347,7 @@ function upload()
         }
 
         // cek ukuran gambar jika lebih dari 2MB
-        if ($ukuranFile > 2000) {
+        if ($ukuranFile > 2000000) {
             $_SESSION['status_size_gambar'] = 'Gambar Melebihi Ukuran 2MB!';
             $_SESSION['status_code'] = 'error';
             header('Location: http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php');
