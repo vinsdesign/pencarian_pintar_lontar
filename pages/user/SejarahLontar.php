@@ -17,6 +17,10 @@ include_once "../../config/URLconfig.php";
             width: 0;
         }
 
+        90% {
+            width: 100%;
+        }
+
         to {
             width: 100%;
         }
@@ -35,7 +39,7 @@ include_once "../../config/URLconfig.php";
         margin: 0 auto;
         letter-spacing: .15em;
         animation:
-            typing 6s steps(60, end) infinite,
+            typing 9s steps(70, end) infinite,
             blink .75s step-end infinite;
     }
 </style>
@@ -75,7 +79,7 @@ include_once "../../config/URLconfig.php";
                 <div class="">
                     <h1 class="typing-animation text-white xl:mb-3 font-medium xxsm:text-sm xsm:text-base sm:text-xl md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl xxsm:mb-0">
                         Mulai Eksplorasi
-                        <span class="font-montsBold text-orangePastel">Pencarian Lontar .</span>
+                        <span class="font-montsBold text-orangePastel">Pencarian Lontar</span>
                     </h1>
                 </div>
                 <form action="KoleksiLontar.php" method="post" class="">
