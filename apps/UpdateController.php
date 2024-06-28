@@ -224,17 +224,6 @@ if (isset($_POST['EditData'])) {
     $oldTitle_lontar = str_replace(' ', '_', $id);
     $new_title = str_replace(' ', '_', $title);
 
-    // // Cek apakah user pilih gambar baru atau tidak
-    // if ($_FILES['upload_image']['error'] === 4) {
-    //     if (strpos($gambarLama, ',') !== false) {
-    //         $resources = explode(',', $gambarLama);
-    //     } else {
-    //         // Jika hanya ada satu gambar tanpa koma
-    //         $resources = $gambarLama;
-    //     }
-    // } else {
-    //     $resources = upload();
-    // }
     // Membuat objek client SPARQL untuk query
     $sparqlQuery = new \EasyRdf\Sparql\Client('http://localhost:3030/pencarian_lontar/query');
 
@@ -267,7 +256,6 @@ if (isset($_POST['EditData'])) {
             $resources = array($gambarLama);
         }
     }
-
 
     $resourceTriplesOld = '';
     $resourceTriplesNew = '';
