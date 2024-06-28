@@ -1,3 +1,7 @@
+<?php
+include_once "config/URLconfig.php";
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -50,10 +54,10 @@
         <!-- menu navigation -->
         <div id="navigation" class="md:static md:min-h-fit absolute md:w-auto z-50 bg-darkBlue min-h-[20vh] left-0 top-[-100%] w-full flex items-center pl-6">
             <ul class="text-white font-montsMedium flex md:flex-row flex-col md:items-center md:py-0 md:gap-10 gap-6 py-3">
-                <li><a class="hover:text-orangePastel" href="/pencarian_pintar_lontar/index.php">Beranda</a></li>
-                <li><a class="hover:text-orangePastel" href="/pencarian_pintar_lontar/pages/user/SejarahLontar.php">Sejarah Lontar</a></li>
-                <li><a class="hover:text-orangePastel" href="/pencarian_pintar_lontar/pages/user/KoleksiLontar.php">Koleksi Lontar</a></li>
-                <li><a class="hover:text-orangePastel" href="/pencarian_pintar_lontar/pages/user/TentangKami.php">Tentang Kami</a></li>
+                <li><a class="hover:text-orangePastel" href="<?= BASE_URL; ?>index.php">Beranda</a></li>
+                <li><a class="hover:text-orangePastel" href="<?= BASE_URL; ?>pages/user/SejarahLontar.php">Sejarah Lontar</a></li>
+                <li><a class="hover:text-orangePastel" href="<?= BASE_URL; ?>pages/user/KoleksiLontar.php">Koleksi Lontar</a></li>
+                <li><a class="hover:text-orangePastel" href="<?= BASE_URL; ?>pages/user/TentangKami.php">Tentang Kami</a></li>
             </ul>
         </div>
         <div id="add" class="md:hidden">
@@ -211,7 +215,7 @@
         </h1>
 
         <div class="flex xxsm:flex-wrap xsm:flex-wrap xsm:gap-3 sm:flex-wrap md:flex-wrap lg:flex-nowrap justify-center mt-4 xxsm:gap-2 md:gap-5 gap-10 lg:px-10">
-            <p class="xxsm:w-[280px] xsm:w-[450px] sm:w-[500px] md:w-[600px] lg:w-[400px] xl:w-[600px] 2xl:w-[500px] md:text-xl lg:text-lg xl:text-xl text-justify xxsm:text-base xxsm:leading-7 leading-10 xxsm:order-2 xsm:order-2 sm:order-2 md:order-2 lg:order-1">
+            <p class="xxsm:w-[280px] xsm:w-[450px] sm:w-[500px] md:w-[600px] lg:w-[400px] xl:w-[600px] 2xl:w-[500px] xsm:px-3 md:text-xl lg:text-lg xl:text-xl text-justify xxsm:text-base xxsm:leading-7 leading-10 xxsm:order-2 xsm:order-2 sm:order-2 md:order-2 lg:order-1">
                 Aksara Bali merupakan turunan dari aksara Brahmi India melalui perantara aksara Kawi dan
                 berkerabat dekat dengan aksara Jawa. Aksara Bali aktif digunakan dalam sastra maupun tulisan
                 sehari-hari masyarakat Bali sejak pertengahan abad ke-15 hingga kini dan masih diajarkan di

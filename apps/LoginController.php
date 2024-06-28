@@ -1,10 +1,11 @@
 <?php
 session_start();
 require '../../config/config.php';
+include_once "../../config/URLconfig.php";
 
 // cek session jika sudah ada session langsung arahin ke   --
 if (isset($_SESSION['login'])) {
-    header("Location: http://localhost/pencarian_pintar_lontar/pages/admin/DashboardAdmin.php");
+    header("Location:" . BASE_URL . "pages/admin/DashboardAdmin.php");
     exit;
 }
 
@@ -32,7 +33,7 @@ if (isset($_POST["login"])) {
             $_SESSION["password"] = $row["password"];
             $_SESSION["image"] = $row["gambar"];
             // Password cocok, redirect ke halaman DashboardAdmin
-            header("location: http://localhost/pencarian_pintar_lontar/pages/admin/DashboardAdmin.php");
+            header("location:" . BASE_URL . "pages/admin/DashboardAdmin.php");
             $success = true;
             exit;
         }
