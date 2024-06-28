@@ -224,19 +224,51 @@ if (isset($_POST['EditData'])) {
     $oldTitle_lontar = str_replace(' ', '_', $id);
     $new_title = str_replace(' ', '_', $title);
 
-    // cek apakah user pilih gambar baru atau tidak?
-    if ($_FILES['upload_image']['error'] === 4) {
-        $resources = explode(',', $gambarLama);
+    // // Cek apakah user pilih gambar baru atau tidak
+    // if ($_FILES['upload_image']['error'] === 4) {
+    //     if (strpos($gambarLama, ',') !== false) {
+    //         $resources = explode(',', $gambarLama);
+    //     } else {
+    //         // Jika hanya ada satu gambar tanpa koma
+    //         $resources = $gambarLama;
+    //     }
+    // } else {
+    //     $resources = upload();
+    // }
+    // Membuat objek client SPARQL untuk query
+    $sparqlQuery = new \EasyRdf\Sparql\Client('http://localhost:3030/pencarian_lontar/query');
+
+    // Kueri untuk mendapatkan nama file gambar yang terkait dengan data lontar
+    $getImageQuery = "
+        PREFIX lontar: <http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#>
+        SELECT ?resource WHERE {
+            ?lontar lontar:title '$id' ;
+                    lontar:resource ?resource .
+        }
+    ";
+
+    // Melakukan permintaan query untuk mendapatkan nama file gambar
+    $resultImageQuery = $sparqlQuery->query($getImageQuery);
+
+    // Menghapus file gambar dari folder jika ada gambar baru yang diunggah
+    if ($_FILES['upload_image']['error'] !== 4) {
+        foreach ($resultImageQuery as $row) {
+            $resource = $row->resource->getValue();
+            $filePath = '../image_base/' . $resource;
+            if (file_exists($filePath)) {
+                unlink($filePath);
+            }
+        }
+        $resources = upload(); // Fungsi untuk mengunggah gambar baru dan mendapatkan path-nya
     } else {
-        $resources = upload();
-        // if (!$resources) {
-        //     // Handle error case if upload fails
-        //     $_SESSION['status_edit'] = 'Data Gagal karena gambar harus dimasukan';
-        //     $_SESSION['status_code'] = 'error';
-        //     header('Location: http://localhost/pencarian_pintar_lontar/pages/admin/TableDataLontar.php');
-        //     exit;
-        // }
+        if (strpos($gambarLama, ',') !== false) {
+            $resources = explode(',', $gambarLama);
+        } else {
+            $resources = array($gambarLama);
+        }
     }
+
+
     $resourceTriplesOld = '';
     $resourceTriplesNew = '';
     foreach ($resources as $resource) {
