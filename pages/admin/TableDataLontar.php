@@ -1,5 +1,6 @@
 <?php
 session_start();
+include_once '../../config/URLconfig.php';
 if (!isset($_SESSION['login'])) {
     header("Location: " . BASE_URL . "pages/admin/login.php");
     exit;
@@ -189,11 +190,12 @@ if (!isset($_SESSION['login'])) {
                                     FILTER(CONTAINS(LCASE(?title), ?keyword) ||
                                            CONTAINS(LCASE(?author), ?keyword) || 
                                            CONTAINS(LCASE(?subject), ?keyword) ||
+                                           CONTAINS(LCASE(?classification), ?keyword) ||
                                            CONTAINS(LCASE(?type), ?keyword) || 
-                                           CONTAINS(LCASE(?collation), ?keyword) ||
-                                           CONTAINS(LCASE(?year), ?keyword) || 
-                                           CONTAINS(LCASE(?length), ?keyword) ||
-                                           CONTAINS(LCASE(?width), ?keyword) || 
+                                           CONTAINS(STR(?collation), ?keyword) ||
+                                           CONTAINS(STR(?year), ?keyword) || 
+                                           CONTAINS(STR(?length), ?keyword) ||
+                                           CONTAINS(STR(?width), ?keyword) || 
                                            CONTAINS(LCASE(?language), ?keyword) ||
                                            CONTAINS(LCASE(?placename), ?keyword) || 
                                            CONTAINS(LCASE(?location), ?keyword)|| 

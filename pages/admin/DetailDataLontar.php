@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once '../../config/config.php';
+include_once '../../config/URLconfig.php';
 if (!isset($_SESSION['login'])) {
     header("Location:" . BASE_URL . "pages/admin/login.php");
     exit;
