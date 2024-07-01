@@ -44,7 +44,7 @@ include_once "../../config/URLconfig.php";
                             <path d="M109.5 62.5H205.5" stroke="#F9B17A" stroke-width="3" />
                         </svg>
                     </a>
-                    <div class="mt-32 xxsm:w-96">]
+                    <div class="mt-32 xxsm:w-96">
                         <h1 class="text-right mr-5 font-montsBold text-white text-4xl">LOGIN</h1>
                         <p class="text-right mr-5 text-sm xxsm:text-white sm:text-orangePastel text-orangePastel">Silahkan masukan Username & password. </p>
                         <form class="max-w-md " action="" method="post">
