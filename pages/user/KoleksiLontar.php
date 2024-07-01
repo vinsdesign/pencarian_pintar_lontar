@@ -167,7 +167,6 @@ include_once '../../config/URLconfig.php';
                         <option>Klasifikasi Lontar</option>
                         <option value="weda">Weda</option>
                         <option value="agama">Agama</option>
-                        <option value="tantri">Tantri</option>
                         <option value="itihasa">Itihasa</option>
                         <option value="babad">Babad</option>
                         <option value="tantri">Tantri</option>
