@@ -263,7 +263,7 @@ include_once '../../config/URLconfig.php';
                 if (isset($_SESSION['klasifikasi_results'])) {
                     unset($_SESSION['klasifikasi_results']);
                 }
-
+                var_dump($keywords);
                 if (!empty($keywords)) {
                     $sparql = new \EasyRdf\Sparql\Client('http://localhost:3030/pencarian_lontar/query');
 
