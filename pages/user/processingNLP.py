@@ -50,13 +50,13 @@ load_synonyms(synonyms_csv_file)
 def replace_keyword(word):
     return synonyms.get(word, word)
 
-def tokenize_input(keyword, important_keywords):
+def process_text(keyword):
     try:
-        # Konversi keyword ke lowercase
-        lower_keyword = keyword.lower()
+        # Konversi teks ke lowercase
+        lower_text = keyword.lower()
 
-        # Tokenisasi keyword menjadi kata-kata individual
-        tokens = lower_keyword.split()
+        # Tokenisasi teks menjadi kata-kata individual
+        tokens = lower_text.split()
 
         # Buat stemmer untuk bahasa Indonesia
         factory = StemmerFactory()
@@ -68,19 +68,10 @@ def tokenize_input(keyword, important_keywords):
         # Lakukan stemming pada setiap kata kecuali kata dalam exception_words
         stemmed_tokens = [token if token in exception_words else stemmer.stem(token) for token in filtered_tokens]
 
-        # Cari kata penting yang ada dalam input
-        important_tokens = [token for token in stemmed_tokens if token in important_keywords]
+        # Ganti kata dengan sinonim jika ada
+        synonym_tokens = [replace_keyword(token) for token in stemmed_tokens]
 
-        # Jika tidak ada kata penting yang ditemukan, cari sinonim
-        if not important_tokens:
-            synonym_tokens = [replace_keyword(token) for token in stemmed_tokens]
-            important_tokens = [token for token in synonym_tokens if token != stemmed_tokens[synonym_tokens.index(token)]]
-
-        # Jika tidak ada sinonim yang ditemukan, ambil kata terakhir dari tokens
-        if not important_tokens:
-            important_tokens = [stemmed_tokens[-1]]
-
-        return important_tokens[0]  # Kembalikan kata penting pertama yang ditemukan
+        return synonym_tokens
 
     except Exception as e:
         # Tangani kesalahan dengan mencetak pesan kesalahan
@@ -104,18 +95,14 @@ if __name__ == "__main__":
         # Hapus file sementara setelah selesai membaca
         os.remove(temp_file)
 
-        keyword = data['keyword']
-        important_keywords = data['important_keywords']
+        text = data['keyword']
 
-        # Jalankan fungsi tokenize_input
-        processed_keyword = tokenize_input(keyword, important_keywords)
-
-        # Ganti kata-kata dengan sinonim jika perlu
-        replaced_keyword = replace_keyword(processed_keyword)
+        # Jalankan fungsi process_text
+        processed_tokens = process_text(text)
 
         # Cetak hasil pemrosesan untuk diambil oleh PHP
-        if replaced_keyword is not None:
-            print(replaced_keyword)
+        if processed_tokens is not None:
+            print(" ".join(processed_tokens))
         else:
             print("")
     except Exception as e:
