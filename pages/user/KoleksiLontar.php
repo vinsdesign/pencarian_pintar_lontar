@@ -54,9 +54,10 @@ include_once '../../config/URLconfig.php';
                 </div>
                 <form action="KoleksiLontar.php" method="post" class="">
                     <div class="flex m-0 drop-shadow-[1px_4px_43.4px_rgba(0,0,0,0.50)]">
-                        <div class="relative flex items-center text-lightSecondary focus-within:text-mediumBlue">
+                        <div class="relative flex items-center text-darkSecondary focus-within:text-mediumBlue">
                             <i class="fa-solid fa-magnifying-glass absolute xxsm:text-base lg:text-xl 2xl:text-2xl xxsm:mt-2 xxsm:ml-3 mt-5 ml-5 text-mediumBlue" name="search"></i>
-                            <input type="text" placeholder="Cari Lontar" name="keyword" autocomplete="off" aria-label="Cari Lontar" class="mt-5 xxsm:mt-2 xxsm:pl-12 px-16 placeholder-darkSecondary focus:placeholder-lightBlue xxsm:w-[200px] xxsm:h-9 sm:text-xl xsm:w-[250px] xsm:h-9 sm:w-[350px] sm:h-10 md:text-xl lg:text-2xl md:w-[300px] md:h-[50px] lg:w-[400px] lg:h-[55px] xl:w-[500px] xl:h-[60px] 2xl:w-[700px] 2xl:h-[70px] rounded-s-[15px] border-none ring-2 ring-mediumBlue focus:ring-orangePastel focus:ring-2" />
+                            <?php $keyword = isset($_POST['keyword']) ? $_POST['keyword'] : ''; ?>
+                            <input type="text" placeholder="Cari Lontar" name="keyword" autocomplete="off" aria-label="Cari Lontar" class="mt-5 xxsm:mt-2 xxsm:pl-12 px-16 placeholder-darkSecondary focus:placeholder-lightBlue xxsm:w-[200px] xxsm:h-9 sm:text-xl xsm:w-[250px] xsm:h-9 sm:w-[350px] sm:h-10 md:text-xl lg:text-2xl md:w-[300px] md:h-[50px] lg:w-[400px] lg:h-[55px] xl:w-[500px] xl:h-[60px] 2xl:w-[700px] 2xl:h-[70px] rounded-s-[15px] border-none ring-2 ring-mediumBlue focus:ring-orangePastel focus:ring-2" value="<?= htmlspecialchars($keyword) ?>" />
                         </div>
                         <button type="submit" name="btn_keyword" class="bg-mediumBlue xxsm:mt-2 xxsm:text-base sm:px-3 xsm:text-lg xxsm:px-3 xsm:px-3 sm:text-xl md:text-2xl xl:text-3xl md:w-[100px] md:h-[50px] lg:w-[110px] lg:h-[55px] xl:w-[120px] xl:h-[60px] 2xl:w-[120px] 2xl:h-[70px] mt-5 text-orangePastel text-[24px] rounded-r-[15px] ring-2 ring-mediumBlue">
                             Cari
@@ -109,65 +110,12 @@ include_once '../../config/URLconfig.php';
             if (!isset($_SESSION)) {
                 echo "Session tidak dimulai.";
             }
-            // Query untuk mengambil important keywords
-            $importantKeywordsQuery = "
-            PREFIX lontar: <http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#>
-            
-            SELECT ?keyword WHERE {
-                {
-                    ?s lontar:title ?keyword .
-                } UNION {
-                    ?s lontar:type ?keyword .
-                } UNION {
-                    ?s lontar:subject ?keyword .
-                } UNION {
-                    ?s lontar:classification ?keyword .
-                } UNION {
-                    ?s lontar:language ?keyword .
-                } UNION {
-                    ?s lontar:collation ?keyword .
-                } UNION {
-                    ?s lontar:year ?keyword .
-                } UNION {
-                    ?s lontar:length ?keyword .
-                } UNION {
-                    ?s lontar:width ?keyword .
-                } UNION {
-                    ?s lontar:resource ?keyword .
-                } UNION {
-                    ?s lontar:createBy ?keyword .
-                } UNION {
-                    ?s lontar:comeFrom ?keyword .
-                } UNION {
-                    ?s lontar:saveIn ?keyword .
-                } UNION {
-                    ?person lontar:author ?keyword .
-                } UNION {
-                    ?origin lontar:area ?keyword .
-                } UNION {
-                    ?origin lontar:regency ?keyword .
-                } UNION {
-                    ?place lontar:placename ?keyword .
-                } UNION {
-                    ?place lontar:location ?keyword .
-                }
-            }
-            ";
-            $importantKeywordsResults = $sparql->query($importantKeywordsQuery);
-
-            // Ambil hasil query dan simpan dalam array
-            $importantKeywords = [];
-            foreach ($importantKeywordsResults as $result) {
-                $importantKeywords[] = (string)$result->keyword;
-            }
-
             if (isset($_POST['btn_keyword'])) {
                 $key = htmlspecialchars($_POST['keyword']);
 
                 // Encode data as JSON to pass to Python script
                 $data = json_encode([
                     'keyword' => $key,
-                    'important_keywords' => $importantKeywords
                 ]);
 
                 // Buat file sementara untuk menyimpan data JSON
@@ -188,12 +136,12 @@ include_once '../../config/URLconfig.php';
                 if (isset($_SESSION['klasifikasi_results'])) {
                     unset($_SESSION['klasifikasi_results']);
                 }
-                var_dump($keywords);
                 if (!empty($keywords)) {
                     $sparql = new \EasyRdf\Sparql\Client('http://localhost:3030/pencarian_lontar/query');
-
+                    var_dump($keywords);
                     // Buat filter untuk setiap kata kunci
                     $filters = [];
+                    var_dump($filters);
                     foreach ($keywords as $keyword) {
                         $filters[] = "CONTAINS(LCASE(?title), '$keyword') ||
                                       CONTAINS(LCASE(?author), '$keyword') ||
@@ -212,7 +160,7 @@ include_once '../../config/URLconfig.php';
                     }
 
                     $filter_query = implode(" || ", $filters);
-
+                    var_dump($filters);
                     $query = "
                     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
                     PREFIX lontar: <http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#>
