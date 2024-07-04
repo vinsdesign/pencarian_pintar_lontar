@@ -2,7 +2,7 @@
 session_start();
 include_once "../../config/URLconfig.php";
 if (!isset($_SESSION['login'])) {
-    header("location: " . BASE_URL . "pages/admin/login.php");
+    header("Location: " . BASE_URL . "pages/admin/login.php");
     exit;
 }
 ?>
