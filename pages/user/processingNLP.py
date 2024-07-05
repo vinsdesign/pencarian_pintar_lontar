@@ -74,7 +74,7 @@ def process_text(keyword):
         return synonym_tokens
 
     except Exception as e:
-        # Tangani kesalahan dengan mencetak pesan kesalahan
+        # Tangani kesalahan dengan mencetak pesan kesalahan 
         print("Error:", str(e))
         return None
 

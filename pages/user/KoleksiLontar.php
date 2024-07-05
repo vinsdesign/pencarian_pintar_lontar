@@ -57,7 +57,10 @@ include_once '../../config/URLconfig.php';
                         <div class="relative flex items-center text-darkSecondary focus-within:text-mediumBlue">
                             <i class="fa-solid fa-magnifying-glass absolute xxsm:text-base lg:text-xl 2xl:text-2xl xxsm:mt-2 xxsm:ml-3 mt-5 ml-5 text-mediumBlue" name="search"></i>
                             <?php $keyword = isset($_POST['keyword']) ? $_POST['keyword'] : ''; ?>
-                            <input type="text" placeholder="Cari Lontar" name="keyword" autocomplete="off" aria-label="Cari Lontar" class="mt-5 xxsm:mt-2 xxsm:pl-12 px-16 placeholder-darkSecondary focus:placeholder-lightBlue xxsm:w-[200px] xxsm:h-9 sm:text-xl xsm:w-[250px] xsm:h-9 sm:w-[350px] sm:h-10 md:text-xl lg:text-2xl md:w-[300px] md:h-[50px] lg:w-[400px] lg:h-[55px] xl:w-[500px] xl:h-[60px] 2xl:w-[700px] 2xl:h-[70px] rounded-s-[15px] border-none ring-2 ring-mediumBlue focus:ring-orangePastel focus:ring-2" value="<?= htmlspecialchars($keyword) ?>" />
+                            <input type="text" id="input_lontar" placeholder="Cari Lontar" name="keyword" autocomplete="off" aria-label="Cari Lontar" class="mt-5 xxsm:mt-2 xxsm:pl-12 px-16 placeholder-darkSecondary focus:placeholder-lightBlue xxsm:w-[200px] xxsm:h-9 sm:text-xl xsm:w-[250px] xsm:h-9 sm:w-[350px] sm:h-10 md:text-xl lg:text-2xl md:w-[300px] md:h-[50px] lg:w-[400px] lg:h-[55px] xl:w-[500px] xl:h-[60px] 2xl:w-[700px] 2xl:h-[70px] rounded-s-[15px] border-none ring-2 ring-mediumBlue focus:ring-orangePastel focus:ring-2" value="<?= htmlspecialchars($keyword) ?>" />
+                            <?php if (!empty($_POST['keyword'])) : ?>
+                                <i class="fa-solid fa-xmark absolute xxsm:text-base lg:text-xl 2xl:text-2xl xxsm:mt-2 xxsm:mr-5 xxsm:right-0" id="clear-button"></i>
+                            <?php endif; ?>
                         </div>
                         <button type="submit" name="btn_keyword" class="bg-mediumBlue xxsm:mt-2 xxsm:text-base sm:px-3 xsm:text-lg xxsm:px-3 xsm:px-3 sm:text-xl md:text-2xl xl:text-3xl md:w-[100px] md:h-[50px] lg:w-[110px] lg:h-[55px] xl:w-[120px] xl:h-[60px] 2xl:w-[120px] 2xl:h-[70px] mt-5 text-orangePastel text-[24px] rounded-r-[15px] ring-2 ring-mediumBlue">
                             Cari
@@ -138,10 +141,10 @@ include_once '../../config/URLconfig.php';
                 }
                 if (!empty($keywords)) {
                     $sparql = new \EasyRdf\Sparql\Client('http://localhost:3030/pencarian_lontar/query');
-                    var_dump($keywords);
+                    // var_dump($keywords);
                     // Buat filter untuk setiap kata kunci
                     $filters = [];
-                    var_dump($filters);
+                    // var_dump($filters);
                     foreach ($keywords as $keyword) {
                         $filters[] = "CONTAINS(LCASE(?title), '$keyword') ||
                                       CONTAINS(LCASE(?author), '$keyword') ||
@@ -495,6 +498,13 @@ include_once '../../config/URLconfig.php';
     <!-- script -->
     <script src="../../public/js/menuNavbar.js"></script>
     <script src="../../node_modules/flowbite/dist/flowbite.min.js"></script>
+    <script>
+        document.getElementById('clear-button').addEventListener('click', function() {
+            const inputLontar = document.getElementById('input_lontar');
+            inputLontar.value = '';
+            inputLontar.placeholder = '';
+        });
+    </script>
 
 </body>
 
