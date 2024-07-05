@@ -141,29 +141,10 @@ include_once '../../config/URLconfig.php';
                 }
                 if (!empty($keywords)) {
                     $sparql = new \EasyRdf\Sparql\Client('http://localhost:3030/pencarian_lontar/query');
-                    // var_dump($keywords);
+                    var_dump($keywords);
                     // Buat filter untuk setiap kata kunci
-                    $filters = [];
-                    // var_dump($filters);
-                    foreach ($keywords as $keyword) {
-                        $filters[] = "CONTAINS(LCASE(?title), '$keyword') ||
-                                      CONTAINS(LCASE(?author), '$keyword') ||
-                                      CONTAINS(LCASE(?year), '$keyword') ||
-                                      CONTAINS(LCASE(?type), '$keyword') ||
-                                      CONTAINS(LCASE(?subject), '$keyword') ||
-                                      CONTAINS(LCASE(?classification), '$keyword') ||
-                                      CONTAINS(LCASE(?collation), '$keyword') ||
-                                      CONTAINS(LCASE(?language), '$keyword') ||
-                                      CONTAINS(STR(?length), '$keyword') ||
-                                      CONTAINS(STR(?width), '$keyword') ||
-                                      CONTAINS(LCASE(?area), '$keyword') ||
-                                      CONTAINS(LCASE(?regency), '$keyword') ||
-                                      CONTAINS(LCASE(?location), '$keyword') ||
-                                      CONTAINS(LCASE(?placename), '$keyword')";
-                    }
-
-                    $filter_query = implode(" || ", $filters);
-                    var_dump($filters);
+                    // Gabungkan kata kunci menjadi satu string dengan pemisah
+                    $keywords_string = implode(" ", $keywords);
                     $query = "
                     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
                     PREFIX lontar: <http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#>
@@ -190,46 +171,40 @@ include_once '../../config/URLconfig.php';
                                 lontar:location ?location;
                                 lontar:hasSave ?lontar.
 
-                        FILTER ($filter_query)
+                        FILTER(CONTAINS(LCASE(?title), '$keywords_string') ||
+                                CONTAINS(LCASE(?author), '$keywords_string') ||
+                                CONTAINS(LCASE(?subject), '$keywords_string') ||
+                                CONTAINS(LCASE(?classification), '$keywords_string') ||
+                                CONTAINS(LCASE(?type), '$keywords_string') ||
+                                CONTAINS(STR(?collation), '$keywords_string') ||
+                                CONTAINS(LCASE(?year), '$keywords_string') ||
+                                CONTAINS(LCASE(?length), '$keywords_string') ||
+                                CONTAINS(STR(?width), '$keywords_string') ||
+                                CONTAINS(STR(?language), '$keywords_string') ||
+                                CONTAINS(LCASE(?placename), '$keywords_string') ||
+                                CONTAINS(LCASE(?location), '$keywords_string') ||
+                                CONTAINS(LCASE(?area), '$keywords_string') ||
+                                CONTAINS(LCASE(?regency), '$keywords_string')
+                            )  
                     }
                     GROUP BY ?title ?type ?subject ?classification ?language ?collation ?year ?length ?width ?author ?area ?regency ?placename ?location
                     ";
                     // Simpan hasil pencarian dalam sesi
-                    $_SESSION['search_results'] = $keywords;
+                    $_SESSION['search_results'] = $keywords_string;
                     $_SESSION['search_keyword'] = $key;
                 } else {
                     echo "Error: Output from Python processing is empty.";
                 }
             } elseif (isset($_SESSION['search_results'])) {
                 // Ambil hasil pencarian dari sesi
-                $keywords = $_SESSION['search_results'];
+                $keywords_string = $_SESSION['search_results'];
                 $key = $_SESSION['search_keyword'];
                 // Buat filter untuk setiap kata kunci
-                $filters = [];
-                foreach ($keywords as $keyword) {
-                    $filters[] = "CONTAINS(LCASE(?title), '$keyword') ||
-                                  CONTAINS(LCASE(?author), '$keyword') ||
-                                  CONTAINS(LCASE(?year), '$keyword') ||
-                                  CONTAINS(LCASE(?type), '$keyword') ||
-                                  CONTAINS(LCASE(?subject), '$keyword') ||
-                                  CONTAINS(LCASE(?classification), '$keyword') ||
-                                  CONTAINS(LCASE(?collation), '$keyword') ||
-                                  CONTAINS(LCASE(?language), '$keyword') ||
-                                  CONTAINS(STR(?length), '$keyword') ||
-                                  CONTAINS(STR(?width), '$keyword') ||
-                                  CONTAINS(LCASE(?area), '$keyword') ||
-                                  CONTAINS(LCASE(?regency), '$keyword') ||
-                                  CONTAINS(LCASE(?location), '$keyword') ||
-                                  CONTAINS(LCASE(?placename), '$keyword')";
-                }
-
-                $filter_query = implode(" || ", $filters);
-
                 $query = "
-                PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-                PREFIX lontar: <http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#>
-                
-                SELECT ?title ?type ?subject ?classification ?language ?collation ?year ?length ?width ?author ?area ?regency ?placename ?location (GROUP_CONCAT(?resource; SEPARATOR=',') AS ?resources)
+                    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                    PREFIX lontar: <http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#>
+                    
+                    SELECT ?title ?type ?subject ?classification ?language ?collation ?year ?length ?width ?author ?area ?regency ?placename ?location (GROUP_CONCAT(?resource; SEPARATOR=',') AS ?resources)
                     WHERE {
                         ?lontar lontar:title ?title;
                                 lontar:type ?type;
@@ -251,10 +226,24 @@ include_once '../../config/URLconfig.php';
                                 lontar:location ?location;
                                 lontar:hasSave ?lontar.
 
-                        FILTER ($filter_query)
+                        FILTER(CONTAINS(LCASE(?title), '$keywords_string') ||
+                                CONTAINS(LCASE(?author), '$keywords_string') ||
+                                CONTAINS(LCASE(?subject), '$keywords_string') ||
+                                CONTAINS(LCASE(?classification), '$keywords_string') ||
+                                CONTAINS(LCASE(?type), '$keywords_string') ||
+                                CONTAINS(STR(?collation), '$keywords_string') ||
+                                CONTAINS(LCASE(?year), '$keywords_string') ||
+                                CONTAINS(LCASE(?length), '$keywords_string') ||
+                                CONTAINS(STR(?width), '$keywords_string') ||
+                                CONTAINS(STR(?language), '$keywords_string') ||
+                                CONTAINS(LCASE(?placename), '$keywords_string') ||
+                                CONTAINS(LCASE(?location), '$keywords_string') ||
+                                CONTAINS(LCASE(?area), '$keywords_string') ||
+                                CONTAINS(LCASE(?regency), '$keywords_string')
+                            )  
                     }
                     GROUP BY ?title ?type ?subject ?classification ?language ?collation ?year ?length ?width ?author ?area ?regency ?placename ?location
-                ";
+                    ";
             } else {
                 $query = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
                 PREFIX lontar: <http://www.semanticweb.org/sarasvananda/ontologies/2023/5/untitled-ontology-12#>
