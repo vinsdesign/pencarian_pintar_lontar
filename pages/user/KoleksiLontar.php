@@ -116,23 +116,8 @@ include_once '../../config/URLconfig.php';
             if (isset($_POST['btn_keyword'])) {
                 $key = htmlspecialchars($_POST['keyword']);
 
-                // Encode data as JSON to pass to Python script
-                $data = json_encode([
-                    'keyword' => $key,
-                ]);
-
-                // Buat file sementara untuk menyimpan data JSON
-                $tempFile = tempnam(sys_get_temp_dir(), 'data');
-                file_put_contents($tempFile, $data);
-
-                // Memanggil code python
-                $command = escapeshellcmd("python processingNLP.py " . escapeshellarg($tempFile));
+                $command = escapeshellcmd("python processingNLP.py " . escapeshellarg($key));
                 $output = shell_exec("$command 2>&1");
-
-                // Hapus file sementara setelah selesai
-                if (file_exists($tempFile)) {
-                    unlink($tempFile);
-                }
 
                 $keyword_baru = strtolower(trim($output));
                 $keywords = explode(" ", $keyword_baru); // Memisahkan kata kunci yang dipisahkan oleh spasi
