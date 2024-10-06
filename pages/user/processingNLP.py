@@ -54,57 +54,63 @@ def process_text(keyword):
     try:
         # Konversi teks ke lowercase
         lower_text = keyword.lower()
-
         # Tokenisasi teks menjadi kata-kata individual
         tokens = lower_text.split()
-
         # Buat stemmer untuk bahasa Indonesia
         factory = StemmerFactory()
         stemmer = factory.create_stemmer()
-
         # Hapus stop words
         filtered_tokens = [token for token in tokens if token not in stop_words]
-
         # Lakukan stemming pada setiap kata kecuali kata dalam exception_words
         stemmed_tokens = [token if token in exception_words else stemmer.stem(token) for token in filtered_tokens]
-
         # Ganti kata dengan sinonim jika ada
         synonym_tokens = [replace_keyword(token) for token in stemmed_tokens]
-
         return synonym_tokens
-
     except Exception as e:
-        # Tangani kesalahan dengan mencetak pesan kesalahan
+        # Tangani kesalahan dengan mencetak pesan kesalahan 
         print("Error:", str(e))
         return None
 
 if __name__ == "__main__":
-    # Pastikan argumen keyword disediakan
     if len(sys.argv) != 2:
-        print("Usage: python processingNLP.py <temp_file>")
+        print("Usage: python processingNLP.py <keyword>")
         sys.exit(1)
 
-    # Baca nama file sementara dari argumen pertama script
-    temp_file = sys.argv[1]
+    keyword = sys.argv[1]
 
-    try:
-        # Baca data dari file sementara
-        with open(temp_file, 'r', encoding='utf-8') as file:
-            data = json.load(file)
+    processed_tokens = process_text(keyword)
+    if processed_tokens is not None:
+        print(" ".join(processed_tokens))
+    else:
+        print("")
 
-        # Hapus file sementara setelah selesai membaca
-        os.remove(temp_file)
+# if __name__ == "__main__":
+#     # Pastikan argumen keyword disediakan
+#     if len(sys.argv) != 2:
+#         print("Usage: python processingNLP.py <temp_file>")
+#         sys.exit(1)
 
-        text = data['keyword']
+#     # Baca nama file sementara dari argumen pertama script
+#     temp_file = sys.argv[1]
 
-        # Jalankan fungsi process_text
-        processed_tokens = process_text(text)
+#     try:
+#         # Baca data dari file sementara
+#         with open(temp_file, 'r', encoding='utf-8') as file:
+#             data = json.load(file)
 
-        # Cetak hasil pemrosesan untuk diambil oleh PHP
-        if processed_tokens is not None:
-            print(" ".join(processed_tokens))
-        else:
-            print("")
-    except Exception as e:
-        print("Error:", str(e))
-        sys.exit(1)
+#         # Hapus file sementara setelah selesai membaca
+#         os.remove(temp_file)
+
+#         text = data['keyword']
+
+#         # Jalankan fungsi process_text
+#         processed_tokens = process_text(text)
+
+#         # Cetak hasil pemrosesan untuk diambil oleh PHP
+#         if processed_tokens is not None:
+#             print(" ".join(processed_tokens))
+#         else:
+#             print("")
+#     except Exception as e:
+#         print("Error:", str(e))
+#         sys.exit(1)

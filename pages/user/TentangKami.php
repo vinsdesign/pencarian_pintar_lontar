@@ -11,38 +11,6 @@ include_once "../../config/URLconfig.php";
     <link rel="stylesheet" href="../../src/output.css">
     <link rel="stylesheet" href="../../node_modules/@fortawesome/fontawesome-free/css/all.min.css">
 </head>
-<style>
-    @keyframes typing {
-        from {
-            width: 0;
-        }
-
-        90% {
-            width: 100%;
-        }
-
-        to {
-            width: 100%;
-        }
-    }
-
-    @keyframes blink {
-        50% {
-            border-color: transparent;
-        }
-    }
-
-    .typing-animation {
-        overflow: hidden;
-        border-right: .15em solid orange;
-        white-space: nowrap;
-        margin: 0 auto;
-        letter-spacing: .15em;
-        animation:
-            typing 9s steps(70, end) infinite,
-            blink .75s step-end infinite;
-    }
-</style>
 
 <body class="font-montserrat">
     <header>
@@ -72,8 +40,8 @@ include_once "../../config/URLconfig.php";
             </div>
         </nav>
         <!-- end navbar -->
-        <!-- carousel image -->
-        <div id="default-carousel" class="relative w-full" data-carousel="slide">
+        <!-- header -->
+        <div class="relative w-full">
             <!-- search component -->
             <section class="flex flex-col justify-center items-center absolute z-40 inset-0">
                 <div class="">
@@ -95,48 +63,13 @@ include_once "../../config/URLconfig.php";
                 </form>
             </section>
             <!-- end search component -->
-            <!-- Carousel wrapper -->
-            <div class="relative xxsm:h-52 base:h-60 sm:h-72 md:h-[25rem] lg:h-96 overflow-hidden xl:h-[30rem] 2xl:h-[35rem]">
-                <!-- Item 1 -->
-                <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                    <img src="../../public/assets/bg-header(1).jpg" class="absolute block w-full lg:-translate-x-1/2 lg:-translate-y-1/2 lg:top-1/2 lg:left-1/2 object-cover xxsm:h-[200px] xsm:h-[240px] base:h-[290px] sm:h-[300px] md:h-[500px] lg:h-[500px] xl:h-[600px] 2xl:h-[800px]" alt="bg-header1" />
-                </div>
-                <!-- Item 2 -->
-                <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                    <img src="../../public/assets/bg-header(2).jpg" class="absolute block w-full lg:-translate-x-1/2 lg:-translate-y-1/2 lg:top-1/2 lg:left-1/2 object-cover xxsm:h-[200px] xsm:h-[240px] base:h-[290px] sm:h-[300px] md:h-[500px] lg:h-[500px] xl:h-[600px] 2xl:h-[800px]" alt="bg-header2" />
-                </div>
-                <!-- Item 3 -->
-                <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                    <img src="../../public/assets/bg-header(3).jpg" class="absolute block w-full lg:-translate-x-1/2 lg:-translate-y-1/2 lg:top-1/2 lg:left-1/2 object-cover xxsm:h-[200px] xsm:h-[240px] base:h-[290px] sm:h-[300px] md:h-[500px] lg:h-[500px] xl:h-[600px] 2xl:h-[800px]" alt="bg-header3" />
-                </div>
+            <div class="relative xxsm:h-56 base:h-60 sm:h-72 md:h-[25rem] lg:h-96 overflow-hidden xl:h-[30rem] 2xl:h-[35rem]">
+                <img src="../../public/assets/bg-header(1).jpg" class="absolute block w-full lg:-translate-x-1/2 lg:-translate-y-1/2 lg:top-1/2 lg:left-1/2 bg-cover xxsm:h-[210px] xsm:h-[240px] base:h-[290px] sm:h-[300px] md:h-[500px] lg:h-[500px] xl:h-[600px] 2xl:h-[800px]" alt="bg-header1" />
             </div>
-            <!-- Slider indicators -->
-            <div class="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3 rtl:space-x-reverse">
-                <button type="button" class="w-3 h-3 rounded-full" aria-current="true" aria-label="Slide 1" data-carousel-slide-to="0"></button>
-                <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 2" data-carousel-slide-to="1"></button>
-                <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 3" data-carousel-slide-to="2"></button>
-            </div>
-            <!-- Slider controls -->
-            <button type="button" class="absolute xxsm:hidden base:block top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
-                <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
-                    <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4" />
-                    </svg>
-                    <span class="sr-only">Previous</span>
-                </span>
-            </button>
-            <button type="button" class="absolute xxsm:hidden base:block  top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
-                <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
-                    <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
-                    </svg>
-                    <span class="sr-only">Next</span>
-                </span>
-            </button>
         </div>
-        <!-- end carousel image -->
+        <!-- end header -->
     </header>
-
+    <!-- main content -->
     <main>
         <div class="bg-[#F4F4F4] w-full xxsm:h-[630px] xsm:h-[600px] sm:h-[500px] 2xl:h-[350px]">
             <div class="xxsm:flex xxsm:flex-col 2xl:w-[1100px] 2xl:mx-auto 2xl:py-10">
